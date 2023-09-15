@@ -13,7 +13,7 @@ const router = createRouter({
     {
       path: '/orders',
       name: 'orders',
-      component: () => import("../pages/orders/OrdersPage.vue"),
+      component: () => import("../../pages/orders/OrdersPage.vue"),
       meta: {
         title: "orders"
       }
@@ -21,7 +21,7 @@ const router = createRouter({
     {
       path: '/orders/add',
       name: 'orders-add',
-      component: () => import("../pages/orders-add/OrdersAddPage.vue"),
+      component: () => import("../../pages/orders-add/OrdersAddPage.vue"),
       meta: {
         title: "orders-add"
       }
@@ -29,7 +29,7 @@ const router = createRouter({
     {
       path: '/orders/task',
       name: 'orders-task',
-      component: () => import("../pages/orders-task/OrdersTaskPage.vue"),
+      component: () => import("../../pages/orders-task/OrdersTaskPage.vue"),
       meta: {
         title: "orders-task"
       }
@@ -37,7 +37,7 @@ const router = createRouter({
     {
       path: '/orders/report',
       name: 'orders-report',
-      component: () => import("../pages/orders-report/OrdersReportPage.vue"),
+      component: () => import("../../pages/orders-report/OrdersReportPage.vue"),
       meta: {
         title: "orders-report"
       }
@@ -54,7 +54,7 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import("../pages/auth/LoginPage.vue"),
+      component: () => import("../../pages/auth/LoginPage.vue"),
       meta: {
         title: "login"
       }

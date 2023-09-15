@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { MinusIcon, PlusIcon } from "../../../assets/svg";
+import { MinusIcon, PlusIcon } from "../../../app/assets/svg";
 import { reactive, ref } from "vue";
 
 const numberOfBatches = ref<number>(1);

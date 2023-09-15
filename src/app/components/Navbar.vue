@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { ArrowDownIcon, EggIcon, LogOutIcon, MenuIcon, DashboardIcon } from "@/app/assets/svg/";
+    import { ArrowDownIcon, EggIcon, LogOutIcon, MenuIcon, DashboardIcon } from "../../app/assets/svg/";
 </script>
 <template>
   <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200">

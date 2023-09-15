@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { IContacts } from "../../../shared/types";
+// import type { IContacts } from "../../../shared/types";
 import {ref, watch} from "vue"
 // import {
 //   ContactIcon,

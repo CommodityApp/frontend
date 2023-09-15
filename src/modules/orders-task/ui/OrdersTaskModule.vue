@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Breadcrumb from "../../../components/Breadcrumb.vue";
+import Breadcrumb from "../../../app/components/Breadcrumb.vue";
 import OrdersTaskHeader from "../components/OrdersTaskHeader.vue";
 import OrdersTaskForm from "../components/OrdersTaskForm.vue";
 </script>

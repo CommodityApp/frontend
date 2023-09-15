@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { OrdersModule } from "../../modules/orders/index.ts";
+import { OrdersModule } from "../../modules/orders";
 </script>
 <template>
     <OrdersModule />

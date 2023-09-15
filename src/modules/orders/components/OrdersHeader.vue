@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AddIcon } from "@/app/assets/svg";
+import { AddIcon } from "../../../app/assets/svg";
 </script>
 <template>
   <div class="flex flex-row justify-between py-4 mt-8 w-full">
