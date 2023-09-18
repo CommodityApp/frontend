@@ -42,14 +42,14 @@ const router = createRouter({
         title: "orders-report"
       }
     },
-    // {
-    //   path: '/receipt',
-    //   name: 'receipt',
-    //   component: () => import("../pages/receipt/ReceiptPage.vue"),
-    //   meta: {
-    //     title: "receipt"
-    //   }
-    // },
+    {
+      path: '/receipt',
+      name: 'receipt',
+      component: () => import("../../pages/receipt/ReceiptPage.vue"),
+      meta: {
+        title: "receipt"
+      }
+    },
 
     {
       path: '/login',
