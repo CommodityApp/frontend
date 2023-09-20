@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import useAuthStore from "../stores/AuthStore"
 
 const router = createRouter({
   history: createWebHistory(),
@@ -43,9 +44,17 @@ const router = createRouter({
       }
     },
     {
-      path: '/receipt',
-      name: 'receipt',
-      component: () => import("../../pages/receipt/ReceiptPage.vue"),
+      path: '/receipts',
+      name: 'receipts',
+      component: () => import("../../pages/receipts/ReceiptsPage.vue"),
+      meta: {
+        title: "receipts"
+      }
+    },
+    {
+      path: '/receipts/add',
+      name: 'receipts-add',
+      component: () => import("../../pages/receipts-add/ReceiptsAddPage.vue"),
       meta: {
         title: "receipt"
       }
@@ -60,6 +69,14 @@ const router = createRouter({
       }
     },
   ]
+})
+
+router.beforeEach(async (to, from, next) => {
+  const authStore = useAuthStore()
+  if(!authStore.accessToken && to.path !== "/login"){
+    next('/login')
+  }
+  next()
 })
 
 export default router

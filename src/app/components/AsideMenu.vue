@@ -23,7 +23,7 @@ import { OrderIcon, RecipeIcon } from "../assets/svg";
         </li>
         <li>
           <RouterLink
-            to="/receipt"
+            to="/receipts"
             class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
           >
             <RecipeIcon

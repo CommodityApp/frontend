@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
-import { createPinia } from 'pinia'
 import * as Maska from "maska"
 
+import pinia from "./shared/plugins/pinia"
 import App from './App.vue'
 import router from './app/router'
 
@@ -9,7 +9,7 @@ import './app/assets/scss/main.scss'
 
 const app = createApp(App)
 
-app.use(createPinia())
+app.use(pinia)
 app.use(router)
 app.use(Maska)
 

@@ -1,5 +1,14 @@
 <script setup lang="ts">
-    import { ArrowDownIcon, EggIcon, LogOutIcon, MenuIcon, DashboardIcon } from "../../app/assets/svg/";
+import useAuthStore from "../stores/AuthStore"
+import {useRouter} from "vue-router"
+import { ArrowDownIcon, LogOutIcon, MenuIcon, DashboardIcon } from "../../app/assets/svg/";
+const authStore = useAuthStore()
+const router = useRouter()
+
+const logout = () => {
+  authStore.clearCredentials()
+  router.push('/login')
+}
 </script>
 <template>
   <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200">
@@ -17,7 +26,6 @@
             <MenuIcon class="w-6 h-6" />
           </button>
           <RouterLink to="/" class="flex ml-2 md:mr-24">
-            <!-- <EggIcon class="w-6 h-6 m-1" /> -->
             <DashboardIcon class="w-6 h-6 my-1 mx-2" />
             <span
               class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white"
@@ -35,8 +43,10 @@
                 data-dropdown-toggle="dropdown-user"
               >
                 <span class="sr-only">Open user menu</span>
-                <div>Администратор</div>
-                <ArrowDownIcon class="w-6 h-6 align-middle" />
+                <span>
+                  {{ authStore.userName }}
+                </span>
+                <ArrowDownIcon class="w-6 h-5 align-middle" />
               </button>
             </div>
 
@@ -46,8 +56,8 @@
             >
               <ul class="py-1" role="none">
                 <li>
-                  <RouterLink
-                    to="/login"
+                  <button
+                    @click="logout"
                     class="flex flex-row p-2 text-sm text-gray-700 hover:bg-gray-100"
                     role="menuitem"
                   >
@@ -55,7 +65,7 @@
                       class="flex-shrink-0 w-6 h-6 self-center mx-2 text-gray-900"
                     />
                     <span class="">Выйти</span>
-                  </RouterLink>
+                </button>
                 </li>
               </ul>
             </div>
