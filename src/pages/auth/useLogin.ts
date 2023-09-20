@@ -19,7 +19,6 @@ export default function useLogin() {
             }
             
         } catch (e:any) {
-            console.log(e)
             if(e.message){
                 errorMsg.value = e.response.data.message;
                 if(e.response.status == 422){
