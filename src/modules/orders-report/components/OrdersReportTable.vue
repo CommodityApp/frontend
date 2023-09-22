@@ -8,7 +8,7 @@
       <table class="w-full text-sm text-left text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
           <tr>
-            <th scope="col" class="px-6 py-3">Сыре</th>
+            <th scope="col" class="px-6 py-3">Сырье</th>
             <th scope="col" class="px-6 py-3">кг/т</th>
             <th scope="col" class="px-6 py-3">С погрешность (1000)</th>
             <th scope="col" class="px-6 py-3">Без погрешность (1000)</th>

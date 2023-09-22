@@ -1,5 +1,8 @@
+<script setup lang="ts">
+import ReceiptsAddForm from '../components/ReceiptsAddForm.vue';
+</script>
 <template>
-    <div class="mt-8">
-        Receipts Add
+    <div class="flex flex-col my-10">
+        <ReceiptsAddForm />
     </div>
 </template>

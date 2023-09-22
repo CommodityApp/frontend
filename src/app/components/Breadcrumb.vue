@@ -30,7 +30,7 @@ import { ArrowDownIcon } from "../assets/svg/index";
           <RouterLink
             to="/orders/task"
             class="ml-1 text-sm font-medium text-[#999999] hover:text-[#7000FF] md:ml-2"
-            >Задача на производству
+            >Задача на производство
           </RouterLink>
         </div>
       </li>
@@ -44,7 +44,7 @@ import { ArrowDownIcon } from "../assets/svg/index";
           <RouterLink
             to="/orders/report"
             class="ml-1 text-sm font-medium text-[#999999] hover:text-[#7000FF] md:ml-2"
-            >Отчет за производство
+            >Отчет на производство
           </RouterLink>
         </div>
       </li>
