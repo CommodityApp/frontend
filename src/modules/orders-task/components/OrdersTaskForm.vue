@@ -1,32 +1,38 @@
 <script setup lang="ts">
 import { MinusIcon, PlusIcon } from "../../../app/assets/svg";
-import { reactive, ref } from "vue";
+defineProps({
+  numberOfBatches: Number,
+  batches: Array,
+  error: Number
+})
 
-const numberOfBatches = ref<number>(1);
-const batches = reactive<[]>([]);
+const emit = defineEmits<{
+  setNumOfBatches: [num:[]],
+  'update:error',
+  'update:numberOfBatches'
+}>()
 
 const setNumOfBatches = (num) => {
-    if(num > 0){
-        numberOfBatches.value++;
-    } else if(numberOfBatches.value > 0) {
-        numberOfBatches.value--;
-    }
+    emit("setNumOfBatches", num)
 };
+
 </script>
 
 <template>
   <div class="flex flex-row flex-wrap mt-4 gap-2">
     <div class="relative z-0 mb-6 mr-2 group">
       <input
-        type="text"
-        name="floating_first_name"
-        id="floating_first_name"
+        type="number"
+        name="error"
+        id="error"
+        :value="error"
+        @input="$emit('update:error',($event.target as HTMLInputElement).valueAsNumber)"
         class="min-w-[10rem] px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
         placeholder=" "
         required
       />
       <label
-        for="floating_first_name"
+        for="error"
         class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
         >Погрешность (%)</label
       >
@@ -44,7 +50,8 @@ const setNumOfBatches = (num) => {
       <div>
         <input
           type="number"
-          v-model="numberOfBatches"
+          :value="numberOfBatches"
+          @input="$emit('update:numberOfBatches',($event.target as HTMLInputElement).valueAsNumber)"
           id="first_product"
           class="bg-gray-50 w-[5rem] border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#7000FF] focus:border-[#7000FF] block px-2.5 py-1"
           placeholder=" "

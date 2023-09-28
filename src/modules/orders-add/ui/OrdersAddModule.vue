@@ -2,12 +2,18 @@
 import OrdersAddForm from "../components/OrdersAddForm.vue";
 import Breadcrumb from "../../../app/components/Breadcrumb.vue";
 import useModule from "../useModule";
-const {} = useModule()
+const { clients, receipts, animalTypes, state, onSaveStateOrder } = useModule()
 
 </script>
 <template>
   <div class="flex flex-col my-10">
     <Breadcrumb />
-    <OrdersAddForm />
+    <OrdersAddForm 
+      :clients="clients" 
+      :receipts="receipts"
+      :animalTypes="animalTypes" 
+      :state="state"
+      @onSaveStateOrder="onSaveStateOrder"
+    />
   </div>
 </template>

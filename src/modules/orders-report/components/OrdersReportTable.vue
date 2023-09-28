@@ -1,43 +1,53 @@
+<script setup lang="ts">
+defineProps<{
+  selectedOrder: any,
+  selectedBatch: any
+  index: number,
+  selectedReceipt: any,
+  selectedOveralAmountError: any,
+  selectedOveralAmount: any
+}>()
+</script>
 <template>
   <div
+    v-if="selectedOrder.length" 
     class="relative overflow-x-auto bg-white shadow-md sm:rounded-lg px-5 py-6 mt-4"
   >
-    <div class="font-bold text-xl">Замес 1</div>
+    <div class="font-bold text-xl">Замес {{ index + 1 }}</div>
 
     <div class="relative overflow-x-auto mt-2 sm:rounded-lg">
       <table class="w-full text-sm text-left text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
           <tr>
             <th scope="col" class="px-6 py-3">Сырье</th>
-            <th scope="col" class="px-6 py-3">кг/т</th>
+            <th scope="col" class="px-6 py-3">Концентрация (кг/т)</th>
             <th scope="col" class="px-6 py-3">С погрешность (1000)</th>
             <th scope="col" class="px-6 py-3">Без погрешность (1000)</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="bg-white border-b text-left hover:bg-gray-50">
-            <td class="px-6 py-4">Метионин</td>
-            <td class="px-6 py-4">1,500</td>
-            <td class="px-6 py-4">75,375</td>
-            <td class="px-6 py-4">75,000</td>
-          </tr>
-          <tr class="bg-white border-b text-left hover:bg-gray-50">
-            <td class="px-6 py-4">Минер, 82048</td>
-            <td class="px-6 py-4">1,000</td>
-            <td class="px-6 py-4">50,250</td>
-            <td class="px-6 py-4">50,000</td>
+          <tr 
+            class="bg-white border-b text-left text-gray-900 hover:bg-gray-50"
+            v-for="order, i in selectedOrder"
+            :key="i"
+          >
+            <td class="px-6 py-4">{{order.receipt_raw.raw.name}}</td>
+            <td class="px-6 py-4">{{order.receipt_raw.ratio}}</td>
+            <td class="px-6 py-4">{{order.calculated_amount_with_error[index]}}</td>
+            <td class="px-6 py-4">{{order.calculated_amount[index]}}</td>
           </tr>
         </tbody>
         <tr>
             <th scope="col" class="px-6 py-3">Итого:</th>
-            <th class="px-6 py-4">1,500</th>
-            <th class="px-6 py-4">75,375</th>
-            <th class="px-6 py-4">75,000</th>
+            <th class="px-6 py-4">{{selectedReceipt.concentration}}</th>
+            <th class="px-6 py-4">{{selectedOveralAmountError[index]}}</th>
+            <th class="px-6 py-4">{{selectedOveralAmount[index]}}</th>
         </tr>
       </table>
-      <!-- <div v-else class="text-2xl text-center p-16 text-gray-300">
-      No Data found
-    </div> -->
+      
     </div>
+  </div>
+  <div v-else class="text-2xl text-center p-16 text-gray-300">
+    Нет данных
   </div>
 </template>

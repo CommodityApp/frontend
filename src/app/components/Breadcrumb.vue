@@ -41,11 +41,11 @@ import { ArrowDownIcon } from "../assets/svg/index";
           <!-- <span class="ml-1 text-sm font-medium text-[#999999] md:ml-2"
             >Результат
           </span> -->
-          <RouterLink
-            to="/orders/report"
-            class="ml-1 text-sm font-medium text-[#999999] hover:text-[#7000FF] md:ml-2"
-            >Отчет на производство
-          </RouterLink>
+          <p
+            to=""
+            class="ml-1 text-sm font-medium text-[#999999]  md:ml-2"
+            >Документ на производство
+        </p>
         </div>
       </li>
     </ol>

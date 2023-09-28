@@ -1,9 +1,37 @@
 <script setup lang="ts">
-// import { ref } from "vue";
-// import VueDatePicker from "@vuepic/vue-datepicker";
-// import "@vuepic/vue-datepicker/dist/main.css";
+import { IClients, IReceipts, IAnimalTypes, IState } from "../types";
+import { reactive, ref, watch } from "vue";
+import { useRouter } from "vue-router"
 
-// const date = ref();
+const props = defineProps<{
+  clients: IClients[],
+  receipts: IReceipts[],
+  animalTypes: IAnimalTypes[],
+  state: IState
+}>()
+
+const emit = defineEmits<{
+  onSaveStateOrder: [state: IState ]
+}>()
+
+const selectedAnimalTypes = ref<IAnimalTypes[]>([])
+watch(selectedAnimalTypes, () => {
+  selectedAnimalTypes.value.children.length ? '' : props.state.animal_type_id = null
+},
+{
+  deep: true
+})
+
+const router = useRouter()
+const goNextStep = () => {
+  emit("onSaveStateOrder", props.state)
+  router.push({
+    path:'/orders/task',
+    replace: true 
+  })
+  // router.push('/orders/task')
+}
+
 </script>
 <template>
   <div class="text-2xl font-bold leading-7 my-4">Созданые новый заказ</div>
@@ -13,31 +41,37 @@
     <form>
       <div class="grid md:grid-cols-2 md:gap-6">
         <div class="relative z-0 w-full mb-6 group">
-          <input
-            type="text"
-            name="floating_first_name"
-            id="floating_first_name"
-            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
-            placeholder=" "
-            required
-          />
           <label
-            for="floating_first_name"
+            for="client"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Клиент</label
+            >Клиент
+          </label>
+          <select 
+            v-model="state.client_id"
+            id="client"
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
           >
+            <option></option>
+            <option  
+              v-for="client, index in clients"
+              :key="index"
+              :value="client.id">
+              {{ client.name }}
+            </option>
+          </select>
         </div>
         <div class="relative z-1 w-full mb-6 group">
           <input
+            v-model="state.date"
             type="date"
-            name="floating_last_name"
-            id="floating_last_name"
+            name="date"
+            id="date"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
             placeholder=" "
             required
           />
           <label
-            for="floating_last_name"
+            for="date"
             class="absolute text-sm text-gray-500  duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
             >Дата
           </label>
@@ -46,35 +80,39 @@
 
       <div class="grid md:grid-cols-2 md:gap-6">
         <div class="relative z-0 w-full mb-6 group">
-          <input
-            v-maska="'(+###) ## ###-##-##'"
-            type="tel"
-            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-            name="floating_phone"
-            id="floating_phone"
-            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
-            placeholder=" "
-            required
-          />
           <label
-            for="floating_phone"
+            for="receipts"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Рецепт</label
+            >Рецепт
+          </label>
+          <select
+            v-model="state.receipt" 
+            id="receipts"
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
           >
+            <option></option>
+            <option  
+              v-for="receipt, index in receipts"
+              :key="index"
+              :value="receipt">
+              {{ receipt.name }}
+            </option>
+          </select>
         </div>
         <div class="relative z-0 w-full mb-6 group">
           <input
-            type="email"
-            name="floating_email"
-            id="floating_email"
+            type="number"
+            name="amount"
+            id="amount"
+            v-model="state.amount"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
             placeholder=" "
             required
           />
           <label
-            for="floating_email"
+            for="amount"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Количество</label
+            >Количество (кг)</label
           >
         </div>
       </div>
@@ -82,18 +120,23 @@
       <div class="grid md:grid-cols-2 md:gap-6">
         <div class="relative z-0 w-full mb-6 group">
           <label
-            for="floating_phone"
+            for="animal_types"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
             >Вид животных
           </label>
-          <select 
-            id="floating_phone"
+          <select
+            v-model="selectedAnimalTypes" 
+            id="animal_types"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
           >
             <option></option>
-            <option>option 1</option>
-            <option>option 2</option>
-            <option>option 3</option>
+            <option 
+              v-for="animal, index in animalTypes"
+              :key="index"
+              :value="animal"
+            >
+            {{animal.name}} ( {{animal.children.length}} )
+          </option>
           </select>
         </div>
         <div class="relative z-0 w-full mb-6 group">
@@ -102,44 +145,31 @@
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
             >Тип животных
           </label>
-          <select 
+          <select
+            :disabled="!selectedAnimalTypes?.children?.length"
             id="floating_animal_type"
-            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
+            v-model="state.animal_type_id"
+            class="block px-2.5 pb-2.5 pt-4 disabled:cursor-not-allowed disabled:border-red-200 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
           >
-            <option></option>
-            <option>option 1</option>
-            <option>option 2</option>
-            <option>option 3</option>
+            <option 
+              v-for="selectedAnimal, index in selectedAnimalTypes.children"
+              :key="index"
+              :value="selectedAnimal.id"
+              >
+              {{selectedAnimal.name}}
+            </option>
           </select>
         </div>
       </div>
-
-      <!-- <div class="mb-6">
-        <label
-          for="countries"
-          class="block mb-2 text-sm font-medium text-gray-900"
-          >Tag:</label
-        >
-        <select
-          id="countries"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-        >
-          <option value="Family">Family</option>
-          <option value="Friend">Friend</option>
-          <option value="Colleague">Colleague</option>
-          <option value="Relative">Relative</option>
-        </select>
-      </div> -->
     </form>
 
     <div class="flex justify-end mt-8">
-      <RouterLink
-        to="/orders/task"
-        type="submit"
+      <button
+        @click="goNextStep()"
         class="text-[#7000ff] bg-[#F3F4F6] hover:bg-[#cfb7efb7] font-medium rounded-lg text-sm px-5 py-2.5 mt-4 text-center"
       >
         Далее
-      </RouterLink>
+    </button>
     </div>
   </div>
 </template>

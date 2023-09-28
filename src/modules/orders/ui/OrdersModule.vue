@@ -3,9 +3,9 @@ import OrdersHeader from "../components/OrdersHeader.vue";
 import OrdersTable from "../components/OrdersTable.vue";
 import useModule from "../useModule";
 
-const {} = useModule()
+const { orders, isLoading } = useModule()
 </script>
 <template>
     <OrdersHeader />
-    <OrdersTable />
+    <OrdersTable :orders="orders" :isLoading="isLoading" />
 </template>

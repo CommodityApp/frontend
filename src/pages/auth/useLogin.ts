@@ -9,7 +9,7 @@ export default function useLogin() {
     const authStore = useAuthStore()
 
     const login = async (email, password) => {
-        try{
+        try {
             const data: any = await ApiAuth.Login(email, password)
             if(data.status == 200){
                 errorMsg.value = null;

@@ -14,5 +14,6 @@ onUpdated(() => {
 })
 </script>
 <template>
+  <notifications />
   <component :is="layout" />
 </template>

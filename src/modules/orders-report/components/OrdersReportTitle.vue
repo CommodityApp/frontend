@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-row justify-between my-4">
     <div class="text-2xl font-bold leading-7 self-center">
-      Отчет на производство
+      Документ на производство
     </div>
     <div class="flex flex-row gap-x-2 self-center">
       <button
