@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { MinusIcon, PlusIcon } from "../../../app/assets/svg";
+import { MinusIcon, PlusIcon, WarningIcon } from "../../../app/assets/svg";
 defineProps({
   numberOfBatches: Number,
   batches: Array,
-  error: Number
+  error: Number,
+  visibleAlert: Boolean
 })
 
 const emit = defineEmits<{
@@ -19,6 +20,13 @@ const setNumOfBatches = (num) => {
 </script>
 
 <template>
+  <div v-if="visibleAlert" class="flex p-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+    <WarningIcon class="w-4 h-4 self-center gap-2 mx-1"/>
+    <span>
+      Cумма значений <b>Замесов</b> должно быть равно <b>(=)</b> значения <b> Количество</b>.
+    </span>
+  </div>
+
   <div class="flex flex-row flex-wrap mt-4 gap-2">
     <div class="relative z-0 mb-6 mr-2 group">
       <input
@@ -79,12 +87,14 @@ const setNumOfBatches = (num) => {
         name="floating_batch"
         id="floating_batch"
         v-model="batches[index]"
+        :class="{'border-red-700': visibleAlert}"
         class="min-w-[10rem] px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
         placeholder=" "
         required
       />
       <label
         for="floating_batch"
+        :class="{'text-red-700': visibleAlert}"
         class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
         >Замес {{ item }} (кг)</label
       >

@@ -1,24 +1,116 @@
 <script setup lang="ts">
-import { CloseIcon } from "../../../app/assets/svg";
+import { ref, watch } from "vue";
+import { WarningIcon } from "@/app/assets/svg";
+
+const props = defineProps<{
+  isLoading: boolean,
+  rawsData: any,
+  singleReceipt: any,
+}>()
+
+const emit = defineEmits<{
+  onSaveReceipt: [receiptData: any]
+}>()
+
+const visibleAlert = ref<boolean>()
+const rate = ref<number>()
+const code = ref<string>()
+const name = ref<string>()
+const unit = ref<string>()
+const producer_name = ref<string>()
+const concentration = ref<number>()
+const receipt_raws = ref([
+  {
+    raw_id:null, 
+    ratio:null
+  }
+])
+
+const removeRawInput = () => {
+  receipt_raws.value.pop()
+}
+const addRawInput = () => {
+  receipt_raws.value.push({
+    raw_id: null,
+    ratio: null
+  })
+}
+
+const saveReceipt = () => {
+  let newReceipt = {
+    name: name.value,
+    rate: rate.value,
+    code: code.value,
+    unit: unit.value,
+    producer_name: producer_name.value,
+    concentration: concentration.value,
+    receipt_raws: receipt_raws.value.filter((item) => {return item.raw_id !== null})
+  }
+  emit("onSaveReceipt", newReceipt)
+}
+
+watch(receipt_raws, () => {
+  let sumOfRatio = receipt_raws.value.reduce((acc, item) => {
+    return acc = acc + item.ratio
+  }, 0)
+  sumOfRatio != concentration.value ? visibleAlert.value = true : visibleAlert.value = false
+},{
+  deep: true
+})
+
+watch(() => props.singleReceipt, () => {
+  if( props.singleReceipt.code ){
+    code.value = props.singleReceipt.code
+    name.value = props.singleReceipt.name
+    rate.value = props.singleReceipt.rate
+    unit.value = props.singleReceipt.unit
+    producer_name.value = props.singleReceipt.producer_name
+    concentration.value = props.singleReceipt.concentration
+    
+    props.singleReceipt.receipt_raws.forEach((item) => {
+      receipt_raws.value.push({
+        raw_id: item.raw.id,
+        ratio: parseFloat(item.ratio)
+      })
+    })
+    
+  }
+  //clearing null value
+  receipt_raws.value.shift()
+}, {
+  deep: true
+})
+
 </script>
 <template>
-  <div class="text-2xl font-bold leading-7 my-4">Создать новыю рецептуру</div>
-  <div
-    class="relative overflow-x-auto bg-white shadow-md sm:rounded-lg px-5 py-6"
-  >
+  <div class="flex flex-row justify-between py-2 w-full">
+    <div class="self-center text-2xl font-bold leading-7">Создать новыю рецептуру</div>
+    <div>
+      <button
+        :disabled="visibleAlert"
+        @click="saveReceipt()"
+        class="flex flex-row bg-[#7000FF] disabled:bg-[#6f00ff41] cursor-pointer disabled:cursor-not-allowed text-white rounded-[1rem] py-[0.4rem] px-[0.9rem]"
+      >
+      Сохранить
+    </button>
+    </div>
+  </div>
+
+  <div class="relative overflow-x-auto bg-white shadow-md sm:rounded-lg px-5 py-6">
     <form>
       <div class="grid md:grid-cols-2 md:gap-6">
         <div class="relative z-0 w-full group">
           <input
             type="text"
-            name="floating_code"
-            id="floating_code"
+            name="code"
+            id="code"
+            v-model="code"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
             placeholder=" "
             required
           />
           <label
-            for="floating_code"
+            for="code"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
             >Код сырья</label
           >
@@ -26,14 +118,15 @@ import { CloseIcon } from "../../../app/assets/svg";
         <div class="relative z-0 w-full group">
           <input
             type="text"
-            name="floating_name"
-            id="floating_name"
+            name="name"
+            id="name"
+            v-model="name"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
             placeholder=" "
             required
           />
           <label
-            for="floating_name"
+            for="name"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
             >Название сырья</label
           >
@@ -42,60 +135,66 @@ import { CloseIcon } from "../../../app/assets/svg";
         <div class="relative z-0 w-full group">
           <input
             type="text"
-            name="floating_unit"
-            id="floating_unit"
+            name="unit"
+            id="unit"
+            v-model="unit"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
             placeholder=" "
             required
           />
           <label
-            for="floating_unit"
+            for="unit"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
             >Ед. измерения</label
           >
         </div>
         <div class="relative z-0 w-full group">
           <input
-            type="text"
-            name="floating_category"
-            id="floating_category"
+            type="number"
+            name="rate"
+            id="rate"
+            v-model="rate"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
             placeholder=" "
             required
           />
           <label
-            for="floating_category"
+            for="rate"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Категория продукта</label
+            >Норма ввода</label
           >
         </div>
 
         <div class="relative z-0 w-full group">
           <input
             type="text"
-            name="floating_producer"
-            id="floating_producer"
+            name="producer"
+            id="producer"
+            v-model="producer_name"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
             placeholder=" "
             required
           />
           <label
-            for="floating_producer"
+            for="producer"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
             >Производитель</label
           >
         </div>
         <div class="relative z-0 w-full group">
           <input
-            type="text"
-            name="floating_consentration"
-            id="floating_consentration"
-            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
+            type="number"
+            name="concentration"
+            id="concentration"
+            v-model="concentration"
+            :class="{'border-red-700':visibleAlert}"
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
             placeholder=" "
             required
           />
           <label
-            for="floating_consentration"
+            for="concentration"
+            :class="{'text-red-700':visibleAlert}"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
             >Концентрация</label
           >
@@ -103,46 +202,81 @@ import { CloseIcon } from "../../../app/assets/svg";
       </div>
     </form>
 
-    <hr class="h-px my-8 bg-gray-200 border-0" />
+    <div v-if="visibleAlert" class="flex mt-4 p-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+      <WarningIcon class="w-4 h-4 self-center gap-2 mx-1"/>
+      <span>
+        Cумма значений <b>Корма</b> должно быть равно <b>(=)</b> значения <b> Концентрации</b>.
+      </span>
+    </div>
+    <!-- <hr class="h-px my-8 bg-gray-200 border-0" /> -->
+    <div class="inline-flex items-center justify-center mt-4 w-full">
+      <hr class="w-full h-px my-8 bg-gray-200 border-0">
+      <span class="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-[10%]">
+        Рецепт cырые
+      </span>
+    </div>
 
-    <div v-for="i in 3" class="grid md:grid-cols-3 md:gap-6 my-6">
+
+    <div 
+      v-for="_, index in receipt_raws" 
+      class="grid md:grid-cols-3 md:gap-6 my-6"
+    >
+      <div class="relative z-0 w-full group">
+          <label
+          :for="`raw${index}`"
+            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+            >Клиент
+          </label>
+          
+          <select 
+            v-model="receipt_raws[index]['raw_id']"
+            id="`raw${index}`"
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
+          >
+            <option></option>
+            <option  
+              v-for="raw, index in rawsData"
+              :key="index"
+              :value="raw.id">
+              {{ raw.name }}
+            </option>
+          </select>
+        </div>
+
       <div class="relative z-0 w-full group">
         <input
-          type="text"
-          name="goods"
-          id="goods"
-          class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
-          placeholder=" "
-        />
-        <label
-          for="goods"
-          class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-          >Сырья #1
-        </label>
-      </div>
-
-      <div class="relative z-0 w-full group">
-        <input
-          type="text"
-          name="unit"
-          id="unit"
+          type="number"
+          name="unit_rato"
+          :id="`unit_ratio${index}`"
+          v-model="receipt_raws[index]['ratio']"
+          :class="{'border-red-700':visibleAlert}"
           class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
           placeholder=" "
         />
         <label
-          for="unit"
+          :for="`unit_ratio${index}`"
+          :class="{'text-red-700':visibleAlert}"
           class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
           >Корма (кг/т)
         </label>
       </div>
-      <CloseIcon class="w-6 h-6 self-center cursor-pointer fill-[red]" />
+      
     </div>
 
     <div>
       <button
+        @click="addRawInput()"
         class="mt-4 text-[#7000FF] hover:text-white hover:bg-[#7000FF] border border-[#7000FF] text-sm py-[0.5rem] px-[0.9rem] rounded-[0.8rem]"
       >
         Добавить
+      </button>
+
+      <button
+        v-if="receipt_raws.length"
+        @click="removeRawInput()"
+        class="mt-4 text-[#F93D3D] ml-2 hover:text-white hover:bg-[#F93D3D] border border-[#F93D3D] text-sm py-[0.5rem] px-[0.9rem] rounded-[0.8rem]"
+      >
+        Удалить сырье
       </button>
     </div>
   </div>

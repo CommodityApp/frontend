@@ -8,6 +8,7 @@ const {
         numberOfBatches,
         batches,
         error,
+        visibleAlert,
         calculateOrder,
         setNumOfBatches
     } = useModule();
@@ -20,7 +21,8 @@ const {
     </div>
     <div class="relative overflow-x-auto bg-white shadow-md sm:rounded-lg px-5 py-6">
         <OrdersTaskHeader 
-            :newOrderState="newOrderState" 
+            :newOrderState="newOrderState"
+            :visibleAlert="visibleAlert" 
             @calculateOrder="calculateOrder"
         />
         <hr class="h-px my-8 bg-gray-200 border-0" />
@@ -28,6 +30,7 @@ const {
             v-model:numberOfBatches="numberOfBatches"
             v-model:batches="batches"
             v-model:error="error"
+            :visibleAlert="visibleAlert"
             @setNumOfBatches="setNumOfBatches" 
         />
     </div>

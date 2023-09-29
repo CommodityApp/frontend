@@ -57,8 +57,34 @@ const router = createRouter({
       component: () => import("../../pages/receipts-add/ReceiptsAddPage.vue"),
       meta: {
         title: "receipt"
+      },
+    },
+    {
+      path: '/raws',
+      name: 'raws',
+      component: () => import("../../pages/raws/RawsPage.vue"),
+      meta: {
+        title: "raws",
+        id: null
       }
     },
+    {
+      path: '/animals',
+      name: 'animals',
+      component: () => import("../../pages/animals/AnimalsPage.vue"),
+      meta: {
+        title: "animals"
+      }
+    },
+    {
+      path: '/users',
+      name: 'users',
+      component: () => import("../../pages/users/UsersPage.vue"),
+      meta: {
+        title: "users"
+      }
+    },
+
 
     {
       path: '/login',

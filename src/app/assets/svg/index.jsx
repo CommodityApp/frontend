@@ -218,3 +218,100 @@ export const UpDownArrowIcon = () => (
     <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
   </svg>
 );
+
+export const RawsIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    viewBox="0 0 24 24"
+  >
+    <g
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <rect x="3" y="15" width="6" height="6" rx="2"></rect>
+      <rect x="15" y="15" width="6" height="6" rx="2"></rect>
+      <rect x="9" y="3" width="6" height="6" rx="2"></rect>
+      <path d="M6 15v-1a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v1"></path>
+      <path d="M12 9v3"></path>
+    </g>
+  </svg>
+);
+
+export const AnimalsIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    viewBox="0 0 20 20"
+  >
+    <g fill="none">
+      <path
+        d="M4.97 18h9.28c.947 0 1.715-.768 1.715-1.716v-7.61c1.61-.064 2.573-1.85 1.713-3.238l-.502-.81a2.12 2.12 0 0 0-1.802-1.004h-1.435v-.636A.986.986 0 0 0 12.953 2a2.445 2.445 0 0 0-2.444 2.446v3.456c-1.278.126-2.243.73-2.952 1.582c-.782.94-1.243 2.165-1.517 3.342c-.276 1.182-.373 2.358-.403 3.232c-.012.374-.012.696-.008.942H4.97a1.971 1.971 0 0 1-1.44-3.317l.92-.987a3.589 3.589 0 0 0-.086-4.984l-.903-.903a.5.5 0 1 0-.707.707l.903.903a2.587 2.587 0 0 1 .062 3.595l-.92.987A2.973 2.973 0 0 0 4.97 18zm7.97-15v1.122a.5.5 0 0 0 .5.5h1.934c.388 0 .748.2.952.53l.503.811a1.122 1.122 0 0 1-.953 1.713h-.41a.5.5 0 0 0-.5.5v8.108c0 .395-.32.716-.716.716h-.716v-.716a2.932 2.932 0 0 0-2.93-2.933H9.59a.5.5 0 0 0 0 1h1.013c1.067 0 1.932.865 1.932 1.933V17H6.629c-.005-.234-.005-.544.007-.909c.028-.836.12-1.94.377-3.038c.257-1.104.67-2.159 1.312-2.93c.627-.751 1.478-1.245 2.684-1.245a.5.5 0 0 0 .5-.5V4.446c0-.794.639-1.439 1.43-1.446z"
+        fill="currentColor"
+      ></path>
+    </g>
+  </svg>
+);
+
+export const UsersIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    viewBox="0 0 24 24"
+  >
+    <circle
+      cx="17"
+      cy="15.5"
+      r="1.12"
+      fill-rule="evenodd"
+      fill="currentColor"
+    ></circle>
+    <path
+      d="M17 17.5c-.73 0-2.19.36-2.24 1.08c.5.71 1.32 1.17 2.24 1.17s1.74-.46 2.24-1.17c-.05-.72-1.51-1.08-2.24-1.08z"
+      fill-rule="evenodd"
+      fill="currentColor"
+    ></path>
+    <path
+      d="M18 11.09V6.27L10.5 3L3 6.27v4.91c0 4.54 3.2 8.79 7.5 9.82c.55-.13 1.08-.32 1.6-.55A5.973 5.973 0 0 0 17 23c3.31 0 6-2.69 6-6c0-2.97-2.16-5.43-5-5.91zM11 17c0 .56.08 1.11.23 1.62c-.24.11-.48.22-.73.3c-3.17-1-5.5-4.24-5.5-7.74v-3.6l5.5-2.4l5.5 2.4v3.51c-2.84.48-5 2.94-5 5.91zm6 4c-2.21 0-4-1.79-4-4s1.79-4 4-4s4 1.79 4 4s-1.79 4-4 4z"
+      fill-rule="evenodd"
+      fill="currentColor"
+    ></path>
+  </svg>
+);
+
+export const WarningIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    viewBox="0 0 32 32"
+  >
+    <path
+      d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2zm0 26a12 12 0 1 1 12-12a12 12 0 0 1-12 12z"
+      fill="currentColor"
+    ></path>
+    <path d="M15 8h2v11h-2z" fill="currentColor"></path>
+    <path
+      d="M16 22a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 16 22z"
+      fill="currentColor"
+    ></path>
+  </svg>
+);
+
+export const DeleteIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    viewBox="0 0 32 32"
+  >
+    <path d="M12 12h2v12h-2z" fill="currentColor"></path>
+    <path d="M18 12h2v12h-2z" fill="currentColor"></path>
+    <path
+      d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20z"
+      fill="currentColor"
+    ></path>
+    <path d="M12 2h8v2h-8z" fill="currentColor"></path>
+  </svg>
+);

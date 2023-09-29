@@ -1,14 +1,21 @@
 // import { useRouter } from "vue-router";
 import { onMounted, ref } from "vue";
 import { ApiOrders } from "@/shared/api";
-import { useNotification } from "@kyvg/vue3-notification";
+import { useRouter } from "vue-router";
+import useOrdersStore from "@/app/stores/OrdersStore";
 
 export default function useModule() {
-    // const router = useRouter()
+    const ordersStore = useOrdersStore()
+    const router = useRouter()
+
     const isLoading = ref<boolean>(false)
     const orders = ref([])
-    const { notify }  = useNotification()
 
+    const addNewOrder = () => {
+        ordersStore.clearOrder()
+        router.push("/orders/add")
+    }
+    
     onMounted(async () => {
         try {
             isLoading.value = true
@@ -20,19 +27,13 @@ export default function useModule() {
             isLoading.value = false
         } finally {
             isLoading.value = false
-            notify({
-                type:"success",
-                title: "Authorization",
-                text: "You have been logged in!",
-                speed: 500,
-                duration: 1000,
-              });
         }
         
     })
     
     return {
         orders,
-        isLoading
+        isLoading,
+        addNewOrder
     }
 }

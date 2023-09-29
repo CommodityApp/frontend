@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
-import { OrderIcon, RecipeIcon } from "../assets/svg";
+import { OrderIcon, RecipeIcon, RawsIcon, AnimalsIcon, UsersIcon } from "../assets/svg";
 </script>
 <template>
   <aside
@@ -30,6 +30,40 @@ import { OrderIcon, RecipeIcon } from "../assets/svg";
               class="flex-shrink-0 w-5 h-5 text-gray-900"
             />
             <span class="ml-3">Рецепты</span>
+          </RouterLink>
+        </li>
+        
+        <li>
+          <RouterLink
+            to="/raws"
+            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+          >
+            <RawsIcon
+              class="flex-shrink-0 w-5 h-5 text-gray-900"
+            />
+            <span class="ml-3">Cырьё</span>
+          </RouterLink>
+        </li>
+        <li>
+          <RouterLink
+            to="/animals"
+            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+          >
+            <AnimalsIcon
+              class="flex-shrink-0 w-5 h-5 text-gray-900"
+            />
+            <span class="ml-3">Виды животных</span>
+          </RouterLink>
+        </li>
+        <li>
+          <RouterLink
+            to="/users"
+            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+          >
+            <UsersIcon
+              class="flex-shrink-0 w-5 h-5 text-gray-900"
+            />
+            <span class="ml-3">Пользователи</span>
           </RouterLink>
         </li>
       </ul>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 defineProps<{
-  newOrderState: any
+  newOrderState: any,
+  visibleAlert: Boolean
 }>()
 const emit = defineEmits<{
   calculateOrder
@@ -32,8 +33,8 @@ const calculateOrder = () => {
     <div>
       <button
         @click="calculateOrder"
-        type="submit"
-        class="text-[#7000ff] bg-[#F3F4F6] hover:bg-[#cfb7efb7] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+        :disabled="(visibleAlert as boolean)"
+        class="text-[#7000ff] cursor-pointer disabled:cursor-not-allowed bg-[#F3F4F6] hover:bg-[#cfb7efb7] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
       >
         Рассчитать
     </button>

@@ -62,7 +62,7 @@ export default function useModule() {
       state.date = ordersStore.newOrderState.date
       state.amount = ordersStore.newOrderState.amount
       
-      console.log('mounted ',ordersStore.newOrderState.client_id)
+      // console.log('mounted ',ordersStore.newOrderState.client_id)
     }
     
     try {
