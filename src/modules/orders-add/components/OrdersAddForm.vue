@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { IClients, IReceipts, IAnimalTypes, IState } from "../types";
-import { reactive, ref, watch } from "vue";
+import { ref, watch } from "vue";
 import { useRouter } from "vue-router"
+
+const router = useRouter()
 
 const props = defineProps<{
   clients: IClients[],
@@ -14,22 +16,20 @@ const emit = defineEmits<{
   onSaveStateOrder: [state: IState ]
 }>()
 
-const selectedAnimalTypes = ref<IAnimalTypes[]>([])
-watch(selectedAnimalTypes, () => {
-  selectedAnimalTypes.value.children.length ? '' : props.state.animal_type_id = null
+
+watch(props.state.selectedAnimalTypes, () => {
+  props.state.selectedAnimalTypes.value.children.length ? '' : props.state.animal_type_id = null
 },
 {
   deep: true
 })
 
-const router = useRouter()
 const goNextStep = () => {
   emit("onSaveStateOrder", props.state)
   router.push({
     path:'/orders/task',
     replace: true 
   })
-  // router.push('/orders/task')
 }
 
 </script>
@@ -79,6 +79,7 @@ const goNextStep = () => {
       </div>
 
       <div class="grid md:grid-cols-2 md:gap-6">
+        
         <div class="relative z-0 w-full mb-6 group">
           <label
             for="receipts"
@@ -125,7 +126,7 @@ const goNextStep = () => {
             >Вид животных
           </label>
           <select
-            v-model="selectedAnimalTypes" 
+            v-model="state.selectedAnimalTypes" 
             id="animal_types"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
           >
@@ -146,13 +147,13 @@ const goNextStep = () => {
             >Тип животных
           </label>
           <select
-            :disabled="!selectedAnimalTypes?.children?.length"
+            :disabled="!state.selectedAnimalTypes?.children?.length"
             id="floating_animal_type"
             v-model="state.animal_type_id"
             class="block px-2.5 pb-2.5 pt-4 disabled:cursor-not-allowed disabled:border-red-200 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
           >
             <option 
-              v-for="selectedAnimal, index in selectedAnimalTypes.children"
+              v-for="selectedAnimal, index in state.selectedAnimalTypes?.children"
               :key="index"
               :value="selectedAnimal.id"
               >

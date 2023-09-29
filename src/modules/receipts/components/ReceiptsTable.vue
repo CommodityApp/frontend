@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DeleteIcon } from "@/app/assets/svg";
+import { DeleteIcon, EditIcon } from "@/app/assets/svg";
 const props = defineProps<{
   receiptData: any,
   isLoading: boolean,
@@ -47,8 +47,7 @@ const editReceiptById = (id) => {
         <tr 
           v-for="receipt, index in receiptData" 
           :key="index"
-          @click="editReceiptById(receipt.id)"
-          class="bg-white border-b cursor-pointer text-gray-900 hover:bg-gray-50"
+          class="bg-white border-b text-gray-900 hover:bg-gray-50"
         >
           <td class="px-6 py-4">{{ receipt.code }}</td>
           <td class="px-6 py-4">{{ receipt.name }}</td>
@@ -57,9 +56,12 @@ const editReceiptById = (id) => {
           <td class="px-6 py-4">{{receipt.producer_name}}</td>
           <td class="px-6 py-4">{{ receipt.rate }}</td>
           <td class="px-6 py-4">{{ receipt.concentration }}</td>
-          <td class="px-6 py-4">
-            <DeleteIcon 
-              data-tooltip-target="tooltip-default"
+          <td class="px-6 py-4 flex gap-x-4">
+            <EditIcon 
+              @click=editReceiptById(receipt.id)
+              class="w-5 h-5 mr-2 text-[#7000FF] cursor-pointer"
+            />
+            <DeleteIcon
               @click="deleteReceiptById(receipt.id, receipt.name)" 
               class="w-5 h-5 text-red-700 cursor-pointer"
             />

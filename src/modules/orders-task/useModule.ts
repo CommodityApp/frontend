@@ -52,15 +52,25 @@ export default function useModule() {
         } catch (error: any){
             console.log("Error create order: ", error)
             const errors = error?.response?.data.errors
-            Object.values(errors).forEach(item => {
+            if(errors){
+                Object.values(errors).forEach(item => {
+                    notify({
+                        type: "error",
+                        title: "Ошибка!",
+                        text: item[0],
+                        speed: 500,
+                        duration: 3000,
+                    })
+                })
+            }else {
                 notify({
                     type: "error",
                     title: "Ошибка!",
-                    text: item[0],
+                    text: error.response.data.message,
                     speed: 500,
                     duration: 3000,
                 })
-            })
+            }
         } finally {
             // ordersStore.clearOrder()
         }

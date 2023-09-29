@@ -35,19 +35,16 @@ import { ArrowDownIcon } from "../assets/svg/index";
         </div>
       </li>
 
-      <li>
+      <!-- <li>
         <div class="flex items-center">
           <ArrowDownIcon class="w-6 h-6 -rotate-90 text-gray-400" />
-          <!-- <span class="ml-1 text-sm font-medium text-[#999999] md:ml-2"
-            >Результат
-          </span> -->
           <p
             to=""
             class="ml-1 text-sm font-medium text-[#999999]  md:ml-2"
             >Документ на производство
         </p>
         </div>
-      </li>
+      </li> -->
     </ol>
   </nav>
 </template>

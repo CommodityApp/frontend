@@ -14,6 +14,7 @@ export default function useModule() {
     client_id: null,
     receipt: null,
     animal_type_id: null,
+    selectedAnimalTypes: {},
     date: new Date().toISOString().slice(0,10),
     amount: null
   })
@@ -33,7 +34,7 @@ export default function useModule() {
         const data: any = await ApiReceipts.getReceipts();
         receipts.value = data.data;
         
-        console.log('ddd ',typeof receipts.value)
+        // console.log('ddd ',typeof receipts.value)
       } catch (e: any) {
         
         console.log("Error receipts api: ", e);
@@ -49,15 +50,18 @@ export default function useModule() {
       console.log("Error Animal Types api: ", e);
     }
   }
+  
 
   const onSaveStateOrder = (state: IState) => {
+    // console.log('save', state)
     ordersStore.saveOrder(state)
   }
 
   onMounted(async () => {
     if(ordersStore.newOrderState.client_id){
       state.client_id = ordersStore.newOrderState.client_id
-      state.receipt = ordersStore.newOrderState.receipt_id
+      state.receipt = ordersStore.newOrderState.receipt
+      state.selectedAnimalTypes = ordersStore.newOrderState.selectedAnimalTypes
       state.animal_type_id = ordersStore.newOrderState.animal_type_id
       state.date = ordersStore.newOrderState.date
       state.amount = ordersStore.newOrderState.amount
@@ -71,7 +75,7 @@ export default function useModule() {
     } catch (e: any) {
       
       console.log("Error: ", e);
-      isLoading.value = false;
+      
     } finally {
       isLoading.value = false;
     }
