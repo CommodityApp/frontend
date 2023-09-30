@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { WarningIcon } from "@/app/assets/svg";
 
 const props = defineProps<{
@@ -81,17 +81,26 @@ watch(() => props.singleReceipt, () => {
   deep: true
 })
 
+const isEdit = computed(() => {
+  return props.singleReceipt?.code ? true : false
+})
+
 </script>
 <template>
   <div class="flex flex-row justify-between py-2 w-full">
-    <div class="self-center text-2xl font-bold leading-7">Создать новыю рецептуру</div>
+    <div class="self-center text-2xl font-bold leading-7">
+      <span v-if="isEdit">Изменить</span> 
+      <span v-else>Создать новыю</span>
+      рецептуру
+    </div>
     <div>
       <button
         :disabled="visibleAlert"
         @click="saveReceipt()"
         class="flex flex-row bg-[#7000FF] disabled:bg-[#6f00ff41] cursor-pointer disabled:cursor-not-allowed text-white rounded-[1rem] py-[0.4rem] px-[0.9rem]"
       >
-      Сохранить
+      <span v-if="isEdit">Изменить</span>
+      <span v-else>Сохранить</span>
     </button>
     </div>
   </div>

@@ -16,7 +16,7 @@ import { OrderIcon, RecipeIcon, RawsIcon, AnimalsIcon, UsersIcon } from "../asse
             class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
           >
             <OrderIcon
-              class="flex-shrink-0 w-5 h-5 text-gray-900"
+              class="flex-shrink-0 w-6 h-6 text-gray-900"
             />
             <span class="ml-3">Заказы</span>
           </RouterLink>
@@ -27,7 +27,7 @@ import { OrderIcon, RecipeIcon, RawsIcon, AnimalsIcon, UsersIcon } from "../asse
             class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
           >
             <RecipeIcon
-              class="flex-shrink-0 w-5 h-5 text-gray-900"
+              class="flex-shrink-0 w-6 h-6 text-gray-900"
             />
             <span class="ml-3">Рецепты</span>
           </RouterLink>
@@ -39,7 +39,7 @@ import { OrderIcon, RecipeIcon, RawsIcon, AnimalsIcon, UsersIcon } from "../asse
             class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
           >
             <RawsIcon
-              class="flex-shrink-0 w-5 h-5 text-gray-900"
+              class="flex-shrink-0 w-6 h-6 text-gray-900"
             />
             <span class="ml-3">Cырьё</span>
           </RouterLink>
@@ -50,7 +50,7 @@ import { OrderIcon, RecipeIcon, RawsIcon, AnimalsIcon, UsersIcon } from "../asse
             class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
           >
             <AnimalsIcon
-              class="flex-shrink-0 w-5 h-5 text-gray-900"
+              class="flex-shrink-0 w-6 h-6 text-gray-900"
             />
             <span class="ml-3">Виды животных</span>
           </RouterLink>
@@ -61,7 +61,7 @@ import { OrderIcon, RecipeIcon, RawsIcon, AnimalsIcon, UsersIcon } from "../asse
             class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
           >
             <UsersIcon
-              class="flex-shrink-0 w-5 h-5 text-gray-900"
+              class="flex-shrink-0 w-6 h-6 text-gray-900"
             />
             <span class="ml-3">Пользователи</span>
           </RouterLink>

@@ -1,12 +1,14 @@
 import { ApiAuth } from "@/shared/api";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import useAuthStore from "../../app/stores/AuthStore"
+import useAuthStore from "../../app/stores/AuthStore";
+import { useNotification } from "@kyvg/vue3-notification";
 
 export default function useLogin() {
     const router = useRouter()
     const errorMsg = ref<string>()
     const authStore = useAuthStore()
+    const { notify } = useNotification()
 
     const login = async (email, password) => {
         try {
@@ -14,7 +16,11 @@ export default function useLogin() {
             if(data.status == 200){
                 errorMsg.value = null;
                 
-                authStore.saveCredentials(data.data.access_token, data.data.user.name)    
+                authStore.saveCredentials(data.data.access_token, data.data.user.name)
+                notify({
+                    type: "success",
+                    title: "Успешно авторизовано!"
+                })   
                 router.push('/orders')
             }
             

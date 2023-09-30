@@ -1,8 +1,9 @@
 import axios from "axios";
-import useAuthStore from "@/app/stores/AuthStore"
+import useAuthStore from "@/app/stores/AuthStore";
 // import i18n from "./i18n"
 
 const authStore = useAuthStore()
+
 
 const config: any = {
 	baseURL: import.meta.env.VITE_BASE_URL,
@@ -33,6 +34,7 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
 	response => response,
 	error => {
+		error.response.status == 401 ? window.location.href = "/login" : ''
 		return Promise.reject(error)
 	}
 )

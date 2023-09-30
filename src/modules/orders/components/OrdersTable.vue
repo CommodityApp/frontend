@@ -39,9 +39,13 @@ const getOrderDocuments = (id:number) => {
     </div>
 
     <div v-else>
-    <table v-if="orders.length" class="w-full text-sm text-left text-gray-500">
+    <table 
+      v-if="orders.length" 
+      class="w-full text-sm text-left text-gray-500"
+    >
       <thead class="text-xs text-gray-700 uppercase bg-gray-50">
         <tr>
+          <th scope="col" class="px-6 py-3">№</th>
           <th scope="col" class="px-6 py-3 flex items-center">
             Клиент 
             <a href="#">
@@ -61,7 +65,8 @@ const getOrderDocuments = (id:number) => {
           class="bg-white text-gray-900 border-b cursor-pointer hover:bg-gray-50"
           @click="getOrderDocuments(order.id)"
         >
-          <td class="px-6 py-4">{{ order.client.name }}</td>
+          <td class="px-6 py-4">{{ index + 1 }}</td>
+          <td class="px-6 py-4 text-[#7000FF]">{{ order.client.name }}</td>
           <td class="px-6 py-4">{{ order.date }}</td>
           <td class="px-6 py-4">{{ order.amount }}</td>
           <td class="px-6 py-4">{{ order.receipt.name }}</td>

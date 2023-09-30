@@ -32,6 +32,7 @@ const editReceiptById = (id) => {
     >
       <thead class="text-xs text-gray-700 uppercase bg-gray-50">
         <tr>
+          <th scope="col" class="px-6 py-3">№</th>
           <th scope="col" class="px-6 py-3">Код сырья</th>
           <th scope="col" class="px-6 py-3">Название сырья</th>
           <th scope="col" class="px-6 py-3">Ед. измерения</th>
@@ -49,6 +50,7 @@ const editReceiptById = (id) => {
           :key="index"
           class="bg-white border-b text-gray-900 hover:bg-gray-50"
         >
+          <td class="px-6 py-4">{{ index + 1 }}</td>
           <td class="px-6 py-4">{{ receipt.code }}</td>
           <td class="px-6 py-4">{{ receipt.name }}</td>
           <td class="px-6 py-4">{{ receipt.unit }}</td>
