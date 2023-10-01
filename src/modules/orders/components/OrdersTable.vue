@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { IOrders } from "../types";
 import { useRouter } from "vue-router";
-import {UpDownArrowIcon} from "@/app/assets/svg"
+import { UpDownArrowIcon } from "@/app/assets/svg"
 const router = useRouter()
 defineProps<{
   orders: IOrders[];
@@ -10,7 +10,6 @@ defineProps<{
 
 const getOrderDocuments = (id:number) => {
   router.push(`/orders/task/${id}`)
-  console.log('clicekd')
 }
 </script>
 <template>

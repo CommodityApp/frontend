@@ -84,6 +84,14 @@ const router = createRouter({
         title: "users"
       }
     },
+    {
+      path: '/clients',
+      name: 'clients',
+      component: () => import("../../pages/clients/ClientsPage.vue"),
+      meta: {
+        title: "clients",
+      }
+    },
 
 
     {

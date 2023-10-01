@@ -4,3 +4,4 @@ export * as ApiClients from "./clients";
 export * as ApiReceipts from "./receipts";
 export * as ApiAnimalTypes from "./animals";
 export * as ApiRaws from "./raws";
+export * as ApiUsers from "./users";

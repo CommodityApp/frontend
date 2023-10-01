@@ -60,7 +60,7 @@ const editReceiptById = (id) => {
           <td class="px-6 py-4">{{ receipt.concentration }}</td>
           <td class="px-6 py-4 flex gap-x-4">
             <EditIcon 
-              @click=editReceiptById(receipt.id)
+              @click="editReceiptById(receipt.id)"
               class="w-5 h-5 mr-2 text-[#7000FF] cursor-pointer"
             />
             <DeleteIcon
