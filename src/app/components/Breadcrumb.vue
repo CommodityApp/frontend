@@ -1,5 +1,14 @@
 <script setup lang="ts">
+import {computed} from "vue";
 import { ArrowDownIcon } from "../assets/svg/index";
+import { useRoute } from "vue-router";
+
+const route = useRoute()
+
+const isActiveRoute = computed( () => {
+  return route.path == '/orders/task'
+})
+
 </script>
 <template>
   <nav class="flex" aria-label="Breadcrumb">
@@ -27,11 +36,11 @@ import { ArrowDownIcon } from "../assets/svg/index";
       <li>
         <div class="flex items-center">
           <ArrowDownIcon class="w-6 h-6 -rotate-90 text-gray-400" />
-          <RouterLink
-            to="/orders/task"
+          <p
+            :class="{'router-link-active': isActiveRoute}"
             class="ml-1 text-sm font-medium text-[#999999] hover:text-[#7000FF] md:ml-2"
             >Задача на производство
-          </RouterLink>
+        </p>
         </div>
       </li>
 

@@ -24,6 +24,14 @@ export const createOrder = async (order) => {
     }
 }
 
+export const deleteOrder = async (id) => {
+    const { data } = await axios.delete(`/orders/${id}`)
+
+    return {
+        ...data
+    }
+}
+
 export const getReport = async (id) => {
     const { data } = await axios.get(`/orders/${id}`)
 

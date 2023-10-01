@@ -7,7 +7,7 @@ import { PrintIcon } from "../../../app/assets/svg";
 
 import useModule from "../useModule";
 
-const { selectedData } = useModule()
+const { selectedData, deleteOrder } = useModule()
 
 const printSingleReport = (divName) => {
   let printContents = document.getElementById(divName).innerHTML;
@@ -19,7 +19,7 @@ const printSingleReport = (divName) => {
 <template>
   <div class="my-10">
     <!-- <Breadcrumb /> -->
-    <OrdersReportTitle />
+    <OrdersReportTitle :deleteOrder="deleteOrder" />
     <div class="relative overflow-x-auto bg-white shadow-md sm:rounded-lg px-5 py-6">
       <OrdersReportHeader 
         :selectedData="selectedData"
