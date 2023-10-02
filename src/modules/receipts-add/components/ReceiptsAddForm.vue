@@ -49,11 +49,14 @@ const saveReceipt = () => {
   emit("onSaveReceipt", newReceipt)
 }
 
-watch(receipt_raws, () => {
-  let sumOfRatio = receipt_raws.value.reduce((acc, item) => {
-    return acc = acc + item.ratio
+const sumOfRatio = computed(() => {
+  return receipt_raws.value.reduce((acc, item) => {
+    return acc = parseFloat(acc + (item.ratio == undefined ? 0 : item.ratio))
   }, 0)
-  sumOfRatio != concentration.value ? visibleAlert.value = true : visibleAlert.value = false
+})
+
+watch(receipt_raws, () => {
+  sumOfRatio.value != concentration.value ? visibleAlert.value = true : visibleAlert.value = false
 },{
   deep: true
 })
@@ -212,9 +215,11 @@ const isEdit = computed(() => {
     </form>
 
     <div v-if="visibleAlert" class="flex mt-4 p-2 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
-      <WarningIcon class="w-4 h-4 self-center gap-2 mx-1"/>
+      <WarningIcon class="w-4 h-4 self-center gap-2 mx-2"/>
       <span>
-        Cумма значений <b>Корма</b> должно быть равно <b>(=)</b> значения <b> Концентрации</b>.
+        Cумма значений <u>Корма</u> должно быть равно <b>(=)</b> значения <u>Концентрации</u>. 
+        <br/>
+        <b>Калькуляция:</b> <i>(Корма)</i> <b>{{ parseFloat(sumOfRatio) }} != {{ concentration }}</b> <i>(Концентрации)</i>
       </span>
     </div>
     <!-- <hr class="h-px my-8 bg-gray-200 border-0" /> -->

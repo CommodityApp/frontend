@@ -32,9 +32,8 @@ export default function useModule() {
   const getReceipts = async () => {
     try {
         const data: any = await ApiReceipts.getReceipts();
-        receipts.value = data.data;
+        receipts.value = data.data.map((item) => ({'id':item.id, 'name':item.name}) );
         
-        // console.log('ddd ',typeof receipts.value)
       } catch (e: any) {
         
         console.log("Error receipts api: ", e);
@@ -53,7 +52,6 @@ export default function useModule() {
   
 
   const onSaveStateOrder = (state: IState) => {
-    // console.log('save', state)
     ordersStore.saveOrder(state)
   }
   
@@ -66,7 +64,7 @@ export default function useModule() {
       state.date = ordersStore.newOrderState.date
       state.amount = ordersStore.newOrderState.amount
       
-      console.log('mounted client_id exists',ordersStore.newOrderState)
+      // console.log('mounted client_id exists',ordersStore.newOrderState)
     }
   }
 

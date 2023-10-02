@@ -126,7 +126,7 @@ const v$ = useVuelidate(rules, props.state)
             >Рецепт
           </label>
           <select
-            v-model="state.receipt" 
+            v-model="state.receipt"
             id="receipts"
             :class="{'border border-red-700':v$.receipt.$errors.length}"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
