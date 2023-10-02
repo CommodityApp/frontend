@@ -32,9 +32,11 @@ const Authenticate = (email, password) => {
         >Электронная почта:
       </label>
       <input
+        v-focus
         type="text"
         id="email"
         v-model="email"
+        @keyup.enter="Authenticate(email, password)"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#7000FF] focus:border-[#7000FF] block w-full p-2.5"
         required
       />
@@ -49,6 +51,7 @@ const Authenticate = (email, password) => {
         type="password"
         id="password"
         v-model="password"
+        @keyup.enter="Authenticate(email, password)"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#7000FF] focus:border-[#7000FF] block w-full p-2.5"
         required
       />
