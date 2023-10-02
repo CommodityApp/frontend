@@ -2,7 +2,8 @@
 import DeleteModal from "@/app/components/DeleteModal.vue";
 import { ref } from "vue";
 defineProps<{
-  deleteOrder: any
+  deleteOrder: any,
+  editOrder: any
 }>()
 const deleteModalRef = ref(null);
 
@@ -17,6 +18,7 @@ const showModal = () => {
     </div>
     <div class="flex flex-row gap-x-2 self-center">
       <button
+        @click="editOrder"
         type="button"
         class="flex flex-row text-[#7000ff] hover:text-white hover:bg-[#7000ff] border border-[#7000ff] font-medium rounded-lg text-sm mt-4 px-4 py-2.5 text-center"
       >

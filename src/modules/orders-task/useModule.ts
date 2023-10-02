@@ -1,4 +1,4 @@
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import useOrdersStore from "@/app/stores/OrdersStore";
 import { ref, watch } from "vue";
 import { ApiOrders } from "@/shared/api";
@@ -6,6 +6,7 @@ import { useNotification } from "@kyvg/vue3-notification";
 
 export default function useModule() {
     const router = useRouter()
+    const route = useRoute()
     const ordersStore = useOrdersStore()
     const { notify }  = useNotification()
 
@@ -23,8 +24,12 @@ export default function useModule() {
             numberOfBatches.value--
         }
     };
+    const editOrder = async () => {
+        calculateOrder(true)
+        console.log(route)
+    }
 
-    const calculateOrder = async () => {
+    const calculateOrder = async (editFlag:boolean = false) => {
         const orderData = {
             ...ordersStore.newOrderState,
             batch_quantity: batches.value.length,
@@ -34,7 +39,9 @@ export default function useModule() {
         delete orderData.receipt_name
         // console.log(orderData)
         try {
-            const { data } = await ApiOrders.createOrder(orderData)
+            console.log('check ',editFlag)
+            const { data } = editFlag ? await ApiOrders.editOrder(orderData) : await ApiOrders.createOrder(orderData) 
+            
             if(data){
                 ordersStore.clearOrder()
                 router.push({
@@ -43,7 +50,7 @@ export default function useModule() {
                 })
                 notify({
                     type:"success",
-                    title: "Успешно добавлено!",
+                    title: `Успешно ${editFlag ? 'отредактировано' : 'добавлено' }!`,
                     speed: 500,
                     duration: 1000,
                   });
@@ -73,6 +80,9 @@ export default function useModule() {
             }
         } finally {
             // ordersStore.clearOrder()
+            if(editFlag){
+                ordersStore.setIsEditState(false)
+            }
         }
         // router.push('/orders/report')
     }
@@ -96,6 +106,7 @@ export default function useModule() {
         error,
         visibleAlert,
         calculateOrder,
+        editOrder,
         setNumOfBatches
     }
 }

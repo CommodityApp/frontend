@@ -10,6 +10,7 @@ const {
         error,
         visibleAlert,
         calculateOrder,
+        editOrder,
         setNumOfBatches
     } = useModule();
 </script>
@@ -24,6 +25,7 @@ const {
             :newOrderState="newOrderState"
             :visibleAlert="visibleAlert" 
             @calculateOrder="calculateOrder"
+            @editOrder="editOrder"
         />
         <hr class="h-px my-8 bg-gray-200 border-0" />
         <OrdersTaskForm

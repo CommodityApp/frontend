@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IOrders } from "../types";
+import type { IOrders } from "../types";
 import { useRouter } from "vue-router";
 import { UpDownArrowIcon } from "@/app/assets/svg"
 const router = useRouter()

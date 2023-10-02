@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed} from "vue";
-import { ArrowDownIcon } from "../assets/svg/index";
+import { ArrowDownIcon } from "../assets/svg/index.jsx";
 import { useRoute } from "vue-router";
 
 const route = useRoute()

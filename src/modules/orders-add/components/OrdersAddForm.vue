@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IClients, IReceipts, IAnimalTypes, IState } from "../types";
+import type { IClients, IReceipts, IAnimalTypes, IState } from "../types";
 import { watch } from "vue";
 import { useRouter } from "vue-router";
 import { useVuelidate } from '@vuelidate/core'
@@ -115,7 +115,9 @@ const v$ = useVuelidate(rules, props.state)
       </div>
 
       <div class="grid md:grid-cols-2 md:gap-6">
-        
+        <!-- <code>
+          {{ state.receipt }}
+        </code> -->
         <div class="relative z-0 w-full mb-10 group">
           <label
             for="receipts"

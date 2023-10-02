@@ -2,12 +2,14 @@ import { ApiOrders } from "@/shared/api";
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useNotification } from "@kyvg/vue3-notification";
+import  useOrdersStore  from "@/app/stores/OrdersStore";
 
 export default function useModule() {
-    const selectedData = ref();
+    const selectedData = ref()
     const route = useRoute()
     const router = useRouter()
     const { notify }  = useNotification()
+    const ordersStore = useOrdersStore()
 
     const getReport = async (id) => {
         try {
@@ -21,6 +23,21 @@ export default function useModule() {
             console.log("Error report api: ", e);
           }
       }
+    const editOrder = async () => {
+        console.log("edit ", selectedData.value)
+        ordersStore.newOrderState.client_id = selectedData.value.client.id
+        ordersStore.newOrderState.receipt = selectedData.value.receipt
+        ordersStore.newOrderState.selectedAnimalTypes = selectedData.value.animal_type
+        ordersStore.newOrderState.animal_type_id = selectedData.value.animal_type.id
+        ordersStore.newOrderState.date = selectedData.value.date
+        ordersStore.newOrderState.amount = selectedData.value.amount
+
+        // ordersStore.newOrderState.receipt_id = selectedData.value.receipt.id
+        // ordersStore.newOrderState.receipt_name = selectedData.value.receipt.name
+        ordersStore.setIsEditState(true)
+        ordersStore.setDeleteOrderId(route.params.id)
+        router.replace({path:"/orders/add"})
+    }
 
     const deleteOrder = async () => {
         router.replace("/orders")
@@ -44,6 +61,7 @@ export default function useModule() {
 
     return {
         deleteOrder,
+        editOrder,
         selectedData
     }
 }

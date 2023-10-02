@@ -24,7 +24,9 @@ const router = createRouter({
       name: 'orders-add',
       component: () => import("../../pages/orders-add/OrdersAddPage.vue"),
       meta: {
-        title: "orders-add"
+        title: "orders-add",
+        id: null
+
       }
     },
     {

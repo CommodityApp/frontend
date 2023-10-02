@@ -12,7 +12,8 @@ interface INewOrder {
     amount: number,
 }
 const useOrdersStore = defineStore("ordersStore", () => {
-    
+    const isEditState = ref<boolean>(false)
+    const deleteOrderId = ref<any>(null)
     const newOrderState = ref<INewOrder>({
         client_id: null,
         receipt: null,
@@ -23,6 +24,12 @@ const useOrdersStore = defineStore("ordersStore", () => {
         date: null,
         amount: null
     })
+    const setDeleteOrderId = (id) => {
+        deleteOrderId.value = id
+    }
+    const setIsEditState = (flag: boolean) => {
+        isEditState.value = flag
+    }
 
     const saveOrder = (data: any) => {
         newOrderState.value = {
@@ -45,9 +52,13 @@ const useOrdersStore = defineStore("ordersStore", () => {
     }
 
     return {
+        isEditState,
+        setIsEditState,
         newOrderState,
         saveOrder,
-        clearOrder
+        clearOrder,
+        deleteOrderId,
+        setDeleteOrderId
     }
 })
 export default useOrdersStore

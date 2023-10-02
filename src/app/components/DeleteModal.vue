@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Modal } from 'flowbite';
 import type { ModalOptions, ModalInterface } from 'flowbite';
-import { DeleteIcon, CloseModalIcon } from "@/app/assets/svg";
+import { DeleteIcon, CloseModalIcon } from "@/app/assets/svg/index.jsx";
 import { onMounted, ref } from 'vue';
 
 const props = defineProps<{
@@ -11,7 +11,7 @@ const props = defineProps<{
 const modal = ref<ModalInterface>()
 
 onMounted(() => {
-   const $modalElement : HTMLElement = document.querySelector('#popup-modal');
+   const $modalElement : HTMLElement = document.querySelector('#popup-modal') as any;
    const modalOptions: ModalOptions = {
     placement: 'bottom-right',
     backdropClasses: 'bg-gray-900 bg-opacity-50 fixed inset-0 z-40',

@@ -56,8 +56,8 @@ export default function useModule() {
     // console.log('save', state)
     ordersStore.saveOrder(state)
   }
-
-  onMounted(async () => {
+  
+  const setFromOrdersStore = () => {
     if(ordersStore.newOrderState.client_id){
       state.client_id = ordersStore.newOrderState.client_id
       state.receipt = ordersStore.newOrderState.receipt
@@ -66,9 +66,11 @@ export default function useModule() {
       state.date = ordersStore.newOrderState.date
       state.amount = ordersStore.newOrderState.amount
       
-      // console.log('mounted ',ordersStore.newOrderState.client_id)
+      console.log('mounted client_id exists',ordersStore.newOrderState)
     }
-    
+  }
+
+  onMounted(async () => {
     try {
       isLoading.value = true;
       Promise.all([await getClients(), await getReceipts(), await getAnimalTypes()])
@@ -78,6 +80,7 @@ export default function useModule() {
       
     } finally {
       isLoading.value = false;
+      setFromOrdersStore()
     }
   });
   return {
