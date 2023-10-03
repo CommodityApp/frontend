@@ -71,7 +71,7 @@ export default function useModule() {
   onMounted(async () => {
     try {
       isLoading.value = true;
-      Promise.all([await getClients(), await getReceipts(), await getAnimalTypes()])
+      await Promise.allSettled([getClients(), getReceipts(), getAnimalTypes()])
     } catch (e: any) {
       
       console.log("Error: ", e);
