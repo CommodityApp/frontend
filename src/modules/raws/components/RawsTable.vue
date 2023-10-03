@@ -1,9 +1,19 @@
 <script setup lang="ts">
 import { DeleteIcon, EditIcon } from "../../../app/assets/svg";
-defineProps<{
-  isLoading: boolean;
-  rawsData: any;
+const props = defineProps<{
+  isLoading: boolean,
+  rawsData: any,
+  deleteRaw: any,
+  editRaw
 }>();
+
+const deleteRaw = (id, name) => {
+  window.confirm(`Вы действительно хотите удалить рецепт ${name} ?`) ? props.deleteRaw(id) : null
+}
+
+const editRaw = (id) => {
+  props.editRaw(id)
+}
 </script>
 <template>
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -41,11 +51,11 @@ defineProps<{
             <td class="px-6 py-4">{{ raws.name }}</td>
             <td class="px-6 py-4 flex gap-x-4 justify-end">
               <EditIcon
-                @click=""
+                @click="editRaw(raws.id)"
                 class="w-5 h-5 mr-2 text-[#7000FF] cursor-pointer"
               />
               <DeleteIcon
-                @click=""
+                @click="deleteRaw(raws.id, raws.name)"
                 class="w-5 h-5 text-red-700 cursor-pointer"
               />
             </td>

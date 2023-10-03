@@ -34,7 +34,7 @@ export default function useModule() {
             ...ordersStore.newOrderState,
             batch_quantity: batches.value.length,
             batch_inputs: batches.value.filter((item) => { return item !== null }),
-            error: error.value
+            error: 1 + error.value / 100
         }
         delete orderData.receipt_name
         // console.log(orderData)

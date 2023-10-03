@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   selectedOrder: any,
-  selectedBatch: any
+  selectedBatch: any,
   index: number,
   selectedReceipt: any,
   selectedOveralAmountError: any,
@@ -13,7 +13,12 @@ defineProps<{
     v-if="selectedOrder.length" 
     class="relative overflow-x-auto bg-white shadow-md sm:rounded-lg px-5 py-6 mt-4"
   >
-    <div class="font-bold text-xl">Замес {{ index + 1 }}</div>
+    <div class="font-bold text-xl flex align-middle items-center">
+      Замес {{ index + 1 }} - 
+      <span class="bg-purple-100 text-purple-800 text-xs font-medium ml-2 mr-2 px-2.5 py-0.5 rounded">
+        С Погрешность = <b>{{selectedBatch}}</b>
+      </span>
+    </div>
 
     <div class="relative overflow-x-auto mt-2 sm:rounded-lg">
       <table class="w-full text-sm text-left text-gray-500">
@@ -21,8 +26,8 @@ defineProps<{
           <tr>
             <th scope="col" class="px-6 py-3">Сырье</th>
             <th scope="col" class="px-6 py-3">Концентрация (кг/т)</th>
-            <th scope="col" class="px-6 py-3">С погрешность (1000)</th>
-            <th scope="col" class="px-6 py-3">Без погрешность (1000)</th>
+            <th scope="col" class="px-6 py-3">С погрешность</th>
+            <th scope="col" class="px-6 py-3">Без погрешность</th>
           </tr>
         </thead>
         <tbody>

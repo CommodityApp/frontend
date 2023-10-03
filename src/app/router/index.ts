@@ -71,6 +71,14 @@ const router = createRouter({
       }
     },
     {
+      path: '/raws/add',
+      name: 'raws-add',
+      component: () => import("../../pages/raws-add/RawsAddPage.vue"),
+      meta: {
+        title: "raws-add"
+      },
+    },
+    {
       path: '/animals',
       name: 'animals',
       component: () => import("../../pages/animals/AnimalsPage.vue"),

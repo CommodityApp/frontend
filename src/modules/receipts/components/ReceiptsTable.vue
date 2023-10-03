@@ -4,7 +4,7 @@ const props = defineProps<{
   receiptData: any,
   isLoading: boolean,
   deleteReceipt: any,
-  editReceipt
+  editReceipt: any
 }>()
 
 const deleteReceiptById = (id, name) => {
