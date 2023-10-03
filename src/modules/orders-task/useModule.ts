@@ -1,6 +1,6 @@
 import { useRouter, useRoute } from "vue-router";
 import useOrdersStore from "@/app/stores/OrdersStore";
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { ApiOrders } from "@/shared/api";
 import { useNotification } from "@kyvg/vue3-notification";
 
@@ -11,7 +11,7 @@ export default function useModule() {
     const { notify }  = useNotification()
 
     const numberOfBatches = ref<number>(1);
-    const batches = ref<string[]>([]);
+    const batches = ref<number[]>([]);
     const error = ref<number>();
     const visibleAlert = ref<boolean>();
 
@@ -26,7 +26,6 @@ export default function useModule() {
     };
     const editOrder = async () => {
         calculateOrder(true)
-        console.log(route)
     }
 
     const calculateOrder = async (editFlag:boolean = false) => {
@@ -87,18 +86,33 @@ export default function useModule() {
         // router.push('/orders/report')
     }
 
-    watch(batches, () => {
-        let sumOfBatches = batches.value.reduce((acc:unknown, item) => {
-            return acc = acc + item
-        }, 0)
+    onMounted(() => {
+        ordersStore.newOrderState.error ? error.value = ordersStore.newOrderState.error : null
+        ordersStore.newOrderState.batch_inputs ? batches.value = ordersStore.newOrderState.batch_inputs : null
+        ordersStore.newOrderState.batch_quantity ? numberOfBatches.value = ordersStore.newOrderState.batch_quantity : null
         
-        ordersStore.newOrderState.amount == sumOfBatches ? visibleAlert.value = false : visibleAlert.value = true
-        console.log(sumOfBatches, visibleAlert.value)
+    })
+
+    watch(batches, () => {
+        let sumOfBatches
+
+        if(batches.value){
+            sumOfBatches = batches.value.reduce((acc:any, item) => {
+                return acc = acc + item
+            }, 0)
+        }
+        
+        ordersStore.newOrderState.amount == sumOfBatches 
+            ? visibleAlert.value = false 
+            : visibleAlert.value = true
     }, 
     {
         deep: true
     })
     
+
+
+
     return {
         newOrderState: ordersStore.newOrderState,
         numberOfBatches,
