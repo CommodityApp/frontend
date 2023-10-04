@@ -96,7 +96,6 @@ const isEdit = computed(() => {
 <template>
   <div class="flex flex-row justify-between py-2 w-full">
     <div class="self-center text-2xl font-bold leading-7">
-      {{ isEdit }}
       <span v-if="isEdit">Изменить</span> 
       <span v-else-if="queryType">Дублирование</span>
       <span v-else>Создать новыю</span>
