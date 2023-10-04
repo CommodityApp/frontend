@@ -79,8 +79,9 @@ watch(() => props.singleReceipt, () => {
     })
   }
   if(props.queryType) {
-    console.log('here ', props.queryType)
+    // console.log('here ', props.queryType)
     code.value = null
+    name.value = null
   }
   //clearing null value
   receipt_raws.value.shift()

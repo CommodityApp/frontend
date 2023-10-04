@@ -82,7 +82,7 @@ export default function useModule() {
                 if(route.query.type){
                     queryType.value = route.query.type
                 }
-                console.log('ff ',singleReceipt.value)
+                // console.log('ff ',singleReceipt.value)
             }
         } catch(error: any) {
             console.log("Single receipt api error: ", error)
