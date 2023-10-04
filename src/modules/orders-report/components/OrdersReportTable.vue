@@ -15,8 +15,8 @@ defineProps<{
   >
     <div class="font-bold text-xl flex align-middle items-center">
       Замес {{ index + 1 }} - 
-      <span class="bg-purple-100 text-purple-800 text-xs font-medium ml-2 mr-2 px-2.5 py-0.5 rounded">
-        С Погрешность = <b>{{selectedBatch}}</b>
+      <span class="bg-purple-100 text-purple-800 text-sm font-medium ml-2 mr-2 px-2.5 py-0.5 rounded">
+        <b>{{selectedBatch}} кг</b>
       </span>
     </div>
 
@@ -36,8 +36,8 @@ defineProps<{
             v-for="order, i in selectedOrder"
             :key="i"
           >
-            <td class="px-6 py-4">{{order.receipt_raw.raw.name}}</td>
-            <td class="px-6 py-4">{{order.receipt_raw.ratio}}</td>
+            <td class="px-6 py-4">{{order.receipt_raw?.raw?.name}}</td>
+            <td class="px-6 py-4">{{order.receipt_raw?.ratio}}</td>
             <td class="px-6 py-4">{{order.calculated_amount_with_error[index]}}</td>
             <td class="px-6 py-4">{{order.calculated_amount[index]}}</td>
           </tr>

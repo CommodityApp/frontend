@@ -38,7 +38,7 @@ export default function useModule() {
         delete orderData.receipt_name
         // console.log(orderData)
         try {
-            console.log('check ',editFlag)
+            // console.log('check ',editFlag)
             const { data } = editFlag ? await ApiOrders.editOrder(orderData) : await ApiOrders.createOrder(orderData) 
             
             if(data){

@@ -42,10 +42,10 @@ export default function useModule() {
 
   const getAnimalTypes = async () => {
     try {
-        const data: any = await ApiAnimalTypes.getAnimalTypes();
-        animalTypes.value = data.data;
-    } catch(e:any){
+        const { data } = await ApiAnimalTypes.getAnimalTypes();
+        animalTypes.value = data;
         
+    } catch(e: any){
       console.log("Error Animal Types api: ", e);
     }
   }

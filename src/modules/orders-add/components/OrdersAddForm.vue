@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { IClients, IReceipts, IAnimalTypes, IState } from "../types";
-import { watch } from "vue";
+import { watch, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
@@ -10,7 +10,7 @@ const router = useRouter()
 const props = defineProps<{
   clients: IClients[],
   receipts: IReceipts[],
-  animalTypes: IAnimalTypes[],
+  animalTypes: any,
   state: IState
 }>()
 
@@ -20,10 +20,17 @@ const emit = defineEmits<{
 
 
 watch(props.state.selectedAnimalTypes, () => {
-  props.state.selectedAnimalTypes.value.children.length ? '' : props.state.animal_type_id = null
+  props.state.selectedAnimalTypes.value ? '' : props.state.animal_type_id = null
 },
 {
   deep: true
+})
+
+
+const computedAnimalTypes = computed(() => {
+  return props.animalTypes.filter((item) => {
+    return item.id == props.state.selectedAnimalTypes
+  })
 })
 
 const goNextStep = async () => {
@@ -194,7 +201,7 @@ const v$ = useVuelidate(rules, props.state)
             <option 
               v-for="animal, index in animalTypes"
               :key="index"
-              :value="animal"
+              :value="animal.id"
             >
             {{animal.name}} ( {{animal.children.length}} )
           </option>
@@ -207,6 +214,7 @@ const v$ = useVuelidate(rules, props.state)
             <span class="ml-1">Поле не может быть пустым.</span>
           </span>
         </div>
+
         <div class="relative z-0 w-full mb-10 group">
           <label
             for="floating_animal_type"
@@ -214,8 +222,9 @@ const v$ = useVuelidate(rules, props.state)
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
             >Тип животных
           </label>
+          
           <select
-            :disabled="!state.selectedAnimalTypes?.children?.length"
+            :disabled="!state.selectedAnimalTypes"
             id="floating_animal_type"
             v-model="state.animal_type_id"
             :class="{'border border-red-700':v$.animal_type_id.$errors.length}"
@@ -223,7 +232,7 @@ const v$ = useVuelidate(rules, props.state)
           >
             <option></option>
             <option 
-              v-for="selectedAnimal, index in state.selectedAnimalTypes?.children"
+              v-for="selectedAnimal, index in computedAnimalTypes[0]?.children"
               :key="index"
               :value="selectedAnimal.id"
               >

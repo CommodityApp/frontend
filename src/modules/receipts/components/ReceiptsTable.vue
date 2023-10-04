@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { DeleteIcon, EditIcon } from "@/app/assets/svg";
+import { DeleteIcon, EditIcon, CloneIcon } from "@/app/assets/svg";
 const props = defineProps<{
   receiptData: any,
   isLoading: boolean,
   deleteReceipt: any,
-  editReceipt: any
+  editReceipt: any,
+  cloneReceipt: any
 }>()
 
 const deleteReceiptById = (id, name) => {
@@ -14,6 +15,10 @@ const deleteReceiptById = (id, name) => {
 
 const editReceiptById = (id) => {
   props.editReceipt(id)
+}
+
+const cloneReceiptById = (id, param) => {
+  props.cloneReceipt(id, param)
 }
 
 </script>
@@ -59,6 +64,10 @@ const editReceiptById = (id) => {
           <td class="px-6 py-4">{{ receipt.rate }}</td>
           <td class="px-6 py-4">{{ receipt.concentration }}</td>
           <td class="px-6 py-4 flex gap-x-4">
+            <CloneIcon 
+              @click="cloneReceiptById(receipt.id, 'clone')"
+              class="w-5 h-5 mr-2 text-[#FFA41D] cursor-pointer"
+            />
             <EditIcon 
               @click="editReceiptById(receipt.id)"
               class="w-5 h-5 mr-2 text-[#7000FF] cursor-pointer"

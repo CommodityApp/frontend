@@ -2,7 +2,7 @@
 import ReceiptsAddForm from '../components/ReceiptsAddForm.vue';
 import useModule from '../useModule';
 
-const { isLoading, rawsData, singleReceipt, onSaveReceipt } = useModule()
+const { isLoading, rawsData, singleReceipt, queryType, onSaveReceipt } = useModule()
 </script>
 <template>
     <div class="flex flex-col my-10">
@@ -10,6 +10,7 @@ const { isLoading, rawsData, singleReceipt, onSaveReceipt } = useModule()
             :isLoading="isLoading" 
             :rawsData="rawsData"
             :singleReceipt="singleReceipt"
+            :queryType="queryType"
             @onSaveReceipt="onSaveReceipt"
         />
     </div>

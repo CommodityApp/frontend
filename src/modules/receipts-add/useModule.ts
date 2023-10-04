@@ -11,23 +11,27 @@ export default function useModule() {
 
     const rawsData = ref()
     const singleReceipt = ref()
+    const queryType = ref()
     
 
     const onSaveReceipt = async (receipt) => {
         try {
             isLoading.value = true
-            if(route.query.id){
-                const { data } = await ApiReceipts.updateReceipt(route.query.id, receipt)
-                notify({
-                    type: "success",
-                    title: "Успешно изминено!"
+            if(route.query.id && !queryType.value){
+                await ApiReceipts.updateReceipt(route.query.id, receipt).then(()=>{
+                    notify({
+                        type: "success",
+                        title: "Успешно изминено!"
+                    })
                 })
-            } else{
-                const { data } = await ApiReceipts.saveReceipt(receipt)
-                notify({
-                    type: "success",
-                    title: "Успешно добавлено!"
+            } else {
+                await ApiReceipts.saveReceipt(receipt).then(() => {
+                    notify({
+                        type: "success",
+                        title: "Успешно добавлено!"
+                    })
                 })
+                
             }
             router.replace("/receipts")
         } catch(error: any){
@@ -74,7 +78,11 @@ export default function useModule() {
             const {data} = await ApiReceipts.getReceiptById(id)
             if(data){
                 singleReceipt.value = data
-                // console.log('ff ',singleReceipt.value)
+                
+                if(route.query.type){
+                    queryType.value = route.query.type
+                }
+                console.log('ff ',singleReceipt.value)
             }
         } catch(error: any) {
             console.log("Single receipt api error: ", error)
@@ -94,6 +102,7 @@ export default function useModule() {
         isLoading,
         rawsData,
         singleReceipt,
+        queryType,
         onSaveReceipt
     }
 }

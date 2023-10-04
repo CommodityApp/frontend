@@ -29,6 +29,15 @@ export default function useModule() {
             }
         })
     }
+    const cloneReceipt = async (id, param) => {
+        router.push({
+            name:'receipts-add',
+            query: {
+                id,
+                type: param
+            }
+        })
+    }
 
     const deleteReceipt = async (id) => {
         try {
@@ -58,6 +67,7 @@ export default function useModule() {
         isLoading,
         deleteReceipt,
         editReceipt,
+        cloneReceipt,
         receiptData
     }
 }

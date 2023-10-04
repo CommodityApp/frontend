@@ -6,6 +6,7 @@ const props = defineProps<{
   isLoading: boolean,
   rawsData: any,
   singleReceipt: any,
+  queryType: any
 }>()
 
 const emit = defineEmits<{
@@ -63,7 +64,7 @@ watch(receipt_raws, () => {
 
 watch(() => props.singleReceipt, () => {
   if( props.singleReceipt.code ){
-    code.value = props.singleReceipt.code
+    code.value = props.singleReceipt.code 
     name.value = props.singleReceipt.name
     rate.value = props.singleReceipt.rate
     unit.value = props.singleReceipt.unit
@@ -76,7 +77,10 @@ watch(() => props.singleReceipt, () => {
         ratio: parseFloat(item.ratio)
       })
     })
-    
+  }
+  if(props.queryType) {
+    console.log('here ', props.queryType)
+    code.value = null
   }
   //clearing null value
   receipt_raws.value.shift()
@@ -85,14 +89,16 @@ watch(() => props.singleReceipt, () => {
 })
 
 const isEdit = computed(() => {
-  return props.singleReceipt?.code ? true : false
+  return props.singleReceipt?.code != null && !props.queryType ? true : false
 })
 
 </script>
 <template>
   <div class="flex flex-row justify-between py-2 w-full">
     <div class="self-center text-2xl font-bold leading-7">
+      {{ isEdit }}
       <span v-if="isEdit">Изменить</span> 
+      <span v-else-if="queryType">Дублирование</span>
       <span v-else>Создать новыю</span>
       рецептуру
     </div>
@@ -103,6 +109,7 @@ const isEdit = computed(() => {
         class="flex flex-row bg-[#7000FF] disabled:bg-[#6f00ff41] cursor-pointer disabled:cursor-not-allowed text-white rounded-[1rem] py-[0.4rem] px-[0.9rem]"
       >
       <span v-if="isEdit">Изменить</span>
+      <span v-else-if="queryType">Дублирование</span>
       <span v-else>Сохранить</span>
     </button>
     </div>
@@ -113,6 +120,7 @@ const isEdit = computed(() => {
       <div class="grid md:grid-cols-2 md:gap-6">
         <div class="relative z-0 w-full group">
           <input
+            v-focus
             type="text"
             name="code"
             id="code"
