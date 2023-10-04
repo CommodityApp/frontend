@@ -14,12 +14,12 @@ const isActiveRoute = computed( () => {
   <nav class="flex" aria-label="Breadcrumb">
     <ol class="inline-flex items-center space-x-1 md:space-x-3">
       <li class="inline-flex items-center">
-        <RouterLink
-          to="/orders"
+        <a
+          href="/orders"
           class="inline-flex items-center text-sm font-medium text-[#999999] hover:text-[#7000FF]"
         >
           Заказы
-        </RouterLink>
+      </a>
       </li>
       <li aria-current="page" class="inline-flex items-center">
         <div class="flex items-center">

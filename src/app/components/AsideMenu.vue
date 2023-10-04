@@ -8,7 +8,7 @@ import {
     UsersIcon,
     ClientsIcon,
     ProgressIcon
-  } from "../assets/svg";
+  } from "../assets/svg";  
 </script>
 <template>
   <aside

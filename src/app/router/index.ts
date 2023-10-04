@@ -13,70 +13,93 @@ const router = createRouter({
     },
     {
       path: '/orders',
-      name: 'orders',
-      component: () => import("../../pages/orders/OrdersPage.vue"),
-      meta: {
-        title: "orders"
-      }
-    },
-    {
-      path: '/orders/add',
-      name: 'orders-add',
-      component: () => import("../../pages/orders-add/OrdersAddPage.vue"),
-      meta: {
-        title: "orders-add",
-        id: null
+      name: 'orders-container',
+      children: [
+        {
+          path: '/orders',
+          name: 'orders',
+          component: () => import("../../pages/orders/OrdersPage.vue"),
+          meta: {
+            title: "orders"
+          },
+        },
+        {
+          path: '/orders/add',
+          name: 'orders-add',
+          component: () => import("../../pages/orders-add/OrdersAddPage.vue"),
+          meta: {
+            title: "orders-add",
+            id: null
+    
+          }
+        },
+        {
+          path: '/orders/task',
+          name: 'orders-task',
+          component: () => import("../../pages/orders-task/OrdersTaskPage.vue"),
+          meta: {
+            title: "orders-task"
+          }
+        },
+        {
+          path: '/orders/task/:id',
+          name: 'orders-report',
+          component: () => import("../../pages/orders-report/OrdersReportPage.vue"),
+          meta: {
+            title: "orders-report"
+          }
+        },
 
-      }
+      ]
     },
-    {
-      path: '/orders/task',
-      name: 'orders-task',
-      component: () => import("../../pages/orders-task/OrdersTaskPage.vue"),
-      meta: {
-        title: "orders-task"
-      }
-    },
-    {
-      path: '/orders/task/:id',
-      name: 'orders-report',
-      component: () => import("../../pages/orders-report/OrdersReportPage.vue"),
-      meta: {
-        title: "orders-report"
-      }
-    },
+    
+    
     {
       path: '/receipts',
-      name: 'receipts',
-      component: () => import("../../pages/receipts/ReceiptsPage.vue"),
-      meta: {
-        title: "receipts"
-      }
+      name: 'receipts-container',
+      children:[
+        {
+          path: '/receipts',
+          name: 'receipts',
+          component: () => import("../../pages/receipts/ReceiptsPage.vue"),
+          meta: {
+            title: "receipts"
+          }
+        },
+        {
+          path: '/receipts/add',
+          name: 'receipts-add',
+          component: () => import("../../pages/receipts-add/ReceiptsAddPage.vue"),
+          meta: {
+            title: "receipt"
+          },
+        },
+
+      ]
     },
-    {
-      path: '/receipts/add',
-      name: 'receipts-add',
-      component: () => import("../../pages/receipts-add/ReceiptsAddPage.vue"),
-      meta: {
-        title: "receipt"
-      },
-    },
+
     {
       path: '/raws',
-      name: 'raws',
-      component: () => import("../../pages/raws/RawsPage.vue"),
-      meta: {
-        title: "raws",
-        id: null
-      }
-    },
-    {
-      path: '/raws/add',
-      name: 'raws-add',
-      component: () => import("../../pages/raws-add/RawsAddPage.vue"),
-      meta: {
-        title: "raws-add"
-      },
+      name:'raws-container',
+      children:[
+        {
+          path: '/raws',
+          name: 'raws',
+          component: () => import("../../pages/raws/RawsPage.vue"),
+          meta: {
+            title: "raws",
+            id: null
+          }
+        },
+        {
+          path: '/raws/add',
+          name: 'raws-add',
+          component: () => import("../../pages/raws-add/RawsAddPage.vue"),
+          meta: {
+            title: "raws-add"
+          },
+        },
+      ]
     },
     {
       path: '/animals',
@@ -102,8 +125,6 @@ const router = createRouter({
         title: "clients",
       }
     },
-
-
     {
       path: '/login',
       name: 'login',
