@@ -108,7 +108,7 @@ const isEdit = computed(() => {
         class="flex flex-row bg-[#7000FF] disabled:bg-[#6f00ff41] cursor-pointer disabled:cursor-not-allowed text-white rounded-[1rem] py-[0.4rem] px-[0.9rem]"
       >
       <span v-if="isEdit">Изменить</span>
-      <span v-else-if="queryType">Дублирование</span>
+      <span v-else-if="queryType">Дублировать</span>
       <span v-else>Сохранить</span>
     </button>
     </div>
