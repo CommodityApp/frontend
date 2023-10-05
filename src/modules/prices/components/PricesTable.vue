@@ -1,0 +1,84 @@
+<script setup lang="ts">
+import { DeleteIcon, EditIcon, CloneIcon } from "../../../app/assets/svg";
+const props = defineProps<{
+  priceData: any,
+  isLoading: boolean,
+  deletePrice: any,
+  editPrice: any,
+  clonePrice: any
+}>()
+
+const deletePriceById = (id, name) => {
+  window.confirm(`Вы действительно хотите удалить прейскурант ${name} ?`) 
+  ? props.deletePrice(id) : null
+}
+
+const editPriceById = (id) => {
+  props.editPrice(id)
+}
+
+const clonePriceById = (id, param) => {
+  props.clonePrice(id, param)
+}
+
+</script>
+<template>
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div 
+      v-if="isLoading" 
+      class="flex items-center mt-1 justify-center w-full h-[70vh] bg-white">
+      <div class="px-3 py-1 text-sm font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse">
+        Загрузка данных...
+      </div>
+    </div>
+    <div v-else>
+        <table 
+            v-if="priceData?.length"
+            class="w-full text-sm text-left text-gray-500"
+            >
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+            <tr>
+            <th scope="col" class="px-6 py-3">№</th>
+            <th scope="col" class="px-6 py-3">Код</th>
+            <th scope="col" class="px-6 py-3">Название</th>
+            <th scope="col" class="px-6 py-3">Создан</th>
+            <th scope="col" class="px-6 py-3 text-end">Действия</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr 
+            v-for="price, index in priceData" 
+            :key="index"
+            class="bg-white border-b text-gray-900 hover:bg-gray-50"
+            >
+            <td class="px-6 py-4">{{ index + 1 }}</td>
+            <td class="px-6 py-4">{{ price.code }}</td>
+            <td class="px-6 py-4">{{ price.name }}</td>
+            <td class="px-6 py-4">{{ price.created_at }}</td>
+            <td class="px-6 py-4 flex justify-end gap-x-4">
+              <!-- This Feature Cloning intentionally disabled. Just uncomment below
+            Icon Button -->
+                <!-- <CloneIcon 
+                @click="clonePriceById(price.id, 'clone')"
+                class="w-5 h-5 mr-2 text-[#FFA41D] cursor-pointer"
+                /> -->
+                <EditIcon 
+                @click="editPriceById(price.id)"
+                class="w-5 h-5 mr-2 text-[#7000FF] cursor-pointer"
+                />
+                <DeleteIcon
+                @click="deletePriceById(price.id, price.name)" 
+                class="w-5 h-5 text-red-700 cursor-pointer"
+                />
+            </td>
+            </tr>
+        </tbody>
+        </table>
+        <div v-else class="text-2xl text-center p-16 text-gray-300">
+            Нет данных
+        </div>
+    </div>
+    
+  </div>
+</template>

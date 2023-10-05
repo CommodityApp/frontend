@@ -101,6 +101,29 @@ const router = createRouter({
         },
       ]
     },
+
+    {
+      path: '/prices',
+      name:'prices-container',
+      children: [
+        {
+          path: '/prices',
+          name: 'prices',
+          component: () => import("../../pages/prices/PricesPage.vue"),
+          meta: {
+            title: "prices"
+          },
+        },
+        {
+          path: '/prices/add',
+          name: 'prices-add',
+          component: () => import("../../pages/prices/PricesAddPage.vue"),
+          meta: {
+            title: "prices-add"
+          },
+        }
+      ]
+    },
     {
       path: '/animals',
       name: 'animals',

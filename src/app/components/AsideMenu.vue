@@ -7,6 +7,7 @@ import {
     AnimalsIcon, 
     UsersIcon,
     ClientsIcon,
+    PricesIcon,
     ProgressIcon
   } from "../assets/svg";  
 </script>
@@ -51,6 +52,17 @@ import {
             />
             <span class="ml-3">Cырьё</span>
             <!-- <ProgressIcon class="w-4 h-4 ml-24 text-red-700" /> -->
+          </RouterLink>
+        </li>
+        <li>
+          <RouterLink
+            to="/prices"
+            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+          >
+            <PricesIcon
+              class="flex-shrink-0 w-6 h-6 text-gray-900"
+            />
+            <span class="ml-3">Прейскуранты</span>
           </RouterLink>
         </li>
         <li>

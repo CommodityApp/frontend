@@ -5,3 +5,4 @@ export * as ApiReceipts from "./receipts";
 export * as ApiAnimalTypes from "./animals";
 export * as ApiRaws from "./raws";
 export * as ApiUsers from "./users";
+export * as ApiPrices from "./prices";

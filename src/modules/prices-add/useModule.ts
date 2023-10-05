@@ -1,31 +1,31 @@
-import { ApiReceipts, ApiRaws } from "@/shared/api";
-import { onMounted, ref, reactive } from "vue";
+import {ref, onMounted} from "vue";
+import { ApiPrices } from "@/shared/api";
+import { ApiRaws } from "@/shared/api";
+import { useRoute, useRouter } from "vue-router";
 import { useNotification } from "@kyvg/vue3-notification";
-import { useRouter, useRoute } from "vue-router";
 
 export default function useModule() {
+    const isLoading = ref<boolean>(false)
     const { notify } = useNotification()
     const router = useRouter()
     const route = useRoute()
-    const isLoading = ref<boolean>(false)
-
+    const singlePrice = ref([])
     const rawsData = ref()
-    const singleReceipt = ref()
     const queryType = ref()
-    
 
-    const onSaveReceipt = async (receipt) => {
+
+    const onSavePrice = async (price) => {
         try {
             isLoading.value = true
             if(route.query.id && !queryType.value){
-                await ApiReceipts.updateReceipt(route.query.id, receipt).then(()=>{
+                await ApiPrices.updatePrice(route.query.id, price).then(() => {
                     notify({
                         type: "success",
                         title: "Успешно изминено!"
                     })
                 })
             } else {
-                await ApiReceipts.saveReceipt(receipt).then(() => {
+                await ApiPrices.savePrice(price).then(() => {
                     notify({
                         type: "success",
                         title: "Успешно добавлено!"
@@ -33,7 +33,7 @@ export default function useModule() {
                 })
                 
             }
-            router.replace("/receipts")
+            router.replace("/prices")
         } catch(error: any){
             isLoading.value = false
             const errors = error?.response?.data.errors
@@ -53,6 +53,7 @@ export default function useModule() {
         }
     }
 
+
     const getRaws = async () => {
         try {
             isLoading.value = true
@@ -69,37 +70,39 @@ export default function useModule() {
         }
     }
 
-    const getSingleReceipt = async (id) => {
-        try {
+    const getSinglePrice = async(id) => {
+        try{
             isLoading.value = true
-            const {data} = await ApiReceipts.getReceiptById(id)
+            const {data} = await ApiPrices.getSinglePrice(id)
             if(data){
-                singleReceipt.value = data
-                
+                singlePrice.value = data 
                 if(route.query.type){
                     queryType.value = route.query.type
                 }
-                // console.log('ff ',singleReceipt.value)
             }
-        } catch(error: any) {
-            console.log("Single receipt api error: ", error)
-        } finally {
+            
+
+        }catch(error: any){
+            console.log("error ", error)
+
+        }finally{
             isLoading.value = false
         }
     }
 
     onMounted(() => {
         getRaws()
-        // console.log(route.query.id)
+      
         if(route.query.id){
-            getSingleReceipt(route.query.id)
+            getSinglePrice(route.query.id)
         }
     })
+
     return {
         isLoading,
+        singlePrice,
         rawsData,
-        singleReceipt,
         queryType,
-        onSaveReceipt
+        onSavePrice
     }
 }

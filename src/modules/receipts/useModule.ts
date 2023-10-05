@@ -43,7 +43,6 @@ export default function useModule() {
         try {
             isLoading.value = true
             await ApiReceipts.deleteReceipt(id).then(()=>{
-                getReceipts()
                 notify({
                     type:"success",
                     title: "Рецепт успешно удалено!",
@@ -56,6 +55,7 @@ export default function useModule() {
             console.log("Error in delete recipt api")
         } finally {
             isLoading.value = false
+            getReceipts()
         }
     }
 
