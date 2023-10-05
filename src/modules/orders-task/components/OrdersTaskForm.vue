@@ -34,7 +34,7 @@ const setNumOfBatches = (num) => {
         name="error"
         id="error"
         :value="error"
-        @input="$emit('update:error',($event.target as HTMLInputElement).valueAsNumber)"
+        @input="$emit('update:error',($event.target as HTMLInputElement).value)"
         class="min-w-[10rem] px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
         placeholder=" "
         required
