@@ -26,6 +26,7 @@ defineProps<{
           <tr>
             <th scope="col" class="px-6 py-3">Сырье</th>
             <th scope="col" class="px-6 py-3">Концентрация (кг/т)</th>
+            <th scope="col" class="px-6 py-3">Прайс</th>
             <th scope="col" class="px-6 py-3">С погрешность</th>
             <th scope="col" class="px-6 py-3">Без погрешность</th>
           </tr>
@@ -38,6 +39,7 @@ defineProps<{
           >
             <td class="px-6 py-4">{{order.receipt_raw?.raw?.name}}</td>
             <td class="px-6 py-4">{{order.receipt_raw?.ratio}}</td>
+            <td class="px-6 py-4">{{order.receipt_raw?.price}}</td>
             <td class="px-6 py-4">{{order.calculated_amount_with_error[index]}}</td>
             <td class="px-6 py-4">{{order.calculated_amount[index]}}</td>
           </tr>
@@ -45,6 +47,7 @@ defineProps<{
         <tr>
             <th scope="col" class="px-6 py-3">Итого:</th>
             <th class="px-6 py-4">{{selectedReceipt.concentration}}</th>
+            <th class="px-6 py-4"></th>
             <th class="px-6 py-4">{{selectedOveralAmountError[index]}}</th>
             <th class="px-6 py-4">{{selectedOveralAmount[index]}}</th>
         </tr>
