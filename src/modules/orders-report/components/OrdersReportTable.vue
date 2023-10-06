@@ -4,6 +4,7 @@ defineProps<{
   selectedBatch: any,
   index: number,
   selectedReceipt: any,
+  selectedPrice: any,
   selectedOveralAmountError: any,
   selectedOveralAmount: any
 }>()
@@ -47,7 +48,7 @@ defineProps<{
         <tr>
             <th scope="col" class="px-6 py-3">Итого:</th>
             <th class="px-6 py-4">{{selectedReceipt.concentration}}</th>
-            <th class="px-6 py-4">{{selectedReceipt.price}}</th>
+            <th class="px-6 py-4">{{selectedPrice}}</th>
             <th class="px-6 py-4">{{selectedOveralAmountError[index]}}</th>
             <th class="px-6 py-4">{{selectedOveralAmount[index]}}</th>
         </tr>

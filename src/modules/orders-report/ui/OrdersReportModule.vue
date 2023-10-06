@@ -37,6 +37,7 @@ const printSingleReport = (divName) => {
         :id="`printableArea${index}`"
         :index="index" 
         :selectedBatch="selectedBatch"
+        :selectedPrice="selectedData?.price"
         :selectedReceipt="selectedData?.receipt"
         :selectedOrder="selectedData?.order_calculated_raws"
         :selectedOveralAmountError="selectedData?.calculated_amount_with_error"
