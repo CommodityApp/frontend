@@ -19,7 +19,7 @@ const name = ref<string>()
 const unit = ref<string>()
 const price_raws = ref([
   {
-    raw:null, 
+    raw_id:null, 
     price:null
   }
 ])
