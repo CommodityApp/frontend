@@ -39,7 +39,7 @@ defineProps<{
           >
             <td class="px-6 py-4">{{order.receipt_raw?.raw?.name}}</td>
             <td class="px-6 py-4">{{order.receipt_raw?.ratio}}</td>
-            <td class="px-6 py-4">{{order.receipt_raw?.price}}</td>
+            <td class="px-6 py-4">{{order.price}}</td>
             <td class="px-6 py-4">{{order.calculated_amount_with_error[index]}}</td>
             <td class="px-6 py-4">{{order.calculated_amount[index]}}</td>
           </tr>
