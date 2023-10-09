@@ -99,7 +99,7 @@ export default function useModule() {
         if(batches.value){
             sumOfBatches = batches.value.reduce((acc:any, item) => {
                 return acc = acc + item
-            }, 0)
+            }, 0).toFixed(2)
         }
         
         ordersStore.newOrderState.amount == sumOfBatches 
