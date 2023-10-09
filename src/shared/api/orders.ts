@@ -2,7 +2,7 @@ import axios from "../plugins/axios";
 import useOrdersStore from "@/app/stores/OrdersStore";
 
 export const getOrders = async () => {
-    const { data } = await axios.get("/orders?include=animalType,receipt,client");
+    const { data } = await axios.get("/orders?include=receipt,client");
     return {
         ...data
     }
