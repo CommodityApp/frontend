@@ -50,27 +50,25 @@ const clonePriceById = (id, param) => {
             <tr 
             v-for="price, index in priceData" 
             :key="index"
-            class="bg-white border-b text-gray-900 hover:bg-gray-50"
+            @click="editPriceById(price.id)"
+            class="bg-white border-b cursor-pointer text-gray-900 hover:bg-gray-50"
             >
             <td class="px-6 py-4">{{ index + 1 }}</td>
             <td class="px-6 py-4">{{ price.code }}</td>
             <td class="px-6 py-4">{{ price.name }}</td>
             <td class="px-6 py-4">{{ price.created_at }}</td>
             <td class="px-6 py-4 flex justify-end gap-x-4">
-              <!-- This Feature Cloning intentionally disabled. Just uncomment below
-            Icon Button -->
-                <!-- <CloneIcon 
-                @click="clonePriceById(price.id, 'clone')"
-                class="w-5 h-5 mr-2 text-[#FFA41D] cursor-pointer"
-                /> -->
-                <EditIcon 
-                @click="editPriceById(price.id)"
+              <CloneIcon 
+                @click.stop="clonePriceById(price.id, 'clone')"
+                class="w-5 h-5 mr-2 text-[#FFA41D] hover:outline hover:outline-orange-200 rounded-[4px] cursor-pointer"
+              />
+                <!-- <EditIcon
                 class="w-5 h-5 mr-2 text-[#7000FF] cursor-pointer"
-                />
-                <DeleteIcon
-                @click="deletePriceById(price.id, price.name)" 
-                class="w-5 h-5 text-red-700 cursor-pointer"
-                />
+                /> -->
+              <DeleteIcon
+                @click.stop="deletePriceById(price.id, price.name)" 
+                class="w-5 h-5 text-red-700 hover:outline hover:outline-red-200 rounded-[4px] cursor-pointer"
+              />
             </td>
             </tr>
         </tbody>

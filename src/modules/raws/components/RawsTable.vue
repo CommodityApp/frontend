@@ -45,18 +45,18 @@ const editRaw = (id) => {
           <tr
             v-for="(raws, index) in rawsData"
             :key="index"
-            class="bg-white border-b text-gray-900 hover:bg-gray-50"
+            @click="editRaw(raws.id)"
+            class="bg-white cursor-pointer border-b text-gray-900 hover:bg-gray-50"
           >
             <td class="px-6 py-4">{{ index + 1 }}</td>
             <td class="px-6 py-4">{{ raws.name }}</td>
             <td class="px-6 py-4 flex gap-x-4 justify-end">
-              <EditIcon
-                @click="editRaw(raws.id)"
+              <!-- <EditIcon
                 class="w-5 h-5 mr-2 text-[#7000FF] cursor-pointer"
-              />
+              /> -->
               <DeleteIcon
-                @click="deleteRaw(raws.id, raws.name)"
-                class="w-5 h-5 text-red-700 cursor-pointer"
+                @click.stop="deleteRaw(raws.id, raws.name)"
+                class="w-5 h-5 text-red-700 hover:outline hover:outline-red-200 rounded-[4px] cursor-pointer"
               />
             </td>
           </tr>

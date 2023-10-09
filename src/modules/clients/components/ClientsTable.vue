@@ -52,7 +52,7 @@ defineProps<{
               />
               <DeleteIcon
                 @click=""
-                class="w-5 h-5 text-red-700 cursor-pointer"
+                class="w-5 h-5 text-red-700 hover:outline hover:outline-red-200 rounded-[4px] cursor-pointer"
               />
             </td>
           </tr>

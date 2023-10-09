@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
-import { WarningIcon } from "../../../app/assets/svg";
 
 const props = defineProps<{
   isLoading: boolean,
@@ -45,36 +44,20 @@ const savePrice = () => {
   emit("onSavePrice", newPrice)
 }
 
-// const sumOfRatio = computed(() => {
-//   return price_raws.value.reduce((acc, item) => {
-//     return acc = parseFloat(acc + (item.ratio == undefined ? 0 : item.ratio))
-//   }, 0)
-// })
-
-// watch(receipt_raws, () => {
-//   sumOfRatio.value != concentration.value ? visibleAlert.value = true : visibleAlert.value = false
-// },{
-//   deep: true
-// })
-
 watch(() => props.singlePrice, () => {
   if( props.singlePrice.code ){
-    code.value = props.singlePrice.code 
-    name.value = props.singlePrice.name
+    //props.queryType is a case when it is duplcating...
+    code.value = props.queryType ? null : props.singlePrice.code 
+    name.value = props.queryType ? null : props.singlePrice.name
     unit.value = props.singlePrice.unit
     
     props.singlePrice.price_raws.forEach((item) => {
         price_raws.value.push({
         raw_id: item.raw.id,
-        price: parseFloat(item.price)
+        price: parseFloat(item.price) as any
       })
     })
   }
-//   if(props.queryType) {
-//     // console.log('here ', props.queryType)
-    
-//     name.value = null
-//   }
   //clearing null value
   price_raws.value.shift()
 }, {
@@ -124,7 +107,7 @@ const isEdit = computed(() => {
           <label
             for="code"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Код прейскурант</label
+            >Код</label
           >
         </div>
         <div class="relative z-0 w-full group">
@@ -140,7 +123,7 @@ const isEdit = computed(() => {
           <label
             for="name"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Название прейскурант</label
+            >Название</label
           >
         </div>
 
@@ -174,9 +157,7 @@ const isEdit = computed(() => {
       </span>
     </div>
 
-<!-- <code>
-    {{ singlePrice?.price_raws }}
-</code> -->
+
     <div 
       v-for="_, index in price_raws" 
       class="grid md:grid-cols-3 md:gap-6 my-6"

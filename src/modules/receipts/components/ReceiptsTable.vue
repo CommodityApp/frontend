@@ -53,7 +53,8 @@ const cloneReceiptById = (id, param) => {
         <tr 
           v-for="receipt, index in receiptData" 
           :key="index"
-          class="bg-white border-b text-gray-900 hover:bg-gray-50"
+          @click="editReceiptById(receipt.id)"
+          class="bg-white cursor-pointer border-b text-gray-900 hover:bg-gray-50"
         >
           <td class="px-6 py-4">{{ index + 1 }}</td>
           <td class="px-6 py-4">{{ receipt.code }}</td>
@@ -65,16 +66,15 @@ const cloneReceiptById = (id, param) => {
           <td class="px-6 py-4">{{ receipt.concentration }}</td>
           <td class="px-6 py-4 flex gap-x-4">
             <CloneIcon 
-              @click="cloneReceiptById(receipt.id, 'clone')"
-              class="w-5 h-5 mr-2 text-[#FFA41D] cursor-pointer"
+              @click.stop="cloneReceiptById(receipt.id, 'clone')"
+              class="w-5 h-5 mr-2 text-[#FFA41D] hover:outline hover:outline-orange-200 rounded-[4px] cursor-pointer"
             />
-            <EditIcon 
-              @click="editReceiptById(receipt.id)"
+            <!-- <EditIcon 
               class="w-5 h-5 mr-2 text-[#7000FF] cursor-pointer"
-            />
+            /> -->
             <DeleteIcon
-              @click="deleteReceiptById(receipt.id, receipt.name)" 
-              class="w-5 h-5 text-red-700 cursor-pointer"
+              @click.stop="deleteReceiptById(receipt.id, receipt.name)" 
+              class="w-5 h-5 text-red-700 hover:outline hover:outline-red-200 rounded-[4px] cursor-pointer"
             />
           </td>
         </tr>
