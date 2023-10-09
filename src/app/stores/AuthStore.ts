@@ -5,7 +5,7 @@ const useAuthStore = defineStore("authStore", () => {
   const accessToken = ref<string>()
   const userName = ref<string>()
 
-  const isAuthenticated = computed(() => accessToken.value != '')
+  const isAuthenticated = computed(() => accessToken.value != null)
 
   const saveCredentials = (token:string, username:string) => {
     accessToken.value = token

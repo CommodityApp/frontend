@@ -26,9 +26,9 @@ export default function useLogin() {
             
         } catch (e:any) {
             if(e.message){
-                errorMsg.value = e.response.data.message;
+                errorMsg.value = e.response?.data.message;
                 if(e.response.status == 422){
-                    errorMsg.value = 'Внимание! Электронная почта или пароль введены неправильно.'
+                    errorMsg.value = 'Электронная почта или пароль введены неправильно!'
                     return
                 }
             }

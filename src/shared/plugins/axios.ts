@@ -19,9 +19,12 @@ const axiosInstance = axios.create(config)
 
 axiosInstance.interceptors.request.use(
 	config => {
-		if (authStore?.isAuthenticated) {
-			config.headers.Authorization = `Bearer ${authStore.accessToken}`
-			// config.headers["Content-Language"] = 'en' //i18n.global.locale.value
+		if (authStore?.isAuthenticated && sessionStorage.getItem('authStore') ) {
+			if(JSON.parse(sessionStorage.getItem('authStore')).accessToken == authStore.accessToken){
+				config.headers.Authorization = `Bearer ${authStore.accessToken}`
+			} else {
+				window.location.href = "/login"
+			}
 		}
 
 		return config
