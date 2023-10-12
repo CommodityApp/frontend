@@ -17,7 +17,7 @@ export default function useModule() {
 
     const onSaveReceipt = async (receipt) => {
         try {
-            isLoading.value = true
+            // isLoading.value = true
             if(route.query.id && !queryType.value){
                 await ApiReceipts.updateReceipt(route.query.id, receipt).then(()=>{
                     notify({
@@ -36,7 +36,7 @@ export default function useModule() {
             }
             router.replace("/receipts")
         } catch(error: any){
-            isLoading.value = false
+            // isLoading.value = false
             const errors = error?.response?.data.errors
             
             Object.values(errors).forEach(item => {
@@ -50,23 +50,23 @@ export default function useModule() {
             })
             console.log('Error save receipt: ',error)
         } finally{
-            isLoading.value = false
+            // isLoading.value = false
         }
     }
 
     const getRaws = async () => {
         try {
-            isLoading.value = true
+            // isLoading.value = true
             const {data} = await ApiRaws.getRaws()
             if(data){
                 rawsData.value = data
             }
         } catch (error: any) {
-            isLoading.value = false
+            // isLoading.value = false
 
             console.log("Error in rows api: ", error)
         } finally {
-            isLoading.value = false
+            // isLoading.value = false
         }
     }
 
@@ -90,11 +90,14 @@ export default function useModule() {
     }
     const getAnimalTypes = async () => {
         try {
+            // isLoading.value = true
             const { data } = await ApiAnimalTypes.getAnimalTypes();
             animalTypes.value = data;
             
         } catch(e: any){
           console.log("Error Animal Types api: ", e);
+        } finally {
+            // isLoading.value = false
         }
       }
 
