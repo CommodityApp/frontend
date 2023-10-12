@@ -26,7 +26,7 @@ const cloneReceiptById = (id, param) => {
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <div 
       v-if="isLoading" 
-      class="flex items-center mt-1 justify-center w-full h-[70vh] bg-white">
+      class="flex items-center mt-1 justify-center w-full h-[70vh] sm:rounded-lg bg-white">
       <div class="px-3 py-1 text-sm font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse">
         Загрузка данных...
       </div>
