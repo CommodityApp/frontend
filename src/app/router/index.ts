@@ -125,6 +125,28 @@ const router = createRouter({
       ]
     },
     {
+      path: '/rations',
+      name:'rations-container',
+      children: [
+        {
+          path: '/rations',
+          name: 'rations',
+          component: () => import("../../pages/rations/RationsPage.vue"),
+          meta: {
+            title: "rations"
+          },
+        },
+        {
+          path: '/rations/add',
+          name: 'rations-add',
+          component: () => import("../../pages/rations/RationsAddPage.vue"),
+          meta: {
+            title: "rations-add"
+          },
+        }
+      ]
+    },
+    {
       path: '/animals',
       name: 'animals',
       component: () => import("../../pages/animals/AnimalsPage.vue"),

@@ -6,7 +6,8 @@ const props = defineProps<{
   isLoading: boolean,
   rawsData: any,
   singleReceipt: any,
-  queryType: any
+  queryType: any,
+  animalTypes: any
 }>()
 
 const emit = defineEmits<{
@@ -20,6 +21,8 @@ const name = ref<string>()
 const unit = ref<string>()
 const producer_name = ref<string>()
 const concentration = ref<number>()
+const selectedAnimalTypes = ref({})
+const animal_type_id = ref<number>()
 const receipt_raws = ref([
   {
     raw_id:null, 
@@ -43,6 +46,7 @@ const saveReceipt = () => {
     rate: rate.value,
     code: code.value,
     unit: unit.value,
+    animal_type_id: animal_type_id.value,
     producer_name: producer_name.value,
     concentration: concentration.value,
     receipt_raws: receipt_raws.value.filter((item) => {return item.raw_id !== null})
@@ -68,6 +72,8 @@ watch(() => props.singleReceipt, () => {
     name.value = props.singleReceipt.name
     rate.value = props.singleReceipt.rate
     unit.value = props.singleReceipt.unit
+    selectedAnimalTypes.value = props.singleReceipt.animal_type?.parent_id
+    animal_type_id.value = props.singleReceipt.animal_type?.id
     producer_name.value = props.singleReceipt.producer_name
     concentration.value = props.singleReceipt.concentration
     
@@ -79,7 +85,6 @@ watch(() => props.singleReceipt, () => {
     })
   }
   if(props.queryType) {
-    // console.log('here ', props.queryType)
     code.value = null
     name.value = null
   }
@@ -88,6 +93,18 @@ watch(() => props.singleReceipt, () => {
 }, {
   deep: true
 })
+
+watch(
+    () => selectedAnimalTypes.value, 
+    () => {
+    selectedAnimalTypes.value ? '' : animal_type_id.value = null
+})
+const computedAnimalTypes = computed(() => {
+  return props.animalTypes.filter((item) => {
+    return item.id == selectedAnimalTypes.value
+  })
+})
+
 
 const isEdit = computed(() => {
   return props.singleReceipt?.code != null && !props.queryType ? true : false
@@ -184,6 +201,57 @@ const isEdit = computed(() => {
             >Норма ввода</label
           >
         </div>
+
+        <div class="relative z-0 w-full group">
+          <label
+            for="animal_types"
+            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+            >Вид животных
+          </label>
+          <select
+            v-model="selectedAnimalTypes" 
+            id="animal_types"
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
+          >
+            <option></option>
+            <option 
+              v-for="animal, index in animalTypes"
+              :key="index"
+              :value="animal.id"
+            >
+            {{animal.name}} ( {{animal.children.length}} )
+          </option>
+          </select>
+        </div>
+
+        <div class="relative z-0 w-full group">
+          <label
+            for="floating_animal_type"
+            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+            >Тип животных
+          </label>
+          
+          <select
+            :disabled="!selectedAnimalTypes"
+            id="floating_animal_type"
+            v-model="animal_type_id"
+            class="block px-2.5 pb-2.5 pt-4 disabled:cursor-not-allowed disabled:border-red-200 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
+          >
+            <option></option>
+            <option 
+              v-for="selectedAnimal, index in computedAnimalTypes[0]?.children"
+              :key="index"
+              :value="selectedAnimal.id"
+              >
+              {{selectedAnimal.name}}
+            </option>
+          </select>
+        </div>
+
+
+
+
+
 
         <div class="relative z-0 w-full group">
           <input

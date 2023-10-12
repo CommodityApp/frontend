@@ -2,18 +2,34 @@
 import { computed, ref, watch } from "vue";
 
 const props = defineProps<{
-  saveRaw: any;
-  updateRaw: any;
-  rawsData: any;
+  saveRaw: any
+  updateRaw: any
+  rawsData: any
+  rawTypes: any
+  producers: any
+  bunkers: any
 }>();
 
 const raw_name = ref("");
+const code = ref();
+const unit = ref();
+const concentration = ref();
+const raw_type_id = ref();
+const producer_id = ref();
+const bunker_id = ref();
 
 watch(
   () => props.rawsData,
   () => {
     if (props.rawsData?.name) {
       raw_name.value = props.rawsData?.name;
+      code.value = props.rawsData?.code;
+      unit.value = props.rawsData?.unit;
+      raw_type_id.value = props.rawsData.raw_type?.id
+      concentration.value = props.rawsData?.concentration;
+      producer_id.value = props.rawsData?.producer?.id
+      bunker_id.value = props.rawsData?.bunker?.id
+      
     }
   },
   {
@@ -29,8 +45,17 @@ const isEdited = computed(() => {
   return !!props.rawsData?.name;
 });
 
-const saveEditRaw = (raw_name) => {
-  isEdited.value ? props.updateRaw(raw_name) : props.saveRaw(raw_name);
+const saveEditRaw = () => {
+  const rawsData = {
+      raw_name: raw_name.value,
+      code: code.value,
+      unit: unit.value, 
+      raw_type_id: raw_type_id.value,
+      concentration: concentration.value,
+      producer_id: producer_id.value, 
+      bunker_id: bunker_id.value
+  }
+  isEdited.value ? props.updateRaw(rawsData) : props.saveRaw(rawsData);
 };
 </script>
 <template>
@@ -74,6 +99,120 @@ const saveEditRaw = (raw_name) => {
             >Hазвание сырья</label
           >
         </div>
+
+        <div class="relative z-0 w-full group">
+          <input
+            type="text"
+            name="code"
+            v-model="code"
+            id="code"
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
+            placeholder=" "
+            required
+          />
+          <label
+            for="code"
+            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+            >Код</label
+          >
+        </div>
+
+        <div class="relative z-0 w-full group">
+          <input
+            type="text"
+            name="unit"
+            v-model="unit"
+            id="unit"
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
+            placeholder=" "
+            required
+          />
+          <label
+            for="unit"
+            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+            >Единица</label
+          >
+        </div>
+
+        <div class="relative z-0 w-full group">
+          <input
+            type="number"
+            name="concentration"
+            v-model="concentration"
+            id="concentration"
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
+            placeholder=" "
+            required
+          />
+          <label
+            for="concentration"
+            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+            >Концентрация</label
+          >
+        </div>
+
+        <div class="relative z-0 w-full group">
+          <label
+            for="raw_type"
+            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+            >Тип Сырья
+          </label>
+          <select
+            v-model="raw_type_id"
+            id="raw_type"
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
+          >
+            <option></option>
+            <option  
+              v-for="rawType, index in rawTypes"
+              :key="index"
+              :value="rawType.id">
+              {{ rawType.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="relative z-0 w-full group">
+          <label
+            for="producer"
+            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+            >Производитель
+          </label>
+          <select
+            v-model="producer_id"
+            id="producer"
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
+          >
+            <option></option>
+            <option  
+              v-for="producer, index in producers"
+              :key="index"
+              :value="producer.id">
+              {{ producer.name }}
+            </option>
+          </select>
+        </div>
+        <div class="relative z-0 w-full group">
+          <label
+            for="bunker"
+            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+            >Бункер
+          </label>
+          <select
+            v-model="bunker_id"
+            id="bunker"
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
+          >
+            <option></option>
+            <option  
+              v-for="bunker, index in bunkers"
+              :key="index"
+              :value="bunker.id">
+              {{ bunker.name }}
+            </option>
+          </select>
+        </div>
+
       </div>
     </form>
   </div>

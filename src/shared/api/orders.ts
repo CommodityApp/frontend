@@ -2,7 +2,7 @@ import axios from "../plugins/axios";
 import useOrdersStore from "@/app/stores/OrdersStore";
 
 export const getOrders = async () => {
-    const { data } = await axios.get("/orders?include=receipt,client");
+    const { data } = await axios.get("/orders?include=receipt,client,receipt.animalType");
     return {
         ...data
     }
@@ -14,7 +14,6 @@ export const createOrder = async (order) => {
         receipt_id: order.receipt_id ,
         batch_quantity : order.batch_quantity ,
         batch_inputs : order.batch_inputs,
-        animal_type_id : order.animal_type_id,
         date : order.date,
         amount : order.amount,
         error: order.error
@@ -32,7 +31,6 @@ export const editOrder = async (order) => {
         receipt_id: order.receipt_id ,
         batch_quantity : order.batch_quantity ,
         batch_inputs : order.batch_inputs,
-        animal_type_id : order.animal_type_id,
         date : order.date,
         amount : order.amount,
         error: order.error

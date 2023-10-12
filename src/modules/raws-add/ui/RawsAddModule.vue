@@ -2,7 +2,7 @@
 import RawsAddForm from "../components/RawsAddForm.vue";
 import useModule from "../useModule";
 
-const { saveRaw, rawsData, updateRaw } = useModule();
+const { saveRaw, rawsData, rawTypes, producers, bunkers, updateRaw } = useModule();
 </script>
 <template>
   <div class="flex flex-col my-10">
@@ -10,6 +10,9 @@ const { saveRaw, rawsData, updateRaw } = useModule();
       :saveRaw="saveRaw"
       :updateRaw="updateRaw"
       :rawsData="rawsData"
+      :rawTypes="rawTypes"
+      :producers="producers"
+      :bunkers="bunkers"
     />
   </div>
 </template>

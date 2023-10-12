@@ -6,8 +6,6 @@ interface INewOrder {
     receipt: any,
     receipt_id: number,
     receipt_name: string,
-    selectedAnimalTypes: any,
-    animal_type_id: number,
     date: string,
     amount: number,
     
@@ -24,8 +22,6 @@ const useOrdersStore = defineStore("ordersStore", () => {
         receipt: null,
         receipt_id: null,
         receipt_name: null,
-        selectedAnimalTypes: null,
-        animal_type_id: null,
         date: null,
         amount: null,
         batch_inputs: null,
@@ -54,8 +50,6 @@ const useOrdersStore = defineStore("ordersStore", () => {
         newOrderState.value.receipt = null
         newOrderState.value.receipt_id = null
         newOrderState.value.receipt_name = null
-        newOrderState.value.selectedAnimalTypes = null
-        newOrderState.value.animal_type_id = null
         newOrderState.value.date = null
         newOrderState.value.amount = null
 

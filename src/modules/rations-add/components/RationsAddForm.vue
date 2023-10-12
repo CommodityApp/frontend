@@ -3,69 +3,80 @@ import { computed, ref, watch } from "vue";
 
 const props = defineProps<{
   isLoading: boolean,
-  singlePrice: any,
+  singleRation: any,
   queryType: any,
   rawsData: any
 }>()
 
 const emit = defineEmits<{
-  onSavePrice: [priceData: any]
+  onSaveRation: [priceData: any]
 }>()
 
 const visibleAlert = ref<boolean>()
 const code = ref<string>()
 const name = ref<string>()
 const unit = ref<string>()
-const price_raws = ref([
+
+const rate = ref<number>()
+const producer_name = ref<string>()
+const concentration = ref<number>()
+
+const ration_raws = ref([
   {
     raw_id:null, 
-    price:null
+    ratio:null
   }
 ])
 
 const removeRawInput = () => {
-    price_raws.value.pop()
+  ration_raws.value.pop()
 }
 const addRawInput = () => {
-    console.log(price_raws.value)
-    price_raws.value.push({
+    console.log(ration_raws.value)
+    ration_raws.value.push({
     raw_id: null,
-    price: null
+    ratio: null
   })
 }
 
-const savePrice = () => {
-  let newPrice = {
+const saveRation = () => {
+  let newRation = {
     name: name.value,
     code: code.value,
     unit: unit.value,
-    price_raws: price_raws.value.filter((item) => {return item.raw_id !== null})
+    rate: rate.value,
+    producer_name: producer_name.value,
+    concentration: concentration.value,
+    ration_raws: ration_raws.value.filter((item) => {return item.raw_id !== null})
   }
-  emit("onSavePrice", newPrice)
+  emit("onSaveRation", newRation)
 }
 
-watch(() => props.singlePrice, () => {
-  if( props.singlePrice.code ){
+watch(() => props.singleRation, () => {
+  if( props.singleRation.code ){
     //props.queryType is a case when it is duplcating...
-    code.value = props.queryType ? null : props.singlePrice.code 
-    name.value = props.queryType ? null : props.singlePrice.name
-    unit.value = props.singlePrice.unit
+    code.value = props.queryType ? null : props.singleRation.code 
+    name.value = props.queryType ? null : props.singleRation.name
+    unit.value = props.singleRation.unit
+    rate.value = props.singleRation.rate
+    producer_name.value = props.singleRation.producer_name
+    concentration.value = props.singleRation.concentration
     
-    props.singlePrice.price_raws.forEach((item) => {
-        price_raws.value.push({
+    props.singleRation.ration_raws.forEach((item) => {
+        ration_raws.value.push({
         raw_id: item.raw.id,
-        price: parseFloat(item.price) as any
+        ratio: parseFloat(item.ratio) as any
       })
     })
   }
   //clearing null value
-  price_raws.value.shift()
+  ration_raws.value.shift()
 }, {
   deep: true
 })
 
 const isEdit = computed(() => {
-  return props.singlePrice?.code != null && !props.queryType ? true : false
+  return props.singleRation?.code != null && !props.queryType ? true : false
 })
 
 </script>
@@ -75,12 +86,12 @@ const isEdit = computed(() => {
       <span v-if="isEdit">Изменить</span> 
       <span v-else-if="queryType">Дублирование</span>
       <span v-else>Создать новыю</span>
-      прейскурант
+      Рацион
     </div>
     <div>
       <button
         :disabled="visibleAlert"
-        @click="savePrice()"
+        @click="saveRation()"
         class="flex flex-row bg-[#7000FF] disabled:bg-[#6f00ff41] cursor-pointer disabled:cursor-not-allowed text-white rounded-[1rem] py-[0.4rem] px-[0.9rem]"
       >
       <span v-if="isEdit">Изменить</span>
@@ -143,6 +154,57 @@ const isEdit = computed(() => {
             >Ед. измерения</label
           >
         </div>
+
+        <div class="relative z-0 w-full group">
+          <input
+            type="number"
+            name="rate"
+            id="rate"
+            v-model="rate"
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
+            placeholder=" "
+            required
+          />
+          <label
+            for="rate"
+            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+            >Rate</label
+          >
+        </div>
+
+        <div class="relative z-0 w-full group">
+          <input
+            type="text"
+            name="producer_name"
+            id="producer_name"
+            v-model="producer_name"
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
+            placeholder=" "
+            required
+          />
+          <label
+            for="producer_name"
+            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+            >Имя производителя</label
+          >
+        </div>
+
+        <div class="relative z-0 w-full group">
+          <input
+            type="number"
+            name="concentration"
+            id="concentration"
+            v-model="concentration"
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
+            placeholder=" "
+            required
+          />
+          <label
+            for="concentration"
+            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+            >Концентрация</label
+          >
+        </div>
         
 
       </div>
@@ -152,14 +214,14 @@ const isEdit = computed(() => {
     <!-- <hr class="h-px my-8 bg-gray-200 border-0" /> -->
     <div class="inline-flex items-center justify-center mt-4 w-full">
       <hr class="w-full h-px my-8 bg-gray-200 border-0">
-      <span class="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-[10%]">
-        Цены cырые
+      <span class="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-[8%]">
+        Рационы
       </span>
     </div>
 
 
     <div 
-      v-for="_, index in price_raws" 
+      v-for="_, index in ration_raws" 
       class="grid md:grid-cols-3 md:gap-6 my-6"
     >
       <div class="relative z-0 w-full group">
@@ -170,7 +232,7 @@ const isEdit = computed(() => {
           </label>
           
           <select 
-            v-model="price_raws[index]['raw_id']"
+            v-model="ration_raws[index]['raw_id']"
             id="`raw${index}`"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
           >
@@ -189,7 +251,7 @@ const isEdit = computed(() => {
           type="number"
           name="unit_rato"
           :id="`unit_ratio${index}`"
-          v-model="price_raws[index]['price']"
+          v-model="ration_raws[index]['ratio']"
           :class="{'border-red-700':visibleAlert}"
           class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
           placeholder=" "
@@ -198,7 +260,7 @@ const isEdit = computed(() => {
           :for="`unit_ratio${index}`"
           :class="{'text-red-700':visibleAlert}"
           class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-          >Price
+          >Соотношение
         </label>
       </div>
       
@@ -213,11 +275,11 @@ const isEdit = computed(() => {
       </button>
 
       <button
-        v-if="price_raws.length"
+        v-if="ration_raws.length"
         @click="removeRawInput()"
         class="mt-4 text-[#F93D3D] ml-2 hover:text-white hover:bg-[#F93D3D] border border-[#F93D3D] text-sm py-[0.5rem] px-[0.9rem] rounded-[0.8rem]"
       >
-        Удалить сырье
+        Удалить Рацион
       </button>
     </div>
   </div>

@@ -8,6 +8,8 @@ import {
     UsersIcon,
     ClientsIcon,
     PricesIcon,
+    RationsIcon,
+    UserActivityIcon,
     ProgressIcon
   } from "../assets/svg";  
 </script>
@@ -67,6 +69,17 @@ import {
         </li>
         <li>
           <RouterLink
+            to="/rations"
+            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+          >
+            <RationsIcon
+              class="flex-shrink-0 w-6 h-6 text-gray-900"
+            />
+            <span class="ml-3">Рационы</span>
+          </RouterLink>
+        </li>
+        <li>
+          <RouterLink
             to="/animals"
             class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
           >
@@ -98,6 +111,17 @@ import {
             <span class="ml-3">Пользователи</span>
           </RouterLink>
         </li>
+        <!-- <li>
+          <RouterLink
+            to="/activity"
+            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+          >
+            <UserActivityIcon
+              class="flex-shrink-0 w-6 h-6 text-gray-900"
+            />
+            <span class="ml-3">Журнал Активности</span>
+          </RouterLink>
+        </li> -->
       </ul>
     </div>
   </aside>

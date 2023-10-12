@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { IClients, IReceipts, IAnimalTypes, IState } from "../types";
-import { watch, computed } from "vue";
+import type { IClients, IReceipts, IState } from "../types";
 import { useRouter } from "vue-router";
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
@@ -10,7 +9,6 @@ const router = useRouter()
 const props = defineProps<{
   clients: IClients[],
   receipts: IReceipts[],
-  animalTypes: any,
   state: IState
 }>()
 
@@ -18,20 +16,6 @@ const emit = defineEmits<{
   onSaveStateOrder: [state: IState ]
 }>()
 
-
-watch(props.state.selectedAnimalTypes, () => {
-  props.state.selectedAnimalTypes.value ? '' : props.state.animal_type_id = null
-},
-{
-  deep: true
-})
-
-
-const computedAnimalTypes = computed(() => {
-  return props.animalTypes.filter((item) => {
-    return item.id == props.state.selectedAnimalTypes
-  })
-})
 
 const goNextStep = async () => {
   const result = await v$.value.$validate()
@@ -50,8 +34,6 @@ const rules = {
   date: { required },
   receipt: { required },
   amount: { required },
-  selectedAnimalTypes: { required },
-  animal_type_id: { required }
 
 }
 const v$ = useVuelidate(rules, props.state)
@@ -122,10 +104,7 @@ const v$ = useVuelidate(rules, props.state)
       </div>
 
       <div class="grid md:grid-cols-2 md:gap-6">
-        <!-- <code>
-          {{ state.receipt }}
-        </code> -->
-        <div class="relative z-0 w-full mb-10 group">
+        <div class="relative z-0 w-full mb-5 group">
           <label
             for="receipts"
             :class="{'text-red-700':v$.receipt.$errors.length}"
@@ -155,7 +134,7 @@ const v$ = useVuelidate(rules, props.state)
           </span>
         </div>
         
-        <div class="relative z-0 w-full mb-10 group">
+        <div class="relative z-0 w-full mb-5 group">
           <input
             type="number"
             name="amount"
@@ -181,75 +160,7 @@ const v$ = useVuelidate(rules, props.state)
           </span>
         </div>
       </div>
-
-      <div class="grid md:grid-cols-2 md:gap-6">
-        
-        <div class="relative z-0 w-full mb-10 group">
-          <label
-            for="animal_types"
-            :class="{'text-red-700':v$.selectedAnimalTypes.$errors.length}"
-            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Вид животных
-          </label>
-          <select
-            v-model="state.selectedAnimalTypes" 
-            id="animal_types"
-            :class="{'border border-red-700':v$.selectedAnimalTypes.$errors.length}"
-            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
-          >
-            <option></option>
-            <option 
-              v-for="animal, index in animalTypes"
-              :key="index"
-              :value="animal.id"
-            >
-            {{animal.name}} ( {{animal.children.length}} )
-          </option>
-          </select>
-          <span 
-            class="absolute pt-1 text-[0.7rem] text-red-700" 
-            v-for="error in v$.selectedAnimalTypes.$errors" 
-            :key="error.$uid"
-          >
-            <span class="ml-1">Поле не может быть пустым.</span>
-          </span>
-        </div>
-
-        <div class="relative z-0 w-full mb-10 group">
-          <label
-            for="floating_animal_type"
-            :class="{'text-red-700':v$.animal_type_id.$errors.length}"
-            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Тип животных
-          </label>
-          
-          <select
-            :disabled="!state.selectedAnimalTypes"
-            id="floating_animal_type"
-            v-model="state.animal_type_id"
-            :class="{'border border-red-700':v$.animal_type_id.$errors.length}"
-            class="block px-2.5 pb-2.5 pt-4 disabled:cursor-not-allowed disabled:border-red-200 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
-          >
-            <option></option>
-            <option 
-              v-for="selectedAnimal, index in computedAnimalTypes[0]?.children"
-              :key="index"
-              :value="selectedAnimal.id"
-              >
-              {{selectedAnimal.name}}
-            </option>
-          </select>
-          <span 
-            class="absolute pt-1 text-[0.7rem] text-red-700" 
-            v-for="error in v$.animal_type_id.$errors" 
-            :key="error.$uid"
-          >
-            <span class="ml-1">Поле не может быть пустым.</span>
-          </span>
-        </div>
-      </div>
     </form>
-
     <div class="flex justify-end mt-8">
       <button
         @click="goNextStep()"

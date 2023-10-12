@@ -6,3 +6,7 @@ export * as ApiAnimalTypes from "./animals";
 export * as ApiRaws from "./raws";
 export * as ApiUsers from "./users";
 export * as ApiPrices from "./prices";
+export * as ApiRations from "./rations";
+export * as ApiRawTypes from "./rawTypes";
+export * as ApiProducers from "./producers";
+export * as ApiBunkers from "./bunkers";

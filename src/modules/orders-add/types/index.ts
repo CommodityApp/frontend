@@ -26,8 +26,8 @@ export interface IAnimalTypes {
 export interface IState {
     client_id: number | string,
     receipt: any,
-    animal_type_id: number,
-    selectedAnimalTypes: any,
+    animal_type_id?: number,
+    selectedAnimalTypes?: any,
     date: string,
     amount: number
   }

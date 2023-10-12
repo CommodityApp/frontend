@@ -2,7 +2,7 @@
 import OrdersAddForm from "../components/OrdersAddForm.vue";
 import Breadcrumb from "../../../app/components/Breadcrumb.vue";
 import useModule from "../useModule";
-const { clients, receipts, animalTypes, state, onSaveStateOrder } = useModule()
+const { clients, receipts, state, onSaveStateOrder } = useModule()
 
 </script>
 <template>
@@ -10,8 +10,7 @@ const { clients, receipts, animalTypes, state, onSaveStateOrder } = useModule()
     <Breadcrumb />
     <OrdersAddForm 
       :clients="clients" 
-      :receipts="receipts"
-      :animalTypes="animalTypes" 
+      :receipts="receipts" 
       :state="state"
       @onSaveStateOrder="onSaveStateOrder"
     />

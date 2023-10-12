@@ -2,7 +2,7 @@ import { ApiOrders } from "@/shared/api";
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useNotification } from "@kyvg/vue3-notification";
-import  useOrdersStore  from "@/app/stores/OrdersStore";
+import useOrdersStore from "@/app/stores/OrdersStore";
 
 export default function useModule() {
     const selectedData = ref()
@@ -27,15 +27,13 @@ export default function useModule() {
     // console.log('get: ',selectedData.value)//batch_inputs[], batch_quantity, error
         ordersStore.newOrderState.client_id = selectedData.value.client.id
         ordersStore.newOrderState.receipt = {'id':selectedData.value.receipt.id, 'name':selectedData.value.receipt.name}  
-        ordersStore.newOrderState.selectedAnimalTypes = selectedData.value.animal_type.parent_id
-        ordersStore.newOrderState.animal_type_id = selectedData.value.animal_type.id
         ordersStore.newOrderState.date = selectedData.value.date
         ordersStore.newOrderState.amount = selectedData.value.amount
 
         ordersStore.newOrderState.batch_inputs = selectedData.value.batch_inputs
         ordersStore.newOrderState.batch_quantity = selectedData.value.batch_quantity
         ordersStore.newOrderState.error = parseFloat(((selectedData.value.error - 1) * 100).toPrecision(3))
-    // console.log('order error set', ordersStore.newOrderState.error)
+
         ordersStore.newOrderState.receipt_id = selectedData.value.receipt.id
         ordersStore.newOrderState.receipt_name = selectedData.value.receipt.name
         // ---------------------------------------------------------------------

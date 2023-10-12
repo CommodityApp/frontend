@@ -1,5 +1,5 @@
 import { onMounted, ref } from "vue";
-import { ApiRaws } from "@/shared/api";
+import { ApiRaws, ApiRawTypes, ApiProducers, ApiBunkers } from "@/shared/api";
 import { useNotification } from "@kyvg/vue3-notification";
 import { useRouter, useRoute } from "vue-router";
 
@@ -9,11 +9,14 @@ export default function useModule() {
   const route = useRoute();
   const isLoading = ref<boolean>(false);
   const rawsData = ref();
+  const rawTypes = ref();
+  const producers = ref();
+  const bunkers = ref();
 
-  const saveRaw = async (raw_name) => {
+  const saveRaw = async (rawsData) => {
     try {
       isLoading.value = true;
-      await ApiRaws.saveRaw(raw_name);
+      await ApiRaws.saveRaw(rawsData);
 
       router.push("/raws");
       notify({
@@ -30,10 +33,10 @@ export default function useModule() {
     }
   };
 
-  const updateRaw = async (raw_name) => {
+  const updateRaw = async (rawsData) => {
     try {
       isLoading.value = true;
-      await ApiRaws.updateRaw(route.query.id, raw_name).then(() => {
+      await ApiRaws.updateRaw(route.query.id, rawsData).then(() => {
         router.push("/raws");
         notify({
           type: "success",
@@ -59,9 +62,50 @@ export default function useModule() {
     }
   };
 
+  const getRawTypes = async () => {
+    try {
+      isLoading.value = true;
+      const { data } = await ApiRawTypes.getRawTypes()
+      if(data){
+        rawTypes.value = data
+      }
+    } catch(error: any){
+      console.log('error in rawtypes api', error)
+    } finally {
+      isLoading.value = false
+    }
+  }
+  const getProducers = async () => {
+    try {
+      isLoading.value = true;
+      const { data } = await ApiProducers.getProducers()
+      if(data){
+        producers.value = data
+      }
+    } catch(error: any){
+      console.log('error in producers api', error)
+    } finally {
+      isLoading.value = false
+    }
+  }
+  const getBunkers = async () => {
+    try {
+      isLoading.value = true;
+      const { data } = await ApiBunkers.getBunkers()
+      if(data){
+        bunkers.value = data
+      }
+    } catch(error: any){
+      console.log('error in bunkers api', error)
+    } finally {
+      isLoading.value = false
+    }
+  }
+
   onMounted(() => {
-    if (route.query.id) {
-      getSingleRaw(route.query.id);
+    Promise.allSettled([getRawTypes(), getProducers(), getBunkers()])
+    if (route.query.id) { 
+      getSingleRaw(route.query.id)    
     }
   });
 
@@ -69,6 +113,9 @@ export default function useModule() {
     isLoading,
     saveRaw,
     updateRaw,
+    rawTypes,
+    producers,
+    bunkers,
     rawsData,
   };
 }

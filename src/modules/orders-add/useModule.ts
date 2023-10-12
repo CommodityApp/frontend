@@ -1,4 +1,4 @@
-import { ApiClients, ApiReceipts, ApiAnimalTypes } from "@/shared/api";
+import { ApiClients, ApiReceipts } from "@/shared/api";
 import { IState } from "./types";
 import { onMounted, ref, reactive } from "vue";
 import useOrdersStore from "@/app/stores/OrdersStore"
@@ -7,14 +7,14 @@ export default function useModule() {
   const isLoading = ref<boolean>(false);
   const clients = ref([]);
   const receipts = ref([]);
-  const animalTypes = ref([]);
+  // const animalTypes = ref([]);
   const ordersStore = useOrdersStore()
 
   const state = reactive<IState>({
     client_id: null,
     receipt: null,
-    animal_type_id: null,
-    selectedAnimalTypes: {},
+    // animal_type_id: null,
+    // selectedAnimalTypes: {},
     date: new Date().toISOString().slice(0,10),
     amount: null
   })
@@ -40,15 +40,15 @@ export default function useModule() {
       }
   }
 
-  const getAnimalTypes = async () => {
-    try {
-        const { data } = await ApiAnimalTypes.getAnimalTypes();
-        animalTypes.value = data;
+  // const getAnimalTypes = async () => {
+  //   try {
+  //       const { data } = await ApiAnimalTypes.getAnimalTypes();
+  //       animalTypes.value = data;
         
-    } catch(e: any){
-      console.log("Error Animal Types api: ", e);
-    }
-  }
+  //   } catch(e: any){
+  //     console.log("Error Animal Types api: ", e);
+  //   }
+  // }
   
 
   const onSaveStateOrder = (state: IState) => {
@@ -59,8 +59,8 @@ export default function useModule() {
     if(ordersStore.newOrderState.client_id){
       state.client_id = ordersStore.newOrderState.client_id
       state.receipt = ordersStore.newOrderState.receipt
-      state.selectedAnimalTypes = ordersStore.newOrderState.selectedAnimalTypes
-      state.animal_type_id = ordersStore.newOrderState.animal_type_id
+      // state.selectedAnimalTypes = ordersStore.newOrderState.selectedAnimalTypes
+      // state.animal_type_id = ordersStore.newOrderState.animal_type_id
       state.date = ordersStore.newOrderState.date
       state.amount = ordersStore.newOrderState.amount
       
@@ -71,7 +71,7 @@ export default function useModule() {
   onMounted(async () => {
     try {
       isLoading.value = true;
-      await Promise.allSettled([getClients(), getReceipts(), getAnimalTypes()])
+      await Promise.allSettled([getClients(), getReceipts()])
     } catch (e: any) {
       
       console.log("Error: ", e);
@@ -84,7 +84,6 @@ export default function useModule() {
   return {
     clients,
     receipts,
-    animalTypes,
     isLoading,
     state,
     onSaveStateOrder

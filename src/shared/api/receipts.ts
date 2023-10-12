@@ -21,6 +21,7 @@ export const saveReceipt = async (receipt: any) => {
         rate: receipt.rate,
         code: receipt.code,
         unit: receipt.unit,
+        animal_type_id: receipt.animal_type_id,
         producer_name: receipt.producer_name,
         concentration: receipt.concentration,
         receipt_raws: receipt.receipt_raws
@@ -36,6 +37,7 @@ export const updateReceipt = async (id:any, receipt: any) => {
         rate: receipt.rate,
         code: receipt.code,
         unit: receipt.unit,
+        animal_type_id: receipt.animal_type_id,
         producer_name: receipt.producer_name,
         concentration: receipt.concentration,
         receipt_raws: receipt.receipt_raws

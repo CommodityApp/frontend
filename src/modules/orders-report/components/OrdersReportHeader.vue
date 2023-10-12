@@ -24,7 +24,7 @@ defineProps<{
           <span class="text-[#696969] text-sm font-medium leading-5">
             [Вид/Тип] животных:
           </span>
-          <span class="font-bold ml-1">{{ selectedData?.animal_type?.name }}</span>
+          <span class="font-bold ml-1">{{ selectedData?.receipt?.animal_type?.name }}</span>
         </div>
 
         <div class="text-black mr-6 p-2 items-center rounded-[0.8rem] bg-[#F3F4F6]">
