@@ -164,11 +164,25 @@ const router = createRouter({
     },
     {
       path: '/clients',
-      name: 'clients',
-      component: () => import("../../pages/clients/ClientsPage.vue"),
-      meta: {
-        title: "clients",
-      }
+      name:'clients-container',
+      children: [
+        {
+          path: '/clients',
+          name: 'clients',
+          component: () => import("../../pages/clients/ClientsPage.vue"),
+          meta: {
+            title: "clients",
+          }
+        },
+        {
+          path: '/clients-add',
+          name: 'clients-add',
+          component: () => import("../../pages/clients/ClientsAddPage.vue"),
+          meta: {
+            title: "clients-add",
+          }
+        },
+      ]
     },
     {
       path: '/login',

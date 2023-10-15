@@ -1,7 +1,7 @@
 import { ref, onMounted } from "vue";
 import { ApiRaws } from "@/shared/api";
 import { useNotification } from "@kyvg/vue3-notification";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 
 export default function useModule() {
     const isLoading = ref<boolean>(false)

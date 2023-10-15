@@ -1,15 +1,23 @@
 <script setup lang="ts">
 import { DeleteIcon, EditIcon } from "../../../app/assets/svg";
-defineProps<{
-  isLoading: boolean;
-  clientsData: any;
+const props = defineProps<{
+  isLoading: boolean
+  clientsData: any
+  deleteClient: any
+  editClient: any
 }>();
+const deleteSingleClient = (id, name) => {
+  window.confirm(`Вы действительно хотите удалить ${name} клиента?`) ? props.deleteClient(id) : null
+}
+const editSingleClient = (id) => {
+  props.editClient(id)
+}
 </script>
 <template>
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <div
       v-if="isLoading"
-      class="flex items-center mt-1 justify-center w-full h-[70vh] bg-white"
+      class="flex items-center mt-1 justify-center w-full h-[70vh] sm:rounded-lg bg-white"
     >
       <div
         class="px-3 py-1 text-sm font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse"
@@ -38,7 +46,8 @@ defineProps<{
           <tr
             v-for="(client, index) in clientsData"
             :key="index"
-            class="bg-white border-b text-gray-900 hover:bg-gray-50"
+            @click="editSingleClient(client.id)"
+            class="bg-white border-b cursor-pointer text-gray-900 hover:bg-gray-50"
           >
             <td class="px-6 py-4">{{ index + 1 }}</td>
             <td class="px-6 py-4">{{ client.name }}</td>
@@ -46,12 +55,12 @@ defineProps<{
             <td class="px-6 py-4">{{ client.company }}</td>
             <td class="px-6 py-4">{{ client.industry }}</td>
             <td class="px-6 py-4 flex gap-x-4 justify-end">
-              <EditIcon
-                @click=""
+              <!-- <EditIcon
+                @click.stop="editSingleClient(client.id)"
                 class="w-5 h-5 mr-2 text-[#7000FF] cursor-pointer"
-              />
+              /> -->
               <DeleteIcon
-                @click=""
+                @click.stop="deleteSingleClient(client.id, client.name)"
                 class="w-5 h-5 text-red-700 hover:outline hover:outline-red-200 rounded-[4px] cursor-pointer"
               />
             </td>

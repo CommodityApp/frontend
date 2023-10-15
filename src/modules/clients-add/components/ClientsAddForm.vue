@@ -1,35 +1,33 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
 
 const props = defineProps<{
-  saveRaw: any
-  updateRaw: any
-  rawsData: any
-  rawTypes: any
-  producers: any
-  bunkers: any
+  isLoading: any
+  saveClient: any
+  updateClient: any
+  clientsData: any
+  getCountries: any,
+  countriesData: any,
 }>();
 
-const raw_name = ref("");
-const code = ref();
-const unit = ref();
-const concentration = ref();
-const raw_type_id = ref();
-const producer_id = ref();
-const bunker_id = ref();
+const name = ref("");
+const industry = ref();
+const region = ref();
+const company = ref();
+const country = ref();
 
 watch(
-  () => props.rawsData,
+  () => props.clientsData,
   () => {
-    if (props.rawsData?.name) {
-      raw_name.value = props.rawsData?.name;
-      code.value = props.rawsData?.code;
-      unit.value = props.rawsData?.unit;
-      raw_type_id.value = props.rawsData.raw_type?.id
-      concentration.value = props.rawsData?.concentration;
-      producer_id.value = props.rawsData?.producer?.id
-      bunker_id.value = props.rawsData?.bunker?.id
-      
+    console.log('test', props.clientsData?.country?.id)
+    if (props.clientsData?.name) {
+      name.value = props.clientsData?.name;
+      industry.value = props.clientsData?.industry;
+      region.value = props.clientsData?.region;
+      company.value = props.clientsData.company;
+      country.value = props.clientsData?.country;    
     }
   },
   {
@@ -38,24 +36,22 @@ watch(
 );
 
 const isEnabled = computed(() => {
-  return raw_name.value.trim().length;
+  return name.value.trim().length;
 });
 
 const isEdited = computed(() => {
-  return !!props.rawsData?.name;
+  return !!props.clientsData?.name;
 });
 
 const saveEditRaw = () => {
-  const rawsData = {
-      raw_name: raw_name.value,
-      code: code.value,
-      unit: unit.value, 
-      raw_type_id: raw_type_id.value,
-      concentration: null,
-      producer_id: producer_id.value, 
-      bunker_id: bunker_id.value
+  const clientsData = {
+    name: name.value,
+    industry: industry.value,
+    region: region.value, 
+    company: company.value,
+    country_id: country.value.id,
   }
-  isEdited.value ? props.updateRaw(rawsData) : props.saveRaw(rawsData);
+  isEdited.value ? props.updateClient(clientsData) : props.saveClient(clientsData);
 };
 </script>
 <template>
@@ -63,7 +59,7 @@ const saveEditRaw = () => {
     <div class="self-center text-2xl font-bold leading-7">
       <span v-if="isEdited"> Изменить </span>
       <span v-else> Создать новыю </span>
-      Cырьё
+      Клиент
     </div>
 
     <div>
@@ -79,139 +75,112 @@ const saveEditRaw = () => {
   </div>
 
   <div
-    class="relative overflow-x-auto bg-white shadow-md sm:rounded-lg px-5 py-6"
+    class="relative h-screen overflow-x-auto bg-white shadow-md sm:rounded-lg px-5 py-6"
   >
     <form>
       <div class="grid md:grid-cols-2 md:gap-6">
         <div class="relative z-0 w-full group">
           <input
             type="text"
-            name="raw_name"
-            v-model="raw_name"
-            id="raw_name"
+            name="name"
+            v-model="name"
+            id="name"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
             placeholder=" "
             required
           />
           <label
-            for="raw_name"
+            for="name"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Hазвание сырья</label
+            >Hазвание</label
           >
         </div>
 
         <div class="relative z-0 w-full group">
           <input
             type="text"
-            name="code"
-            v-model="code"
-            id="code"
+            name="industry"
+            v-model="industry"
+            id="industry"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
             placeholder=" "
             required
           />
           <label
-            for="code"
+            for="industry"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Код</label
+            >Промышленность</label
           >
         </div>
 
         <div class="relative z-0 w-full group">
           <input
             type="text"
-            name="unit"
-            v-model="unit"
-            id="unit"
+            name="region"
+            v-model="region"
+            id="region"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
             placeholder=" "
             required
           />
           <label
-            for="unit"
+            for="region"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Единица</label
+            >Регион</label
           >
         </div>
 
-        <!-- <div class="relative z-0 w-full group">
+        <div class="relative z-0 w-full group">
           <input
-            type="number"
-            name="concentration"
-            v-model="concentration"
-            id="concentration"
+            type="text"
+            name="company"
+            v-model="company"
+            id="company"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
             placeholder=" "
             required
           />
           <label
-            for="concentration"
+            for="company"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Концентрация</label
+            >Компания</label
           >
-        </div> -->
+        </div>
 
-        <div class="relative z-0 w-full group">
+        <div class="relative mb-16 z-0 w-full group">
+          <v-select
+          
+            v-model="country"
+            @input="getCountries($event.target.value)"
+            :options="countriesData" 
+            label="name">
+              <template #no-options>
+                <p class="text-gray-400">Страна не найдена</p>
+              </template>
+          </v-select>
+
           <label
             for="raw_type"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Тип Сырья
+            >Страна
           </label>
-          <select
-            v-model="raw_type_id"
+          <!-- <select
+            v-model="country"
             id="raw_type"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
           >
-            <option></option>
-            <option  
-              v-for="rawType, index in rawTypes"
-              :key="index"
-              :value="rawType.id">
-              {{ rawType.name }}
+            <option>
+              <input type="text"/>
             </option>
-          </select>
+            <option  
+              v-for="country, index in countriesData"
+              :key="index"
+              :value="country.id">
+              {{ country.name }}
+            </option>
+          </select> -->
         </div>
 
-        <div class="relative z-0 w-full group">
-          <label
-            for="producer"
-            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Производитель
-          </label>
-          <select
-            v-model="producer_id"
-            id="producer"
-            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
-          >
-            <option></option>
-            <option  
-              v-for="producer, index in producers"
-              :key="index"
-              :value="producer.id">
-              {{ producer.name }}
-            </option>
-          </select>
-        </div>
-        <div class="relative z-0 w-full group">
-          <label
-            for="bunker"
-            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Бункер
-          </label>
-          <select
-            v-model="bunker_id"
-            id="bunker"
-            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
-          >
-            <option></option>
-            <option  
-              v-for="bunker, index in bunkers"
-              :key="index"
-              :value="bunker.id">
-              {{ bunker.name }}
-            </option>
-          </select>
-        </div>
 
       </div>
     </form>
