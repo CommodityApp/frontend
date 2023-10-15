@@ -15,3 +15,33 @@ export const getSingleRawType = async (id) => {
         ...data
     }
 }
+
+export const saveRawType = async (rawTypeData) => {
+    const { data } = await axios.post('/raw-types',{
+        name: rawTypeData.name,
+        unit: rawTypeData.unit
+    })
+
+    return {
+        ...data
+    }
+}
+
+export const updateRawType = async (id, rawTypeData) => {
+    const { data } = await axios.put(`/raw-types/${id}`,{
+        name: rawTypeData.name,
+        unit: rawTypeData.unit
+    })
+
+    return {
+        ...data
+    }
+}
+
+export const deleteRawType = async (id) => {
+    const { data } = await axios.delete(`/raw-types/${id}`)
+
+    return {
+        ...data
+    }
+}

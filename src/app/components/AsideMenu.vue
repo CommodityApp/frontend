@@ -10,7 +10,9 @@ import {
     PricesIcon,
     RationsIcon,
     UserActivityIcon,
-    ProgressIcon
+    ProgressIcon,
+    ProducersIcon,
+    RawTypesIcon
   } from "../assets/svg";  
 </script>
 <template>
@@ -43,7 +45,17 @@ import {
             <span class="ml-3">Рецепты</span>
           </RouterLink>
         </li>
-        
+        <li>
+          <RouterLink
+            to="/raw-types"
+            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+          >
+            <RawTypesIcon
+              class="flex-shrink-0 w-6 h-6 text-gray-900"
+            />
+            <span class="ml-3">Тип Сырья</span>
+          </RouterLink>
+        </li>
         <li>
           <RouterLink
             to="/raws"
@@ -87,6 +99,17 @@ import {
               class="flex-shrink-0 w-6 h-6 text-gray-900"
             />
             <span class="ml-3">Виды животных</span>
+          </RouterLink>
+        </li>
+        <li>
+          <RouterLink
+            to="/producers"
+            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+          >
+            <ProducersIcon
+              class="flex-shrink-0 w-6 h-6 text-gray-900"
+            />
+            <span class="ml-3">Производители</span>
           </RouterLink>
         </li>
         <li>

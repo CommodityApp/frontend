@@ -213,6 +213,50 @@ const router = createRouter({
       ]
     },
     {
+      path: '/producers',
+      name:'producers-container',
+      children: [
+        {
+          path: '/producers',
+          name: 'producers',
+          component: () => import("../../pages/producers/ProducersPage.vue"),
+          meta: {
+            title: "producers",
+          }
+        },
+        {
+          path: '/producers-add',
+          name: 'producers-add',
+          component: () => import("../../pages/producers/ProducersAddPage.vue"),
+          meta: {
+            title: "producers-add",
+          }
+        },
+      ]
+    },
+    {
+      path: '/raw-types',
+      name:'raw-types-container',
+      children: [
+        {
+          path: '/raw-types',
+          name: 'raw-types',
+          component: () => import("../../pages/raw-types/RawTypesPage.vue"),
+          meta: {
+            title: "raw-types",
+          }
+        },
+        {
+          path: '/raw-types-add',
+          name: 'raw-types-add',
+          component: () => import("../../pages/raw-types/RawTypesAddPage.vue"),
+          meta: {
+            title: "raw-types-add",
+          }
+        },
+      ]
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import("../../pages/auth/LoginPage.vue"),

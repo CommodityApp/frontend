@@ -489,3 +489,45 @@ export const UserActivityIcon = () => (
     ></path>
   </svg>
 );
+
+export const ProducersIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M22 22H2V10l7-3v2l5-2v3h3l1-8h3l1 8v12zM12 9.95l-5 2V10l-3 1.32V20h16v-8h-8V9.95zM11 18h2v-4h-2v4zm-4 0h2v-4H7v4zm10-4h-2v4h2v-4z"
+      fill="currentColor"
+    ></path>
+  </svg>
+);
+
+export const RawTypesIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    viewBox="0 0 32 32"
+  >
+    <path
+      d="M30 15H17V2h-2v13H2v2h13v13h2V17h13v-2z"
+      fill="currentColor"
+    ></path>
+    <path
+      d="M25.586 20L27 21.414L23.414 25L27 28.586L25.586 30l-5-5l5-5z"
+      fill="currentColor"
+    ></path>
+    <path
+      d="M11 30H3a1 1 0 0 1-.894-1.447l4-8a1.041 1.041 0 0 1 1.789 0l4 8A1 1 0 0 1 11 30zm-6.382-2h4.764L7 23.236z"
+      fill="currentColor"
+    ></path>
+    <path
+      d="M28 12h-6a2.002 2.002 0 0 1-2-2V4a2.002 2.002 0 0 1 2-2h6a2.002 2.002 0 0 1 2 2v6a2.002 2.002 0 0 1-2 2zm-6-8v6h6.001L28 4z"
+      fill="currentColor"
+    ></path>
+    <path
+      d="M7 12a5 5 0 1 1 5-5a5.006 5.006 0 0 1-5 5zm0-8a3 3 0 1 0 3 3a3.003 3.003 0 0 0-3-3z"
+      fill="currentColor"
+    ></path>
+  </svg>
+);
