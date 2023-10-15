@@ -1,7 +1,7 @@
 import axios from "../plugins/axios";
 
 export const getRations = async () => {
-    const { data } = await axios.get("/rations?include=rationRaws.raw.lastRawPrice,firstActivity.causer")
+    const { data } = await axios.get("/rations?include=firstActivity.causer,receipt")
     return {
         ...data
     }
