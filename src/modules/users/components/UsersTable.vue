@@ -1,9 +1,18 @@
 <script setup lang="ts">
 import { DeleteIcon, EditIcon } from "../../../app/assets/svg";
-defineProps<{
-  isLoading: boolean;
-  usersData: any;
+const props = defineProps<{
+  isLoading: boolean
+  usersData: any
+  deleteUser: any
+  editUser: any
 }>();
+
+const deleteSingleUser = (id, name) => {
+  window.confirm(`Вы действительно хотите удалить ${name} пользователь?`) ? props.deleteUser(id) : null
+}
+const editSingleUser = (id) => {
+  props.editUser(id)
+}
 </script>
 <template>
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -33,24 +42,24 @@ defineProps<{
           </tr>
         </thead>
 
-        <tbody>
-            <!-- v-for="(user, index) in usersData"
-            :key="index" -->
+        <tbody>    
           <tr
-            
-            class="bg-white border-b text-gray-900 hover:bg-gray-50"
+            v-for="(user, index) in usersData"
+            :key="index"
+            @click="editSingleUser(user.id)"
+            class="bg-white border-b cursor-pointer text-gray-900 hover:bg-gray-50"
           >
-            <td class="px-6 py-4">{{usersData.id }}</td>
-            <td class="px-6 py-4">{{ usersData.name }}</td>
-            <td class="px-6 py-4">{{ usersData.email }}</td>
-            <td class="px-6 py-4">{{ usersData.created_at.slice(0,10) }}</td>
+            <td class="px-6 py-4">{{user.id }}</td>
+            <td class="px-6 py-4">{{ user.name }}</td>
+            <td class="px-6 py-4">{{ user.email }}</td>
+            <td class="px-6 py-4">{{ user?.created_at.slice(0,10) }}</td>
             <td class="px-6 py-4 flex gap-x-4 justify-end">
-              <EditIcon
+              <!-- <EditIcon
                 @click=""
                 class="w-5 h-5 mr-2 text-[#7000FF] cursor-pointer"
-              />
+              /> -->
               <DeleteIcon
-                @click=""
+                @click.stop="deleteSingleUser(user.id, user.name)"
                 class="w-5 h-5 text-red-700 hover:outline hover:outline-red-200 rounded-[4px] cursor-pointer"
               />
             </td>

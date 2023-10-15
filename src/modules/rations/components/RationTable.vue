@@ -58,13 +58,13 @@ const cloneRationById = (id, param) => {
             class="bg-white border-b cursor-pointer text-gray-900 hover:bg-gray-50"
             >
             <td class="px-6 py-4">{{ index + 1 }}</td>
-            <td class="px-6 py-4">{{ ration.code }}</td>
-            <td class="px-6 py-4">{{ ration.producer_name }}</td>
-            <td class="px-6 py-4">{{ ration.name }}</td>
-            <td class="px-6 py-4">{{ ration.unit }}</td>
+            <td class="px-6 py-4">{{ ration?.code }}</td>
+            <td class="px-6 py-4">{{ ration?.producer_name }}</td>
+            <td class="px-6 py-4">{{ ration?.name }}</td>
+            <td class="px-6 py-4">{{ ration?.unit }}</td>
             <td class="px-6 py-4">{{ ration?.receipt?.name }}</td>
-            <td class="px-6 py-4">{{ ration.created_at }}</td>
-            <td class="px-6 py-4">{{ ration.first_activity.causer.name }}</td>
+            <td class="px-6 py-4">{{ ration?.created_at }}</td>
+            <td class="px-6 py-4">{{ ration?.first_activity?.causer?.name }}</td>
             <td class="px-6 py-4 flex justify-end gap-x-4">
               <CloneIcon 
                 @click.stop="cloneRationById(ration.id, 'clone')"

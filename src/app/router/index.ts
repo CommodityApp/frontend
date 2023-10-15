@@ -156,11 +156,25 @@ const router = createRouter({
     },
     {
       path: '/users',
-      name: 'users',
-      component: () => import("../../pages/users/UsersPage.vue"),
-      meta: {
-        title: "users"
-      }
+      name:'users-container',
+      children: [
+        {
+          path: '/users',
+          name: 'users',
+          component: () => import("../../pages/users/UsersPage.vue"),
+          meta: {
+            title: "users"
+          }
+        },
+        {
+          path: '/users-add',
+          name: 'users-add',
+          component: () => import("../../pages/users/UsersAddPage.vue"),
+          meta: {
+            title: "users-add"
+          }
+        },
+      ]
     },
     {
       path: '/clients',
