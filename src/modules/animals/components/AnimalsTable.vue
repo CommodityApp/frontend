@@ -1,9 +1,17 @@
 <script setup lang="ts">
-import { DeleteIcon, EditIcon } from "../../../app/assets/svg";
-defineProps<{
-  isLoading: boolean;
-  animalsData: any;
+import { DeleteIcon } from "../../../app/assets/svg";
+const props = defineProps<{
+  isLoading: boolean
+  animalsData: any
+  deleteAnimalTypes: any
+  editAnimalsTypes: any
 }>();
+const deleteSingleAnimalType = (id, name) => {
+  window.confirm(`Вы действительно хотите удалить ${name} тип животного?`) ? props.deleteAnimalTypes(id) : null
+}
+const editSingleAnimalType = (id) => {
+  props.editAnimalsTypes(id)
+}
 </script>
 <template>
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -36,7 +44,8 @@ defineProps<{
           <tr
             v-for="(animals, index) in animalsData"
             :key="index"
-            class="bg-white border-b text-gray-900 hover:bg-gray-50"
+            @click.stop="editSingleAnimalType(animals.id)"
+            class="bg-white cursor-pointer border-b text-gray-900 hover:bg-gray-50"
           >
             <td class="px-6 py-4">{{ index + 1 }}</td>
             <td class="px-6 py-4">{{ animals.name }}</td>
@@ -49,12 +58,12 @@ defineProps<{
                 </span>
             </td>
             <td class="px-6 py-4 flex gap-x-4 justify-end">
-              <EditIcon
+              <!-- <EditIcon
                 @click=""
                 class="w-5 h-5 mr-2 text-[#7000FF] cursor-pointer"
-              />
+              /> -->
               <DeleteIcon
-                @click=""
+                @click.stop="deleteSingleAnimalType(animals.id, animals.name)"
                 class="w-5 h-5 text-red-700 hover:outline hover:outline-red-200 rounded-[4px] cursor-pointer"
               />
             </td>

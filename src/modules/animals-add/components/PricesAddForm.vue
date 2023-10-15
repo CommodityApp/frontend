@@ -3,19 +3,17 @@ import { computed, ref, watch } from "vue";
 
 const props = defineProps<{
   isLoading: boolean,
-  singlePrice: any,
+  singleAnimalType: any,
   queryType: any,
-  rawsData: any
 }>()
 
 const emit = defineEmits<{
-  onSavePrice: [priceData: any]
+  saveAnimalTypes: [animalTypeData: any]
 }>()
 
 const visibleAlert = ref<boolean>()
-const code = ref<string>()
 const name = ref<string>()
-const unit = ref<string>()
+
 const price_raws = ref([
   {
     raw_id:null, 
@@ -41,7 +39,7 @@ const savePrice = () => {
     unit: unit.value,
     price_raws: price_raws.value.filter((item) => {return item.raw_id !== null})
   }
-  emit("onSavePrice", newPrice)
+  emit("saveAnimalTypes", newPrice)
 }
 
 watch(() => props.singlePrice, () => {

@@ -148,11 +148,25 @@ const router = createRouter({
     },
     {
       path: '/animals',
-      name: 'animals',
-      component: () => import("../../pages/animals/AnimalsPage.vue"),
-      meta: {
-        title: "animals"
-      }
+      name:'animals-container',
+      children: [
+        {
+          path: '/animals',
+          name: 'animals',
+          component: () => import("../../pages/animals/AnimalsPage.vue"),
+          meta: {
+            title: "animals"
+          }
+        },
+        {
+          path: '/animals-add',
+          name: 'animals-add',
+          component: () => import("../../pages/animals/AnimalsAddPage.vue"),
+          meta: {
+            title: "animals-add"
+          }
+        },
+      ]
     },
     {
       path: '/users',

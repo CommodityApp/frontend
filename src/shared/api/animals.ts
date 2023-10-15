@@ -4,3 +4,39 @@ export const getAnimalTypes = async ()=> {
     const { data } = await axios.get("/animal-types?tree=true");
     return data
 }
+
+export const getSingleAnimalTypes = async (id)=> {
+    const { data } = await axios.get(`/animal-types/${id}`);
+    return {
+        ...data
+    }
+}
+
+export const saveAnimalTypes = async (animalTypeData) => {
+    const { data } = await axios.post('/animal-types', {
+        name: animalTypeData.name,
+        parent_id: animalTypeData.parent_id
+    })
+
+    return {
+        ...data
+    }
+}
+
+export const updateAnimalTypes = async (id, animalTypeData) => {
+    const { data } = await axios.put(`/animal-types/${id}`, {
+        name: animalTypeData.name,
+        parent_id: animalTypeData.parent_id
+    })
+
+    return {
+        ...data
+    }
+}
+
+export const deleteAnimalTypes = async (id)=> {
+    const { data } = await axios.delete(`/animal-types/${id}`);
+    return {
+        ...data
+    }
+}
