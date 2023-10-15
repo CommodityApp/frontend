@@ -1,6 +1,6 @@
 import {ref, onMounted} from "vue";
 import { ApiRations } from "@/shared/api";
-import { ApiRaws } from "@/shared/api";
+import { ApiRaws, ApiReceipts } from "@/shared/api";
 import { useRoute, useRouter } from "vue-router";
 import { useNotification } from "@kyvg/vue3-notification";
 
@@ -11,6 +11,7 @@ export default function useModule() {
     const route = useRoute()
     const singleRation = ref([])
     const rawsData = ref()
+    const receiptsData = ref()
     const queryType = ref()
 
 
@@ -33,7 +34,7 @@ export default function useModule() {
                 })
                 
             }
-            router.replace("/prices")
+            router.replace("/rations")
         } catch(error: any){
             isLoading.value = false
             const errors = error?.response?.data.errors
@@ -69,6 +70,21 @@ export default function useModule() {
             isLoading.value = false
         }
     }
+    const getReceipts = async () => {
+        try {
+            isLoading.value = true
+            const {data} = await ApiReceipts.getReceipts()
+            if(data){
+                receiptsData.value = data
+            }
+        } catch (error: any) {
+            isLoading.value = false
+
+            console.log("Error in receipts api: ", error)
+        } finally {
+            isLoading.value = false
+        }
+    }
 
     const getSingleRation = async(id) => {
         try{
@@ -92,6 +108,7 @@ export default function useModule() {
 
     onMounted(() => {
         getRaws()
+        getReceipts()
       
         if(route.query.id){
             getSingleRation(route.query.id)
@@ -102,6 +119,7 @@ export default function useModule() {
         isLoading,
         singleRation,
         rawsData,
+        receiptsData,
         queryType,
         onSaveRation
     }

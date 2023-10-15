@@ -14,7 +14,7 @@ export const saveRation = async (ration: any) => {
         code: ration.code,
         unit: ration.unit,
         producer_name: ration.producer_name,
-        concentration: ration.concentration,
+        receipt_id: ration.receipt_id,
         animal_type_id: ration.animal_type_id,
         ration_raws: ration.ration_raws
     })
@@ -31,7 +31,7 @@ export const updateRation = async (id:any, ration: any) => {
         code: ration.code,
         unit: ration.unit,
         producer_name: ration.producer_name,
-        concentration: ration.concentration,
+        receipt_id: ration.receipt_id,
         animal_type_id: ration.animal_type_id,
         ration_raws: ration.ration_raws
    })

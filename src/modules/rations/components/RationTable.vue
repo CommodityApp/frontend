@@ -43,7 +43,7 @@ const cloneRationById = (id, param) => {
             <th scope="col" class="px-6 py-3">Имя производителя</th>
             <th scope="col" class="px-6 py-3">Название</th>
             <th scope="col" class="px-6 py-3">Единица</th>
-            <th scope="col" class="px-6 py-3">Концентрация</th>
+            <th scope="col" class="px-6 py-3">Рецепт</th>
             <th scope="col" class="px-6 py-3">Создан</th>
             <th scope="col" class="px-6 py-3">Создан кем</th>
             <th scope="col" class="px-6 py-3 text-end">Действия</th>
@@ -62,7 +62,7 @@ const cloneRationById = (id, param) => {
             <td class="px-6 py-4">{{ ration.producer_name }}</td>
             <td class="px-6 py-4">{{ ration.name }}</td>
             <td class="px-6 py-4">{{ ration.unit }}</td>
-            <td class="px-6 py-4">{{ ration.concentration }}</td>
+            <td class="px-6 py-4">{{ ration?.receipt?.id }}</td>
             <td class="px-6 py-4">{{ ration.created_at }}</td>
             <td class="px-6 py-4">{{ ration.first_activity.causer.name }}</td>
             <td class="px-6 py-4 flex justify-end gap-x-4">

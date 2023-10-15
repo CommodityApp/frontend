@@ -7,7 +7,7 @@ import { AddIcon } from "../../../app/assets/svg";
     <div>
       <RouterLink
         class="flex flex-row bg-[#7000FF] text-white rounded-[1rem] py-[0.4rem] px-[0.9rem]"
-        to="/prices/add"
+        to="/rations/add"
       >
         <AddIcon class="w-6 h-6 self-center mr-2" />
         Добавить

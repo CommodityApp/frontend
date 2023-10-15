@@ -5,7 +5,8 @@ const props = defineProps<{
   isLoading: boolean,
   singleRation: any,
   queryType: any,
-  rawsData: any
+  rawsData: any,
+  receiptsData: any
 }>()
 
 const emit = defineEmits<{
@@ -19,7 +20,7 @@ const unit = ref<string>()
 
 const rate = ref<number>()
 const producer_name = ref<string>()
-const concentration = ref<number>()
+const receipt = ref<number>()
 
 const ration_raws = ref([
   {
@@ -46,7 +47,7 @@ const saveRation = () => {
     unit: unit.value,
     rate: rate.value,
     producer_name: producer_name.value,
-    concentration: concentration.value,
+    receipt_id: receipt.value,
     ration_raws: ration_raws.value.filter((item) => {return item.raw_id !== null})
   }
   emit("onSaveRation", newRation)
@@ -60,7 +61,7 @@ watch(() => props.singleRation, () => {
     unit.value = props.singleRation.unit
     rate.value = props.singleRation.rate
     producer_name.value = props.singleRation.producer_name
-    concentration.value = props.singleRation.concentration
+    receipt.value = props.singleRation.receipt.id
     
     props.singleRation.ration_raws.forEach((item) => {
         ration_raws.value.push({
@@ -190,20 +191,25 @@ const isEdit = computed(() => {
         </div>
 
         <div class="relative z-0 w-full group">
-          <input
-            type="number"
-            name="concentration"
-            id="concentration"
-            v-model="concentration"
-            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
-            placeholder=" "
-            required
-          />
           <label
-            for="concentration"
+            for="receipts"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Концентрация</label
+            >Рецепт
+          </label>
+          
+          <select 
+            v-model="receipt"
+            id="receipts"
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
           >
+            <option></option>
+            <option  
+              v-for="receipt, index in receiptsData"
+              :key="index"
+              :value="receipt.id">
+              {{ receipt.name }}
+            </option>
+          </select>
         </div>
         
 
