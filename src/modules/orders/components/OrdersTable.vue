@@ -65,10 +65,10 @@ const getOrderDocuments = (id:number) => {
           @click="getOrderDocuments(order.id)"
         >
           <td class="px-6 py-4">{{ index + 1 }}</td>
-          <td class="px-6 py-4 text-[#7000FF]">{{ order.client.name }}</td>
+          <td class="px-6 py-4 text-[#7000FF]">{{ order?.client?.name }}</td>
           <td class="px-6 py-4">{{ order.date }}</td>
           <td class="px-6 py-4">{{ order.amount }}</td>
-          <td class="px-6 py-4">{{ order.receipt.name }}</td>
+          <td class="px-6 py-4">{{ order?.receipt?.name }}</td>
         </tr>
       </tbody>
     </table>
