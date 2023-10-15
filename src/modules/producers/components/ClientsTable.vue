@@ -50,7 +50,7 @@ const editSingleProducer = (id) => {
           >
             <td class="px-6 py-4">{{ index + 1 }}</td>
             <td class="px-6 py-4">{{ producer?.name }}</td>
-            <td class="px-6 py-4">{{ producer?.first_activity?.causer }}</td>
+            <td class="px-6 py-4">{{ producer?.first_activity?.causer?.name }}</td>
             <td class="px-6 py-4">{{ producer?.updated_at }}</td>
             <td class="px-6 py-4 flex gap-x-4 justify-end">
               <!-- <EditIcon
