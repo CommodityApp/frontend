@@ -38,7 +38,7 @@ defineProps<{
           <span class="text-[#696969] text-sm font-medium leading-5">
             Имя клиента:
           </span>
-          <span class="font-bold ml-1">{{selectedData?.client.name}}</span>
+          <span class="font-bold ml-1">{{selectedData?.client?.name}}</span>
         </div>
       </div>
     </div>
