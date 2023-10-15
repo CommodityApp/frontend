@@ -18,7 +18,8 @@ export const saveRaw = async (rawsData) => {
             raw_type_id: rawsData.raw_type_id,
             country_id: null,
             bunker_id: rawsData.bunker_id,
-            producer_id: rawsData.producer_id
+            producer_id: rawsData.producer_id,
+            description: rawsData.description
     })
 
     return {
@@ -35,7 +36,8 @@ export const updateRaw = async (raw_id, rawsData) => {
         raw_type_id: rawsData.raw_type_id,
         country_id: null,
         bunker_id: rawsData.bunker_id,
-        producer_id: rawsData.producer_id
+        producer_id: rawsData.producer_id,
+        description: rawsData.description
 })
 
     return {
