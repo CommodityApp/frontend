@@ -52,13 +52,13 @@ const editRaw = (id) => {
             class="bg-white cursor-pointer border-b text-gray-900 hover:bg-gray-50"
           >
             <td class="px-6 py-4">{{ index + 1 }}</td>
-            <td class="px-6 py-4">{{ raws.name }}</td>
+            <td class="px-6 py-4">{{ raws?.name }}</td>
             <td class="px-6 py-4">{{ raws.last_raw_price?.price }}</td>
-            <td class="px-6 py-4">{{ raws.first_activity.causer.name }}</td>
-            <td class="px-6 py-4">{{ raws.updated_at }}</td>
+            <td class="px-6 py-4">{{ raws?.first_activity?.causer?.name }}</td>
+            <td class="px-6 py-4">{{ raws?.updated_at }}</td>
             <td class="px-6 py-4 flex gap-x-4 justify-end">
               <DeleteIcon
-                @click.stop="deleteRaw(raws.id, raws.name)"
+                @click.stop="deleteRaw(raws.id, raws?.name)"
                 class="w-5 h-5 text-red-700 hover:outline hover:outline-red-200 rounded-[4px] cursor-pointer"
               />
             </td>
