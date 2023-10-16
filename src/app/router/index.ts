@@ -257,6 +257,14 @@ const router = createRouter({
       ]
     },
     {
+      path: '/activities',
+      name: 'activities',
+      component: () => import("../../pages/activities/ActivitiesPage.vue"),
+      meta: {
+        title: "activities",
+      }
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import("../../pages/auth/LoginPage.vue"),

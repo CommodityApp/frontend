@@ -123,6 +123,12 @@ import {
             <span class="ml-3">Клиенты</span>
           </RouterLink>
         </li>
+        <div class="relative inline-flex items-center justify-center w-full">
+          <hr class="w-64 h-px my-8 bg-gray-200 border-0 ">
+          <span class="absolute px-3 text-[12px] font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2">
+            Административное управление
+          </span>
+        </div>
         <li>
           <RouterLink
             to="/users"
@@ -134,9 +140,9 @@ import {
             <span class="ml-3">Пользователи</span>
           </RouterLink>
         </li>
-        <!-- <li>
+        <li>
           <RouterLink
-            to="/activity"
+            to="/activities"
             class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
           >
             <UserActivityIcon
@@ -144,7 +150,7 @@ import {
             />
             <span class="ml-3">Журнал Активности</span>
           </RouterLink>
-        </li> -->
+        </li>
       </ul>
     </div>
   </aside>
