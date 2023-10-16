@@ -38,6 +38,7 @@ const editRaw = (id) => {
             <th scope="col" class="px-6 py-3">№</th>
             <th scope="col" class="px-6 py-3">Имя</th>
             <th scope="col" class="px-6 py-3">Last Raw Price</th>
+            <th scope="col" class="px-6 py-3">Описание</th>
             <th scope="col" class="px-6 py-3">Создан кем</th>
             <th scope="col" class="px-6 py-3">Oбновлено в</th>
             <th scope="col" class="px-6 py-3 text-end">Действия</th>
@@ -54,6 +55,7 @@ const editRaw = (id) => {
             <td class="px-6 py-4">{{ index + 1 }}</td>
             <td class="px-6 py-4">{{ raws?.name }}</td>
             <td class="px-6 py-4">{{ raws.last_raw_price?.price }}</td>
+            <td class="px-6 py-4">{{ raws?.description?.slice(0,150) }}</td>
             <td class="px-6 py-4">{{ raws?.first_activity?.causer?.name }}</td>
             <td class="px-6 py-4">{{ raws?.updated_at }}</td>
             <td class="px-6 py-4 flex gap-x-4 justify-end">
