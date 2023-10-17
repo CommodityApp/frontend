@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
+import { DeleteIcon } from "../../../app/assets/svg";
+import { useRoute } from 'vue-router';
 
+const route = useRoute()
 const props = defineProps<{
-  isLoading: boolean,
-  singleAnimalType: any,
-  queryType: any,
+  isLoading: boolean
+  singleAnimalType: any
+  queryType: any
+  editAnimalType: any
+  deleteAnimalTypes: any
 }>()
 
 const emit = defineEmits<{
@@ -14,66 +19,46 @@ const emit = defineEmits<{
 const visibleAlert = ref<boolean>()
 const name = ref<string>()
 
-const price_raws = ref([
-  {
-    raw_id:null, 
-    price:null
-  }
-])
-
-const removeRawInput = () => {
-    price_raws.value.pop()
-}
-const addRawInput = () => {
-    console.log(price_raws.value)
-    price_raws.value.push({
-    raw_id: null,
-    price: null
-  })
-}
 
 const savePrice = () => {
-  let newPrice = {
-    name: name.value,
-    code: code.value,
-    unit: unit.value,
-    price_raws: price_raws.value.filter((item) => {return item.raw_id !== null})
+  let newPrice:any = {
+    name: name.value
+  }
+  if(props.singleAnimalType.parent_id || route.query.mode){
+    newPrice = {
+      ...newPrice,
+      parent_id: props.singleAnimalType.parent_id || route.query.id 
+  }
   }
   emit("saveAnimalTypes", newPrice)
 }
 
-watch(() => props.singlePrice, () => {
-  if( props.singlePrice.code ){
+watch(() => props.singleAnimalType, () => {
+  if( props.singleAnimalType.name ){
     //props.queryType is a case when it is duplcating...
-    code.value = props.queryType ? null : props.singlePrice.code 
-    name.value = props.queryType ? null : props.singlePrice.name
-    unit.value = props.singlePrice.unit
+    name.value = props.queryType ? null : props.singleAnimalType.name
     
-    props.singlePrice.price_raws.forEach((item) => {
-        price_raws.value.push({
-        raw_id: item.raw.id,
-        price: parseFloat(item.price) as any
-      })
-    })
   }
-  //clearing null value
-  price_raws.value.shift()
 }, {
   deep: true
 })
 
 const isEdit = computed(() => {
-  return props.singlePrice?.code != null && !props.queryType ? true : false
+  return props.singleAnimalType?.name != null && !props.queryType ? true : false
 })
+
+const deleteAnimalType = (id) => {
+  window.confirm('Вы действительно хотите удалить?') ? props.deleteAnimalTypes(id) : null
+}
 
 </script>
 <template>
   <div class="flex flex-row justify-between py-2 w-full">
     <div class="self-center text-2xl font-bold leading-7">
-      <span v-if="isEdit">Изменить</span> 
+      <span v-if="isEdit">Редактирование</span> 
       <span v-else-if="queryType">Дублирование</span>
       <span v-else>Создать новыю</span>
-      прейскурант
+        вид животного
     </div>
     <div>
       <button
@@ -93,23 +78,6 @@ const isEdit = computed(() => {
       <div class="grid md:grid-cols-2 md:gap-6">
         <div class="relative z-0 w-full group">
           <input
-            v-focus
-            type="text"
-            name="code"
-            id="code"
-            v-model="code"
-            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
-            placeholder=" "
-            required
-          />
-          <label
-            for="code"
-            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Код</label
-          >
-        </div>
-        <div class="relative z-0 w-full group">
-          <input
             type="text"
             name="name"
             id="name"
@@ -125,98 +93,63 @@ const isEdit = computed(() => {
           >
         </div>
 
-        <div class="relative z-0 w-full group">
-          <input
-            type="text"
-            name="unit"
-            id="unit"
-            v-model="unit"
-            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
-            placeholder=" "
-            required
-          />
-          <label
-            for="unit"
-            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Ед. измерения</label
-          >
-        </div>
         
 
       </div>
     </form>
+    <!-- <code>
+      {{ $route.query.mode }}
+    </code> -->
 
     
-    <!-- <hr class="h-px my-8 bg-gray-200 border-0" /> -->
-    <div class="inline-flex items-center justify-center mt-4 w-full">
-      <hr class="w-full h-px my-8 bg-gray-200 border-0">
-      <span class="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-[10%]">
-        Цены cырые
-      </span>
-    </div>
+    <div v-if="!singleAnimalType.parent_id && !$route.query.mode">
+      <div class="inline-flex items-center justify-center mt-4 w-full">
+        <hr class="w-full h-px my-8 bg-gray-200 border-0">
+        <span class="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-[10%]">
+          Типы животных
+        </span>
+      </div>
 
 
-    <div 
-      v-for="_, index in price_raws" 
-      class="grid md:grid-cols-3 md:gap-6 my-6"
-    >
-      <div class="relative z-0 w-full group">
-          <label
-          :for="`raw${index}`"
-            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Сырье
-          </label>
-          
-          <select 
-            v-model="price_raws[index]['raw_id']"
-            id="`raw${index}`"
-            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
-          >
-            <option></option>
-            <option  
-              v-for="raw, index in rawsData"
-              :key="index"
-              :value="raw.id">
-              {{ raw.name }}
-            </option>
-          </select>
+      <div class="flex flex-col gap-y-1 w-1/4 my-6">
+        <div v-if="singleAnimalType?.children?.length">
+        <div  
+          v-for="animal, index in singleAnimalType.children"
+          :key="index" 
+          class="relative z-0 mb-2 w-full group"
+        > 
+          <div class="flex flex-row gap-x-4">
+            <div class="w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
+              <div
+                @click="editAnimalType('_', animal.id)" 
+                class="block w-full px-4 py-2 border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-[#7000FF] hover:rounded-lg focus:text-[#7000FF]"
+              >
+                {{ animal.name }} - {{ animal }}
+              </div>
+            </div>
+
+            <DeleteIcon 
+              class="w-6 h-6 self-center cursor-pointer text-red-600"
+              data-modal-target="popup-modal" 
+              data-modal-toggle="popup-modal"
+              @click="deleteAnimalType(animal.id)" 
+            />
+          </div>
+        </div>
+        </div>
+        <div v-else>
+          Список пуст
         </div>
 
-      <div class="relative z-0 w-full group">
-        <input
-          type="number"
-          name="unit_rato"
-          :id="`unit_ratio${index}`"
-          v-model="price_raws[index]['price']"
-          :class="{'border-red-700':visibleAlert}"
-          class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
-          placeholder=" "
-        />
-        <label
-          :for="`unit_ratio${index}`"
-          :class="{'text-red-700':visibleAlert}"
-          class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-          >Price
-        </label>
       </div>
-      
-    </div>
 
-    <div>
       <button
-        @click="addRawInput()"
+        @click="editAnimalType('add', $route.query.id)"  
         class="mt-4 text-[#7000FF] hover:text-white hover:bg-[#7000FF] border border-[#7000FF] text-sm py-[0.5rem] px-[0.9rem] rounded-[0.8rem]"
       >
         Добавить
       </button>
-
-      <button
-        v-if="price_raws.length"
-        @click="removeRawInput()"
-        class="mt-4 text-[#F93D3D] ml-2 hover:text-white hover:bg-[#F93D3D] border border-[#F93D3D] text-sm py-[0.5rem] px-[0.9rem] rounded-[0.8rem]"
-      >
-        Удалить
-      </button>
     </div>
+    
   </div>
 </template>

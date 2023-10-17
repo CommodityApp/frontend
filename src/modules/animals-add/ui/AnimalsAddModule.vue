@@ -5,6 +5,8 @@ import useModule from '../useModule';
 const { isLoading,
         singleAnimalType,
         queryType,
+        editAnimalType,
+        deleteAnimalTypes,
         saveAnimalTypes } = useModule()
 </script>
 <template>
@@ -13,6 +15,8 @@ const { isLoading,
             :isLoading="isLoading"
             :singleAnimalType="singleAnimalType"
             :queryType="queryType"
+            :editAnimalType="editAnimalType"
+            :deleteAnimalTypes="deleteAnimalTypes"
             @saveAnimalTypes="saveAnimalTypes"
         />
     </div>

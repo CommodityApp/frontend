@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Breadcrumb from "../../../app/components/Breadcrumb.vue";
+// import Breadcrumb from "../../../app/components/Breadcrumb.vue";
 import OrdersReportTitle from "../components/OrdersReportTitle.vue";
 import OrdersReportHeader from "../components/OrdersReportHeader.vue";
 import OrdersReportTable from "../components/OrdersReportTable.vue";
