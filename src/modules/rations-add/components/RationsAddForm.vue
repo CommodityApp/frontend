@@ -86,8 +86,8 @@ const isEdit = computed(() => {
     <div class="self-center text-2xl font-bold leading-7">
       <span v-if="isEdit">Изменить</span> 
       <span v-else-if="queryType">Дублирование</span>
-      <span v-else>Создать новыю</span>
-      Рацион
+      <span v-else>Создать новый</span>
+      рацион
     </div>
     <div>
       <button
@@ -106,22 +106,27 @@ const isEdit = computed(() => {
     <form>
       <div class="grid md:grid-cols-2 md:gap-6">
         <div class="relative z-0 w-full group">
-          <input
-            v-focus
-            type="text"
-            name="code"
-            id="code"
-            v-model="code"
-            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
-            placeholder=" "
-            required
-          />
           <label
-            for="code"
+            for="receipts"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Код</label
+            >Рецепт
+          </label>
+          
+          <select 
+            v-model="receipt"
+            id="receipts"
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
           >
+            <option></option>
+            <option  
+              v-for="receipt, index in receiptsData"
+              :key="index"
+              :value="receipt.id">
+              {{ receipt.name }} - ({{ receipt.rate }}%)
+            </option>
+          </select>
         </div>
+
         <div class="relative z-0 w-full group">
           <input
             type="text"
@@ -136,6 +141,23 @@ const isEdit = computed(() => {
             for="name"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
             >Название</label
+          >
+        </div>
+        <div class="relative z-0 w-full group">
+          <input
+            v-focus
+            type="text"
+            name="code"
+            id="code"
+            v-model="code"
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
+            placeholder=" "
+            required
+          />
+          <label
+            for="code"
+            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+            >Код</label
           >
         </div>
 
@@ -156,7 +178,7 @@ const isEdit = computed(() => {
           >
         </div>
 
-        <div class="relative z-0 w-full group">
+        <!-- <div class="relative z-0 w-full group">
           <input
             type="number"
             name="rate"
@@ -171,7 +193,7 @@ const isEdit = computed(() => {
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
             >Rate</label
           >
-        </div>
+        </div> -->
 
         <div class="relative z-0 w-full group">
           <input
@@ -190,28 +212,9 @@ const isEdit = computed(() => {
           >
         </div>
 
-        <div class="relative z-0 w-full group">
-          <label
-            for="receipts"
-            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Рецепт
-          </label>
-          
-          <select 
-            v-model="receipt"
-            id="receipts"
-            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
-          >
-            <option></option>
-            <option  
-              v-for="receipt, index in receiptsData"
-              :key="index"
-              :value="receipt.id">
-              {{ receipt.name }}
-            </option>
-          </select>
-        </div>
-        
+        <!-- <div v-if="isEdit" class="relative z-0 w-full self-center text-xl font-[700]">
+          Rate: {{ rate }}
+        </div> -->
 
       </div>
     </form>
@@ -220,8 +223,14 @@ const isEdit = computed(() => {
     <!-- <hr class="h-px my-8 bg-gray-200 border-0" /> -->
     <div class="inline-flex items-center justify-center mt-4 w-full">
       <hr class="w-full h-px my-8 bg-gray-200 border-0">
-      <span class="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-[8%]">
-        Рационы
+      <span class="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-[10%]">
+        Рационы 
+        <span 
+          v-if="isEdit || queryType" 
+          class="bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded border border-indigo-200"
+        >
+          Rate: {{ rate }}
+        </span>
       </span>
     </div>
 

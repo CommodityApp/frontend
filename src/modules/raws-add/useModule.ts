@@ -43,7 +43,18 @@ export default function useModule() {
           title: "Успешно изменено!",
         });
       });
-    } catch (error: any) {}
+    } catch (error: any) {
+        const errors = error?.response?.data.errors
+        Object.values(errors).forEach(item => {
+            notify({
+                type: "error",
+                title: "Ошибка!",
+                text: item[0],
+                speed: 500,
+                duration: 3000,
+            })
+        })
+    }
   };
 
   const getSingleRaw = async (raw_id) => {

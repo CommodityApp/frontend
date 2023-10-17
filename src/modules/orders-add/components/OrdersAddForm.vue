@@ -39,7 +39,7 @@ const rules = {
 const v$ = useVuelidate(rules, props.state)
 </script>
 <template>
-  <div class="text-2xl font-bold leading-7 my-4">Созданые новый заказ</div>
+  <div class="text-2xl font-bold leading-7 my-4">Новый заказ</div>
   <div
     class="relative overflow-x-auto bg-white shadow-md sm:rounded-lg px-5 py-6"
   >

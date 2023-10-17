@@ -37,10 +37,10 @@ const editRaw = (id) => {
           <tr>
             <th scope="col" class="px-6 py-3">№</th>
             <th scope="col" class="px-6 py-3">Имя</th>
-            <th scope="col" class="px-6 py-3">Last Raw Price</th>
+            <th scope="col" class="px-6 py-3">Актуальная цена</th>
             <th scope="col" class="px-6 py-3">Описание</th>
             <th scope="col" class="px-6 py-3">Создан кем</th>
-            <th scope="col" class="px-6 py-3">Oбновлено в</th>
+            <th scope="col" class="px-6 py-3">Дата изменения</th>
             <th scope="col" class="px-6 py-3 text-end">Действия</th>
           </tr>
         </thead>

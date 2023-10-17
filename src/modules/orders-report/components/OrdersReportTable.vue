@@ -28,7 +28,7 @@ defineProps<{
             <th scope="col" class="px-6 py-3">Сырье</th>
             <th scope="col" class="px-6 py-3">Концентрация (кг/т)</th>
             <th scope="col" class="px-6 py-3">Прайс</th>
-            <th scope="col" class="px-6 py-3">С погрешность</th>
+            <th scope="col" class="px-6 py-3">С погрешностью</th>
             <th scope="col" class="px-6 py-3">Без погрешность</th>
           </tr>
         </thead>

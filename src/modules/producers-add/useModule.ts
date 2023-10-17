@@ -43,6 +43,20 @@ export default function useModule() {
       });
     } catch (error: any) {
       console.log('error in update producer api ', error)
+      const errors = error?.response?.data.errors
+        Object.values(errors).forEach(item => {
+            notify({
+                type: "error",
+                title: "Ошибка!",
+                text: item[0],
+                speed: 500,
+                duration: 3000,
+            })
+        })
+      // notify({
+      //   type: "danger",
+      //   title: error.response.data.message,
+      // });
     }
   };
 
