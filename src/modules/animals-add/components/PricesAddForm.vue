@@ -124,7 +124,7 @@ const deleteAnimalType = (id) => {
                 @click="editAnimalType('_', animal.id)" 
                 class="block w-full px-4 py-2 border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-[#7000FF] hover:rounded-lg focus:text-[#7000FF]"
               >
-                {{ animal.name }} - {{ animal }}
+                {{ animal.name }}
               </div>
             </div>
 
