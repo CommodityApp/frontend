@@ -101,7 +101,6 @@ const deleteAnimalType = (id) => {
       {{ $route.query.mode }}
     </code> -->
 
-    
     <div v-if="!singleAnimalType.parent_id && !$route.query.mode">
       <div class="inline-flex items-center justify-center mt-4 w-full">
         <hr class="w-full h-px my-8 bg-gray-200 border-0">
@@ -109,7 +108,6 @@ const deleteAnimalType = (id) => {
           Типы животных
         </span>
       </div>
-
 
       <div class="flex flex-col gap-y-1 w-1/4 my-6">
         <div v-if="singleAnimalType?.children?.length">
