@@ -13,7 +13,8 @@ export const updateClient = async (id, clientData) => {
         country_id: clientData.country_id,
         company: clientData.company,
         region: clientData.region,
-        email: clientData.email
+        email: clientData.email,
+        industry: clientData.industry
     })
 
     return {
@@ -43,7 +44,8 @@ export const saveClient = async (clientData) => {
         country_id: clientData.country_id,
         company: clientData.company,
         region: clientData.region,
-        email: clientData.email
+        email: clientData.email,
+        industry: clientData.industry
     })
 
     return {
