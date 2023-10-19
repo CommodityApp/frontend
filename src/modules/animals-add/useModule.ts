@@ -1,57 +1,39 @@
-import {ref, onMounted, watch} from "vue";
 import { ApiAnimalTypes } from "@/shared/api";
 import { useRoute, useRouter } from "vue-router";
 import { useNotification } from "@kyvg/vue3-notification";
+import {ref, onMounted, watch} from "vue";
 
 export default function useModule() {
-    const isLoading = ref<boolean>(false)
     const { notify } = useNotification()
     const router = useRouter()
     const route = useRoute()
-    const singleAnimalType = ref([])
-    const queryType = ref()
+    
 
+    const isLoading = ref<boolean>(false)
+    const animalTypesData = ref([])
 
-    const saveAnimalTypes = async (animalType) => {
+    const saveAnimalTypes = async (data) => {
+        console.log('success save')
         try {
-            isLoading.value = true
-            if(route.query.id && !queryType.value && !route.query.mode){
-                console.log('edit')
-                await ApiAnimalTypes.updateAnimalTypes(route.query.id, animalType).then(() => {
-                    getSingleAnimalTypes(route.query.id)
-                    notify({
-                        type: "success",
-                        title: "Успешно изминено!"
-                    })
-                })
-            } else {
-                console.log('add ',animalType)
-                await ApiAnimalTypes.saveAnimalTypes(animalType).then(() => {
-                    // getSingleAnimalTypes(route.query.id)
-                    notify({
-                        type: "success",
-                        title: "Успешно добавлено!"
-                    })
-                    getSingleAnimalTypes(route.query.id)
-                    // if(route.query.id){
-                    //     location.reload()
-                    // }else{
-                    //     router.push('/animals')
-                    // }
+            const response = await ApiAnimalTypes.saveAnimalTypes(data)
+            router.replace({
+                query: {
+                    id: route.query.mode ? route.query.id : response.data.id,
+                }
+            }).then(() => {
+                if(route.query.mode = 'add'){
+                    getSingleAnimalTypes(route.query.id) 
+                    route.query.mode = null
+                }else{
+                    getSingleAnimalTypes(response.data.id)
+                    route.query.mode = null
+                }
+                     
                     
-                })
-                
-            }
-            if(animalType.parent_id){
-                router.go(-1) //go back when editing child animal type
-            } else {
-                router.replace("/animals")
-            }
+            })
             
         } catch(error: any){
-            isLoading.value = false
             const errors = error?.response?.data.errors
-            
             Object.values(errors).forEach(item => {
                 notify({
                     type: "error",
@@ -61,94 +43,107 @@ export default function useModule() {
                     duration: 3000,
                 })
             })
-            console.log('Error save animal types: ',error)
-        } finally{
-            isLoading.value = false
+        }finally {
+            notify({
+                type: "success",
+                title: "Успешно добавлено!"
+            })
+        }
+        
+    }
+
+    const updateAnimalTypes = async (data) => {
+        try {
+            console.log('data test ', data)
+            await ApiAnimalTypes.updateAnimalTypes(route.query.id, data).then(()=>{
+                getSingleAnimalTypes(data.parent_id)
+                notify({
+                    type: "success",
+                    title: "Успешно изминено!"
+                })
+                router.replace({
+                    query: {
+                    id: data.parent_id,
+                }})
+            })
+        } catch(error: any){
+            const errors = error?.response?.data.errors
+            Object.values(errors).forEach(item => {
+                notify({
+                    type: "error",
+                    title: "Ошибка!",
+                    text: item[0],
+                    speed: 500,
+                    duration: 3000,
+                })
+            })
         }
     }
 
-
-
-    const getSingleAnimalTypes = async(id) => {
-        try{
+    const getSingleAnimalTypes = async (id) => {
+        try {
             isLoading.value = true
-            const {data} = await ApiAnimalTypes.getSingleAnimalTypes(id)
-            if(data){
-                console.log('get ', route.query.mode)
-                singleAnimalType.value = data
-                if(route.query.type) {
-                    queryType.value = route.query.type
-                }
-            }
-            
-
+            const { data } = await ApiAnimalTypes.getSingleAnimalTypes(id)
+            animalTypesData.value = data
         }catch(error: any){
             console.log("error ", error)
-
-        }finally{
+        } finally {
             isLoading.value = false
         }
     }
 
-    const editAnimalType = async(mode, id) => {
-        if(mode == 'add'){
-            console.log('mode ', singleAnimalType.value)
-            router.push({
-                name:'animals-add',
-                query: {
-                    mode,
-                    id
-                }
-            }).then(() => {
-                location.reload()
-            })
-        }else {
-            router.push({
-                name:'animals-add',
-                query: {
-                    id
-                }
-            })
-        }
-    }
-    const deleteAnimalTypes = async (id) => {
+    const deleteChildAnimalTypes = async (id) => {
         try {
-          isLoading.value = true;
-          await ApiAnimalTypes.deleteAnimalTypes(id).then(() => {
-            location.reload()
-          }).then(() => {
+          await ApiAnimalTypes.deleteAnimalTypes(id).then(()=>{
+            getSingleAnimalTypes(route.query.id) 
+          })
+        } catch (error: any) {
+          console.log('error in delete user api ', error)
+        } finally {
             notify({
                 type: "success",
                 title: "Успешно удалено!",
               });
-          });
-          
-          
-        } catch (error: any) {
-          console.log('error in delete user api ', error)
-        } finally {
-            isLoading.value = false;
         }
-      };
+    }
 
-    watch(
-        () => route.query.id, 
-        () => {
-            route.query.id ? getSingleAnimalTypes(route.query.id) : null
-        }
-    )
-    onMounted(() => {
+    const addChildAnimal = () => {
+        router.replace({
+            query: {
+                id: route.query.id,
+                mode: 'add'
+            }
+        })
+    }
+    const editChildAnimal = (child_id) => {
+        console.log('child_id ',child_id)
+        router.replace({
+            query: {
+                id: child_id,
+                mode: 'edit'
+            }
+        })
+    }
+    
+    
+
+      onMounted(() => {
         if(route.query.id){
             getSingleAnimalTypes(route.query.id)
         }
     })
 
+
+
+
+
     return {
         isLoading,
-        singleAnimalType,
-        queryType,
-        editAnimalType,
-        deleteAnimalTypes,
-        saveAnimalTypes
+        animalTypesData,
+        saveAnimalTypes,
+        updateAnimalTypes,
+        addChildAnimal,
+        editChildAnimal,
+        deleteChildAnimalTypes
     }
 }

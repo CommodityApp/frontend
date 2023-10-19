@@ -1,4 +1,4 @@
-import AnimalsAddModule from "./ui/AnimalsAddModule.vue"
+import AnimalsAddModule from "./ui/Module.vue"
 
 export {
     AnimalsAddModule,
