@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
+import LoaderOverlay from "@/app/components/LoaderOverlay.vue";
 
 const props = defineProps<{
   isLoading: boolean,
@@ -90,7 +91,8 @@ const isEdit = computed(() => {
     </div>
   </div>
 
-  <div class="relative overflow-x-auto bg-white shadow-md sm:rounded-lg px-5 py-6">
+  <LoaderOverlay v-if="isLoading" />
+  <div v-else class="relative overflow-x-auto bg-white shadow-md sm:rounded-lg px-5 py-6">
     <form>
       <div class="grid md:grid-cols-2 md:gap-6">
         <div class="relative z-0 w-full group">

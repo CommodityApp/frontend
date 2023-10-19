@@ -2,9 +2,10 @@
 import { computed, reactive, ref, watch } from "vue";
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
-import { STATUS_CODES } from "http";
+import LoaderOverlay from "@/app/components/LoaderOverlay.vue";
 
 const props = defineProps<{
+  isLoading: any
   saveRaw: any
   updateRaw: any
   rawsData: any
@@ -102,7 +103,8 @@ const v$ = useVuelidate(rules, state)
     </div>
   </div>
 
-  <div
+  <LoaderOverlay v-if="isLoading" />
+  <div v-else
     class="relative overflow-x-auto bg-white shadow-md sm:rounded-lg px-5 py-6"
   >
     <form>

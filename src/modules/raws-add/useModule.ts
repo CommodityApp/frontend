@@ -15,7 +15,7 @@ export default function useModule() {
 
   const saveRaw = async (rawsData) => {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       await ApiRaws.saveRaw(rawsData);
 
       router.push("/raws");
@@ -29,13 +29,13 @@ export default function useModule() {
         title: error.response.data.message,
       });
     } finally {
-      isLoading.value = false;
+      // isLoading.value = false;
     }
   };
 
   const updateRaw = async (rawsData) => {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       await ApiRaws.updateRaw(route.query.id, rawsData).then(() => {
         router.push("/raws");
         notify({
@@ -59,7 +59,7 @@ export default function useModule() {
 
   const getSingleRaw = async (raw_id) => {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       await ApiRaws.getSingleRaw(raw_id).then((data) => {
         rawsData.value = data.data.data;
       });
@@ -69,13 +69,13 @@ export default function useModule() {
         title: error.response.data.message,
       });
     } finally {
-      isLoading.value = true;
+      // isLoading.value = true;
     }
   };
 
   const getRawTypes = async () => {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       const { data } = await ApiRawTypes.getRawTypes()
       if(data){
         rawTypes.value = data
@@ -83,12 +83,12 @@ export default function useModule() {
     } catch(error: any){
       console.log('error in rawtypes api', error)
     } finally {
-      isLoading.value = false
+      // isLoading.value = false
     }
   }
   const getProducers = async () => {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       const { data } = await ApiProducers.getProducers()
       if(data){
         producers.value = data
@@ -96,12 +96,12 @@ export default function useModule() {
     } catch(error: any){
       console.log('error in producers api', error)
     } finally {
-      isLoading.value = false
+      // isLoading.value = false
     }
   }
   const getBunkers = async () => {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       const { data } = await ApiBunkers.getBunkers()
       if(data){
         bunkers.value = data
@@ -109,14 +109,19 @@ export default function useModule() {
     } catch(error: any){
       console.log('error in bunkers api', error)
     } finally {
-      isLoading.value = false
+      // isLoading.value = false
     }
   }
 
   onMounted(() => {
-    Promise.allSettled([getRawTypes(), getProducers(), getBunkers()])
+    isLoading.value = true
+    Promise.allSettled([getRawTypes(), getProducers(), getBunkers()]).then(()=>{
+      isLoading.value = false
+    })
     if (route.query.id) { 
-      getSingleRaw(route.query.id)    
+      getSingleRaw(route.query.id).then(()=>{
+        isLoading.value = false
+      })   
     }
   });
 

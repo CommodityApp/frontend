@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
-import vSelect from "vue-select";
+// import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
+import LoaderOverlay from "@/app/components/LoaderOverlay.vue";
 
 const props = defineProps<{
   isLoading: any
@@ -62,7 +63,8 @@ const saveEditRawType = () => {
     </div>
   </div>
 
-  <div
+  <LoaderOverlay v-if="isLoading" />
+  <div v-else
     class="relative h-screen overflow-x-auto bg-white shadow-md sm:rounded-lg px-5 py-6"
   >
     <form>

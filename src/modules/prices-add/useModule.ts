@@ -16,7 +16,7 @@ export default function useModule() {
 
     const onSavePrice = async (price) => {
         try {
-            isLoading.value = true
+            // isLoading.value = true
             if(route.query.id && !queryType.value){
                 await ApiPrices.updatePrice(route.query.id, price).then(() => {
                     notify({
@@ -35,7 +35,7 @@ export default function useModule() {
             }
             router.replace("/prices")
         } catch(error: any){
-            isLoading.value = false
+            // isLoading.value = false
             const errors = error?.response?.data.errors
             
             Object.values(errors).forEach(item => {
@@ -49,30 +49,30 @@ export default function useModule() {
             })
             console.log('Error save receipt: ',error)
         } finally{
-            isLoading.value = false
+            // isLoading.value = false
         }
     }
 
 
     const getRaws = async () => {
         try {
-            isLoading.value = true
+            // isLoading.value = true
             const {data} = await ApiRaws.getRaws()
             if(data){
                 rawsData.value = data
             }
         } catch (error: any) {
-            isLoading.value = false
+            // isLoading.value = false
 
             console.log("Error in rows api: ", error)
         } finally {
-            isLoading.value = false
+            // isLoading.value = false
         }
     }
 
     const getSinglePrice = async(id) => {
         try{
-            isLoading.value = true
+            // isLoading.value = true
             const {data} = await ApiPrices.getSinglePrice(id)
             if(data){
                 singlePrice.value = data 
@@ -86,15 +86,19 @@ export default function useModule() {
             console.log("error ", error)
 
         }finally{
-            isLoading.value = false
+            // isLoading.value = false
         }
     }
 
     onMounted(() => {
-        getRaws()
-      
+        isLoading.value = true
+        getRaws().then(() => {
+            isLoading.value = false
+        })
         if(route.query.id){
-            getSinglePrice(route.query.id)
+            getSinglePrice(route.query.id).then(()=>{
+                isLoading.value = false
+            })
         }
     })
 

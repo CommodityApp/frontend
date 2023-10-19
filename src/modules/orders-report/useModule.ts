@@ -10,6 +10,7 @@ export default function useModule() {
     const router = useRouter()
     const { notify }  = useNotification()
     const ordersStore = useOrdersStore()
+    const isLoading = ref()
 
     const getReport = async (id) => {
         try {
@@ -59,10 +60,14 @@ export default function useModule() {
         
     }
     onMounted(() => {
-        getReport(route.params.id)
+        isLoading.value = true
+        getReport(route.params.id).then(()=>{
+            isLoading.value = false
+        })
     })
 
     return {
+        isLoading,
         deleteOrder,
         editOrder,
         selectedData

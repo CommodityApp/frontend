@@ -12,7 +12,7 @@ export default function useModule() {
 
   const saveRawTypes = async (rawTypeData) => {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       await ApiRawTypes.saveRawType(rawTypeData);
 
       router.push("/raw-types");
@@ -26,13 +26,13 @@ export default function useModule() {
         title: error.response.data.message,
       });
     } finally {
-      isLoading.value = false;
+      // isLoading.value = false;
     }
   };
 
   const updateRawType = async (rawTypeData) => {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       await ApiRawTypes.updateRawType(route.query.id, rawTypeData).then(() => {
         router.push("/raw-types");
         notify({
@@ -48,7 +48,7 @@ export default function useModule() {
 
   const getSingleRawType = async () => {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       await ApiRawTypes.getSingleRawType(route.query.id).then((data) => {
         rawTypesData.value = data.data;
       });
@@ -58,13 +58,16 @@ export default function useModule() {
         title: error.response.data.message,
       });
     } finally {
-      isLoading.value = true;
+      // isLoading.value = true;
     }
   }; 
 
   onMounted(() => {
     if (route.query.id) {
-      getSingleRawType()    
+      isLoading.value = true
+      getSingleRawType().then(()=>{
+        isLoading.value = false
+      })    
     }
   });
 
