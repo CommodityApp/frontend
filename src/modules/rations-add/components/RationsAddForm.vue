@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
+import LoaderOverlay from "@/app/components/LoaderOverlay.vue";
 
 const props = defineProps<{
   isLoading: boolean,
@@ -8,6 +9,7 @@ const props = defineProps<{
   rawsData: any,
   receiptsData: any
 }>()
+const selectedRecipt = ref()
 
 const emit = defineEmits<{
   onSaveRation: [priceData: any]
@@ -20,7 +22,7 @@ const unit = ref<string>()
 
 const rate = ref<number>()
 const producer_name = ref<string>()
-const receipt = ref<number>()
+const receipt = ref<any>()
 
 const ration_raws = ref([
   {
@@ -33,7 +35,6 @@ const removeRawInput = () => {
   ration_raws.value.pop()
 }
 const addRawInput = () => {
-    console.log(ration_raws.value)
     ration_raws.value.push({
     raw_id: null,
     ratio: null
@@ -47,7 +48,7 @@ const saveRation = () => {
     unit: unit.value,
     rate: rate.value,
     producer_name: producer_name.value,
-    receipt_id: receipt.value,
+    receipt_id: receipt.value[0],
     ration_raws: ration_raws.value.filter((item) => {return item.raw_id !== null})
   }
   emit("onSaveRation", newRation)
@@ -61,7 +62,7 @@ watch(() => props.singleRation, () => {
     unit.value = props.singleRation.unit
     rate.value = props.singleRation.rate
     producer_name.value = props.singleRation.producer_name
-    receipt.value = props.singleRation.receipt.id
+    receipt.value = [props.singleRation.receipt.id, props.singleRation.receipt.rate]
     
     props.singleRation.ration_raws.forEach((item) => {
         ration_raws.value.push({
@@ -80,14 +81,25 @@ const isEdit = computed(() => {
   return props.singleRation?.code != null && !props.queryType ? true : false
 })
 
+const calculatedRate = computed(() => {
+  
+  const sumRatio =  ration_raws.value.reduce((acc, item) => {
+    return acc = acc + item.ratio
+  }, 0)
+
+  const selectedReceiptRatio = Number(receipt.value[1])
+
+  return (sumRatio + selectedReceiptRatio).toPrecision(5)
+})
+
 </script>
 <template>
   <div class="flex flex-row justify-between py-2 w-full">
     <div class="self-center text-2xl font-bold leading-7">
-      <span v-if="isEdit">Изменить</span> 
-      <span v-else-if="queryType">Дублирование</span>
-      <span v-else>Создать новый</span>
-      рацион
+      <span v-if="isEdit">Редактировать</span> 
+      <span v-else-if="queryType">Дублировать</span>
+      <span v-else>Добваить</span>
+      Рацион
     </div>
     <div>
       <button
@@ -102,7 +114,8 @@ const isEdit = computed(() => {
     </div>
   </div>
 
-  <div class="relative overflow-x-auto bg-white shadow-md sm:rounded-lg px-5 py-6">
+  <LoaderOverlay v-if="isLoading" />
+  <div v-else class="relative overflow-x-auto bg-white shadow-md sm:rounded-lg px-5 py-6">
     <form>
       <div class="grid md:grid-cols-2 md:gap-6">
         <div class="relative z-0 w-full group">
@@ -111,9 +124,10 @@ const isEdit = computed(() => {
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
             >Рецепт
           </label>
-          
+
           <select 
             v-model="receipt"
+            ref="selectedRecipt"
             id="receipts"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
           >
@@ -121,7 +135,8 @@ const isEdit = computed(() => {
             <option  
               v-for="receipt, index in receiptsData"
               :key="index"
-              :value="receipt.id">
+              :value="[receipt.id, receipt.rate]"
+            >
               {{ receipt.name }} - ({{ receipt.rate }}%)
             </option>
           </select>
@@ -229,7 +244,7 @@ const isEdit = computed(() => {
           v-if="isEdit || queryType" 
           class="bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded border border-indigo-200"
         >
-          Rate: {{ rate }}
+          Rate: {{ calculatedRate }}
         </span>
       </span>
     </div>
@@ -294,7 +309,7 @@ const isEdit = computed(() => {
         @click="removeRawInput()"
         class="mt-4 text-[#F93D3D] ml-2 hover:text-white hover:bg-[#F93D3D] border border-[#F93D3D] text-sm py-[0.5rem] px-[0.9rem] rounded-[0.8rem]"
       >
-        Удалить Рацион
+        Удалить
       </button>
     </div>
   </div>

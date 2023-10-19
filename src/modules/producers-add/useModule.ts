@@ -13,7 +13,7 @@ export default function useModule() {
 
   const saveProducer = async (producerData) => {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       await ApiProducers.saveProducer(producerData);
 
       router.push("/producers");
@@ -27,13 +27,13 @@ export default function useModule() {
         title: error.response.data.message,
       });
     } finally {
-      isLoading.value = false;
+      // isLoading.value = false;
     }
   };
 
   const updateProducer = async (producerData) => {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       await ApiProducers.updateProducer(route.query.id, producerData).then(() => {
         router.push("/producers");
         notify({
@@ -42,7 +42,7 @@ export default function useModule() {
         });
       });
     } catch (error: any) {
-      console.log('error in update producer api ', error)
+      // console.log('error in update producer api ', error)
       const errors = error?.response?.data.errors
         Object.values(errors).forEach(item => {
             notify({
@@ -63,7 +63,7 @@ export default function useModule() {
 
   const getSingleProducer = async () => {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       await ApiProducers.getSingleProducer(route.query.id).then((data) => {
         producersData.value = data.data;
       });
@@ -73,13 +73,13 @@ export default function useModule() {
         title: error.response.data.message,
       });
     } finally {
-      isLoading.value = true;
+      // isLoading.value = true;
     }
   };
 
   const getCountries = async (country_name) => {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       await ApiCountries.getCountries(country_name).then((data) => {
         countriesData.value = data.data;
       });
@@ -89,17 +89,22 @@ export default function useModule() {
         title: error.response.data.message,
       });
     } finally {
-      isLoading.value = true;
+      // isLoading.value = true;
     }
   };
 
   
 
   onMounted(() => {
+    isLoading.value = true
     if (route.query.id) {
-      getSingleProducer()    
+      getSingleProducer().then(()=>{
+        isLoading.value = false
+      })    
     }
-    getCountries('')
+    getCountries('').then(()=>{
+      isLoading.value = false
+    })
   });
 
   return {

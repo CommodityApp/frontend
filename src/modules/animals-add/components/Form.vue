@@ -2,6 +2,7 @@
 import { watch, ref } from "vue";
 import { DeleteIcon } from "../../../app/assets/svg";
 import { useRoute } from "vue-router";
+import LoaderOverlay from "@/app/components/LoaderOverlay.vue";
 
 const route = useRoute();
 
@@ -77,11 +78,11 @@ const deleteChild = (id) => {
 <template>
   <div class="flex flex-row justify-between py-2 w-full">
     <div class="self-center text-2xl font-bold leading-7">
-      <span v-if="isEdit && $route.query.mode != 'add'">Редактирование </span>
-      <span v-else>Создание </span>
-      <span v-if="$route.query.mode != 'add'">вид</span>
-      <span v-else>тип</span>
-      животного
+      <span v-if="isEdit && $route.query.mode != 'add'">Редактировать </span>
+      <span v-else>Добавить </span>
+      <span v-if="$route.query.mode != 'add'">Вид</span>
+      <span v-else>Тип</span>
+      Животного
     </div>
 
     <div>
@@ -96,7 +97,8 @@ const deleteChild = (id) => {
     </div>
   </div>
 
-  <div
+  <LoaderOverlay v-if="isLoading" />
+  <div v-else
     class="relative overflow-x-auto bg-white shadow-md sm:rounded-lg px-5 py-6"
   >
     <form>

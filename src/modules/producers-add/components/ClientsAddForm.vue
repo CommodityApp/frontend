@@ -2,6 +2,7 @@
 import { computed, ref, watch } from "vue";
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
+import LoaderOverlay from "@/app/components/LoaderOverlay.vue";
 
 const props = defineProps<{
   isLoading: any
@@ -47,8 +48,8 @@ const saveEditProducer = () => {
 <template>
   <div class="flex flex-row justify-between py-2 w-full">
     <div class="self-center text-2xl font-bold leading-7">
-      <span v-if="isEdited"> Изменить </span>
-      <span v-else> Создать новыю </span>
+      <span v-if="isEdited">Редактировать </span>
+      <span v-else> Создать </span>
       Производитель
     </div>
 
@@ -63,8 +64,8 @@ const saveEditProducer = () => {
       </button>
     </div>
   </div>
-
-  <div
+  <LoaderOverlay v-if="isLoading" />
+  <div v-else
     class="relative h-screen overflow-x-auto bg-white shadow-md sm:rounded-lg px-5 py-6"
   >
     <form>

@@ -13,7 +13,7 @@ export default function useModule() {
 
   const saveClient = async (clientData) => {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       await ApiClients.saveClient(clientData);
 
       router.push("/clients");
@@ -27,13 +27,13 @@ export default function useModule() {
         title: error.response.data.message,
       });
     } finally {
-      isLoading.value = false;
+      // isLoading.value = false;
     }
   };
 
   const updateClient = async (clientData) => {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       await ApiClients.updateClient(route.query.id, clientData).then(() => {
         router.push("/clients");
         notify({
@@ -49,7 +49,7 @@ export default function useModule() {
 
   const getSingleClient = async () => {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       await ApiClients.getSingleClient(route.query.id).then((data) => {
         clientsData.value = data.data;
       });
@@ -59,13 +59,13 @@ export default function useModule() {
         title: error.response.data.message,
       });
     } finally {
-      isLoading.value = true;
+      // isLoading.value = true;
     }
   };
 
   const getCountries = async (country_name) => {
     try {
-      isLoading.value = true;
+      // isLoading.value = true;
       await ApiCountries.getCountries(country_name).then((data) => {
         countriesData.value = data.data;
       });
@@ -75,17 +75,22 @@ export default function useModule() {
         title: error.response.data.message,
       });
     } finally {
-      isLoading.value = true;
+      // isLoading.value = true;
     }
   };
 
   
 
   onMounted(() => {
+    isLoading.value = true;
     if (route.query.id) {
-      getSingleClient()    
+      getSingleClient().then(()=>{
+        isLoading.value = false;
+      })    
     }
-    getCountries('')
+    getCountries('').then(()=>{
+      isLoading.value = false;
+    })
   });
 
   return {
