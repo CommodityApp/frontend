@@ -98,7 +98,7 @@ const calculatedRate = computed(() => {
     <div class="self-center text-2xl font-bold leading-7">
       <span v-if="isEdit">Редактировать</span> 
       <span v-else-if="queryType">Дублировать</span>
-      <span v-else>Добваить</span>
+      <span v-else>Добавить</span>
       Рацион
     </div>
     <div>

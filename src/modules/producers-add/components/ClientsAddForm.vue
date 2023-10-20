@@ -50,7 +50,7 @@ const saveEditProducer = () => {
     <div class="self-center text-2xl font-bold leading-7">
       <span v-if="isEdited">Редактировать </span>
       <span v-else> Создать </span>
-      Производитель
+      Производителя
     </div>
 
     <div>

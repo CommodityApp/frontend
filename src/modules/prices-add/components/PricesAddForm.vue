@@ -75,8 +75,8 @@ const isEdit = computed(() => {
     <div class="self-center text-2xl font-bold leading-7">
       <span v-if="isEdit">Редактировать</span> 
       <span v-else-if="queryType">Дублировать</span>
-      <span v-else>Создать</span>
-      прейскурант
+      <span v-else>Добавить</span>
+      Прейскурант
     </div>
     <div>
       <button

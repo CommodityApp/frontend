@@ -58,9 +58,9 @@ const saveEditRaw = () => {
 <template>
   <div class="flex flex-row justify-between py-2 w-full">
     <div class="self-center text-2xl font-bold leading-7">
-      <span v-if="isEdited"> Изменить </span>
-      <span v-else> Создать новыю </span>
-      Клиент
+      <span v-if="isEdited">Изменить </span>
+      <span v-else>Создать  </span>
+      Клиента
     </div>
 
     <div>
