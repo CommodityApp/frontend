@@ -1,8 +1,14 @@
 <script setup lang="ts">
-import { DeleteIcon, EditIcon } from "../../../app/assets/svg";
-const props = defineProps<{
+import { ArrowIcon } from "../../../app/assets/svg";
+import { Pagination } from 'flowbite-vue'
+import { ref } from 'vue'
+
+const currentPage = ref(1)
+defineProps<{
   isLoading: boolean
   activitiesData: any
+  metaData: any
+  getActivities: any
 }>();
 // const deleteSingleClient = (id, name) => {
 //   window.confirm(`Вы действительно хотите удалить ${name} клиента?`) ? props.deleteClient(id) : null
@@ -25,8 +31,8 @@ const props = defineProps<{
     </div>
     
     <div v-else>
+      <div v-if=" activitiesData?.length">
       <table
-        v-if=" activitiesData?.length"
         class="w-full text-sm text-left text-gray-500"
       >
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -62,7 +68,38 @@ const props = defineProps<{
             <!-- </td> -->
           </tr>
         </tbody>
+
       </table>
+      
+      <div class="m-4 flex flex-row justify-between">
+        <div class="m-1 mr-2">
+          Страница: № {{ currentPage }} из {{ Math.ceil(metaData?.total/15) }}
+        </div>
+        
+        <Pagination 
+          v-model="currentPage" 
+          :total-items="metaData?.total"
+          :perPage="15" 
+          :showLabels="false"
+        >
+        <template #prev-icon>
+          <ArrowIcon class="w-4 h-4"/>
+        </template>
+        <template #next-icon>
+          <ArrowIcon class="w-4 h-4 rotate-180"/>
+        </template>
+        <template v-slot:page-button="{ page, setPage }">
+          <button
+            @click="setPage(page), getActivities(page)"
+            :class="{'text-purple-600 border border-purple-400 bg-gray-200': page == currentPage}"
+            class="flex items-center justify-center first:rounded-l-lg last:rounded-r-lg px-3 h-8 ml-0 leading-tight text-gray-900 border border-gray-300 hover:bg-gray-200"
+          >
+            {{ page }}
+          </button>
+        </template>
+        </Pagination>
+      </div>
+    </div>
 
       <div v-else class="text-2xl text-center p-16 text-gray-300">
         Нет данных

@@ -1,20 +1,23 @@
 import { ref, onMounted } from "vue";
 import { ApiActivities } from "@/shared/api";
-import { useNotification } from "@kyvg/vue3-notification";
+// import { useNotification } from "@kyvg/vue3-notification";
 // import { useRouter } from "vue-router";
 
 export default function useModule() {
     const isLoading = ref<boolean>(false)
     const activitiesData = ref()
-    const { notify } = useNotification();
+    const metaData = ref()
+    // const { notify } = useNotification();
     // const router = useRouter();
     // const route = useRoute();
     
-    const getActivities = async () => {
+    const getActivities = async (page) => {
         try {
             isLoading.value = true
-            const { data } = await ApiActivities.getActivities();
-            activitiesData.value = data
+            const data = await ApiActivities.getActivities(page);
+            activitiesData.value = [...data.data]
+            metaData.value = {...data.meta}
+            console.log('meta ',metaData.value)
         } catch(e: any){
 
             console.log('Error in activities api: ', e)
@@ -52,11 +55,13 @@ export default function useModule() {
     //   };
 
     onMounted(() => {
-        getActivities()
+        getActivities(1)
     })
     
     return {
         isLoading,
         activitiesData,
+        metaData,
+        getActivities
     }
 }

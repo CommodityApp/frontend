@@ -1,7 +1,7 @@
 import axios from "../plugins/axios";
 
-export const getActivities = async () => {
-    const {data} = await axios.get("/activities?include=causer");
+export const getActivities = async (page=1) => {
+    const {data} = await axios.get(`/activities?include=causer&page=${page}`);
     return {
         ...data
     }
