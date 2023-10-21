@@ -73,13 +73,13 @@ defineProps<{
       
       <div class="m-4 flex flex-row justify-between">
         <div class="m-1 mr-2">
-          Страница: № {{ currentPage }} из {{ Math.ceil(metaData?.total/15) }}
+          Страница: № {{ currentPage }} из {{ Math.ceil(metaData?.total/10) }}
         </div>
         
         <Pagination 
           v-model="currentPage" 
           :total-items="metaData?.total"
-          :perPage="15" 
+          :perPage="10" 
           :showLabels="false"
         >
         <template #prev-icon>
