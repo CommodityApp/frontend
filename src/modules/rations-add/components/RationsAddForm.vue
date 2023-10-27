@@ -3,43 +3,43 @@ import { computed, ref, watch } from "vue";
 import LoaderOverlay from "@/app/components/LoaderOverlay.vue";
 
 const props = defineProps<{
-  isLoading: boolean,
-  singleRation: any,
-  queryType: any,
-  rawsData: any,
-  receiptsData: any
-}>()
-const selectedRecipt = ref()
+  isLoading: boolean;
+  singleRation: any;
+  queryType: any;
+  rawsData: any;
+  receiptsData: any;
+}>();
+const selectedRecipt = ref();
 
 const emit = defineEmits<{
-  onSaveRation: [priceData: any]
-}>()
+  onSaveRation: [priceData: any];
+}>();
 
-const visibleAlert = ref<boolean>()
-const code = ref<string>()
-const name = ref<string>()
-const unit = ref<string>()
+const visibleAlert = ref<boolean>();
+const code = ref<string>();
+const name = ref<string>();
+const unit = ref<string>();
 
-const rate = ref<number>()
-const producer_name = ref<string>()
-const receipt = ref<any>()
+const rate = ref<number>();
+const producer_name = ref<string>();
+const receipt = ref<any>();
 
 const ration_raws = ref([
   {
-    raw_id:null, 
-    ratio:null
-  }
-])
+    raw_id: null,
+    ratio: null,
+  },
+]);
 
 const removeRawInput = () => {
-  ration_raws.value.pop()
-}
+  ration_raws.value.pop();
+};
 const addRawInput = () => {
-    ration_raws.value.push({
+  ration_raws.value.push({
     raw_id: null,
-    ratio: null
-  })
-}
+    ratio: null,
+  });
+};
 
 const saveRation = () => {
   let newRation = {
@@ -49,54 +49,60 @@ const saveRation = () => {
     rate: rate.value,
     producer_name: producer_name.value,
     receipt_id: receipt.value[0],
-    ration_raws: ration_raws.value.filter((item) => {return item.raw_id !== null})
-  }
-  emit("onSaveRation", newRation)
-}
+    ration_raws: ration_raws.value.filter((item) => {
+      return item.raw_id !== null;
+    }),
+  };
+  emit("onSaveRation", newRation);
+};
 
-watch(() => props.singleRation, () => {
-  if( props.singleRation.code ){
-    //props.queryType is a case when it is duplcating...
-    code.value = props.queryType ? null : props.singleRation.code 
-    name.value = props.queryType ? null : props.singleRation.name
-    unit.value = props.singleRation.unit
-    rate.value = props.singleRation.rate
-    producer_name.value = props.singleRation.producer_name
-    receipt.value = [props.singleRation.receipt.id, props.singleRation.receipt.rate]
-    
-    props.singleRation.ration_raws.forEach((item) => {
+watch(
+  () => props.singleRation,
+  () => {
+    if (props.singleRation.code) {
+      //props.queryType is a case when it is duplcating...
+      code.value = props.queryType ? null : props.singleRation.code;
+      name.value = props.queryType ? null : props.singleRation.name;
+      unit.value = props.singleRation.unit;
+      rate.value = props.singleRation.rate;
+      producer_name.value = props.singleRation.producer_name;
+      receipt.value = [
+        props.singleRation.receipt.id,
+        props.singleRation.receipt.rate,
+      ];
+
+      props.singleRation.ration_raws.forEach((item) => {
         ration_raws.value.push({
-        raw_id: item.raw.id,
-        ratio: parseFloat(item.ratio) as any
-      })
-    })
+          raw_id: item.raw.id,
+          ratio: parseFloat(item.ratio) as any,
+        });
+      });
+    }
+    //clearing null value
+    ration_raws.value.shift();
+  },
+  {
+    deep: true,
   }
-  //clearing null value
-  ration_raws.value.shift()
-}, {
-  deep: true
-})
+);
 
 const isEdit = computed(() => {
-  return props.singleRation?.code != null && !props.queryType ? true : false
-})
+  return props.singleRation?.code != null && !props.queryType ? true : false;
+});
 
 const calculatedRate = computed(() => {
-  
-  const sumRatio =  ration_raws.value.reduce((acc, item) => {
-    return acc = acc + item.ratio
-  }, 0)
+  const sumRatio = ration_raws.value.reduce((acc, item) => {
+    return (acc = acc + (item.ratio == "" ? 0 : item.ratio));
+  }, 0);
+  const selectedReceiptRatio = receipt.value ? Number(receipt?.value[1]) : 0;
 
-  const selectedReceiptRatio = Number(receipt.value[1])
-
-  return (sumRatio + selectedReceiptRatio).toPrecision(5)
-})
-
+  return (sumRatio + selectedReceiptRatio).toPrecision(5);
+});
 </script>
 <template>
   <div class="flex flex-row justify-between py-2 w-full">
     <div class="self-center text-2xl font-bold leading-7">
-      <span v-if="isEdit">Редактировать</span> 
+      <span v-if="isEdit">Редактировать</span>
       <span v-else-if="queryType">Дублировать</span>
       <span v-else>Добавить</span>
       Рацион
@@ -107,15 +113,18 @@ const calculatedRate = computed(() => {
         @click="saveRation()"
         class="flex flex-row bg-[#7000FF] disabled:bg-[#6f00ff41] cursor-pointer disabled:cursor-not-allowed text-white rounded-[1rem] py-[0.4rem] px-[0.9rem]"
       >
-      <span v-if="isEdit">Изменить</span>
-      <span v-else-if="queryType">Дублировать</span>
-      <span v-else>Сохранить</span>
-    </button>
+        <span v-if="isEdit">Изменить</span>
+        <span v-else-if="queryType">Дублировать</span>
+        <span v-else>Сохранить</span>
+      </button>
     </div>
   </div>
 
   <LoaderOverlay v-if="isLoading" />
-  <div v-else class="relative overflow-x-auto bg-white shadow-md sm:rounded-lg px-5 py-6">
+  <div
+    v-else
+    class="relative overflow-x-auto bg-white shadow-md sm:rounded-lg px-5 py-6"
+  >
     <form>
       <div class="grid md:grid-cols-2 md:gap-6">
         <div class="relative z-0 w-full group">
@@ -125,15 +134,15 @@ const calculatedRate = computed(() => {
             >Рецепт
           </label>
 
-          <select 
+          <select
             v-model="receipt"
             ref="selectedRecipt"
             id="receipts"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
           >
             <option></option>
-            <option  
-              v-for="receipt, index in receiptsData"
+            <option
+              v-for="(receipt, index) in receiptsData"
               :key="index"
               :value="[receipt.id, receipt.rate]"
             >
@@ -230,18 +239,17 @@ const calculatedRate = computed(() => {
         <!-- <div v-if="isEdit" class="relative z-0 w-full self-center text-xl font-[700]">
           Rate: {{ rate }}
         </div> -->
-
       </div>
     </form>
 
-    
     <!-- <hr class="h-px my-8 bg-gray-200 border-0" /> -->
     <div class="inline-flex items-center justify-center mt-4 w-full">
-      <hr class="w-full h-px my-8 bg-gray-200 border-0">
-      <span class="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-[10%]">
-        Рационы 
-        <span 
-          v-if="isEdit || queryType" 
+      <hr class="w-full h-px my-8 bg-gray-200 border-0" />
+      <span
+        class="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-[10%]"
+      >
+        Рационы
+        <span
           class="bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded border border-indigo-200"
         >
           Rate: {{ calculatedRate }}
@@ -249,32 +257,28 @@ const calculatedRate = computed(() => {
       </span>
     </div>
 
-
-    <div 
-      v-for="_, index in ration_raws" 
+    <div
+      v-for="(_, index) in ration_raws"
       class="grid md:grid-cols-3 md:gap-6 my-6"
     >
       <div class="relative z-0 w-full group">
-          <label
+        <label
           :for="`raw${index}`"
-            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Сырье
-          </label>
-          
-          <select 
-            v-model="ration_raws[index]['raw_id']"
-            id="`raw${index}`"
-            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
-          >
-            <option></option>
-            <option  
-              v-for="raw, index in rawsData"
-              :key="index"
-              :value="raw.id">
-              {{ raw.name }}
-            </option>
-          </select>
-        </div>
+          class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+          >Сырье
+        </label>
+
+        <select
+          v-model="ration_raws[index]['raw_id']"
+          id="`raw${index}`"
+          class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
+        >
+          <option></option>
+          <option v-for="(raw, index) in rawsData" :key="index" :value="raw.id">
+            {{ raw.name }}
+          </option>
+        </select>
+      </div>
 
       <div class="relative z-0 w-full group">
         <input
@@ -282,18 +286,17 @@ const calculatedRate = computed(() => {
           name="unit_rato"
           :id="`unit_ratio${index}`"
           v-model="ration_raws[index]['ratio']"
-          :class="{'border-red-700':visibleAlert}"
+          :class="{ 'border-red-700': visibleAlert }"
           class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
           placeholder=" "
         />
         <label
           :for="`unit_ratio${index}`"
-          :class="{'text-red-700':visibleAlert}"
+          :class="{ 'text-red-700': visibleAlert }"
           class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
           >Соотношение
         </label>
       </div>
-      
     </div>
 
     <div>
