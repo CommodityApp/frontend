@@ -4,61 +4,64 @@ import { useNotification } from "@kyvg/vue3-notification";
 import { useRouter } from "vue-router";
 
 export default function useModule() {
-    const isLoading = ref<boolean>(false)
-    const rawsData = ref()
-    const { notify } = useNotification()
-    const router = useRouter()
-    
-    const getRaws = async () => {
-        try {
-            isLoading.value = true
-            const { data } = await ApiRaws.getRaws();
-            rawsData.value = data
-        } catch(e: any){
+  const isLoading = ref<boolean>(false);
+  const rawsData = ref();
+  const { notify } = useNotification();
+  const router = useRouter();
+  const metaData = ref();
 
-            console.log('Error in raws api: ', e)
-        } finally {
-            isLoading.value = false
-        }
+  const getRaws = async (page) => {
+    try {
+      isLoading.value = true;
+      const data = await ApiRaws.getRaws(page);
+      rawsData.value = data.data;
+      metaData.value = data.meta;
+    } catch (e: any) {
+      console.log("Error in raws api: ", e);
+    } finally {
+      isLoading.value = false;
     }
+  };
 
-    const deleteRaw = async (raw_id) => {
-        try {
-            isLoading.value = true
-            await ApiRaws.deleteRaw(raw_id).then(() => {
-                getRaws()
-            })
+  const deleteRaw = async (raw_id) => {
+    try {
+      isLoading.value = true;
+      await ApiRaws.deleteRaw(raw_id).then(() => {
+        getRaws(1);
+      });
 
-            notify({
-                type: "success",
-                title: "Успешно удалено!"
-            })
-        }catch(error: any){
-            notify({
-                type: "danger",
-                title: error.response.data.message
-            })
-        }finally{
-            isLoading.value = false
-        }
+      notify({
+        type: "success",
+        title: "Успешно удалено!",
+      });
+    } catch (error: any) {
+      notify({
+        type: "danger",
+        title: error.response.data.message,
+      });
+    } finally {
+      isLoading.value = false;
     }
-    const editRaw = async (id) => {
-        router.push({
-            name:'raws-add',
-            query: {
-                id
-            }
-        })
-    }
+  };
+  const editRaw = async (id) => {
+    router.push({
+      name: "raws-add",
+      query: {
+        id,
+      },
+    });
+  };
 
-    onMounted(() => {
-        getRaws()
-    })
-    
-    return {
-        isLoading,
-        rawsData,
-        deleteRaw,
-        editRaw
-    }
+  onMounted(() => {
+    getRaws(1);
+  });
+
+  return {
+    isLoading,
+    rawsData,
+    metaData,
+    deleteRaw,
+    editRaw,
+    getRaws,
+  };
 }

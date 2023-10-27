@@ -4,14 +4,23 @@ import ClientsTable from "../components/ClientsTable.vue";
 
 import useModule from "../useModule";
 
-const { isLoading, clientsData, deleteClient, editClient } = useModule()
+const {
+  isLoading,
+  clientsData,
+  metaData,
+  getClients,
+  deleteClient,
+  editClient,
+} = useModule();
 </script>
 <template>
-    <ClientsHeader />
-    <ClientsTable 
-        :isLoading="isLoading"
-        :clientsData="clientsData"
-        :deleteClient="deleteClient" 
-        :editClient="editClient"
-    />
+  <ClientsHeader />
+  <ClientsTable
+    :isLoading="isLoading"
+    :clientsData="clientsData"
+    :metaData="metaData"
+    :getClients="getClients"
+    :deleteClient="deleteClient"
+    :editClient="editClient"
+  />
 </template>

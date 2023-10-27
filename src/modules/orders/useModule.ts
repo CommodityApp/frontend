@@ -5,35 +5,40 @@ import { useRouter } from "vue-router";
 import useOrdersStore from "@/app/stores/OrdersStore";
 
 export default function useModule() {
-    const ordersStore = useOrdersStore()
-    const router = useRouter()
+  const ordersStore = useOrdersStore();
+  const router = useRouter();
 
-    const isLoading = ref<boolean>(false)
-    const orders = ref([])
+  const isLoading = ref<boolean>(false);
+  const orders = ref([]);
+  const metaData = ref();
 
-    const addNewOrder = () => {
-        ordersStore.clearOrder()
-        router.push("/orders/add")
+  const addNewOrder = () => {
+    ordersStore.clearOrder();
+    router.push("/orders/add");
+  };
+
+  const getOrders = async (page) => {
+    try {
+      isLoading.value = true;
+      const data: any = await ApiOrders.getOrders(page);
+      orders.value = data.data;
+      metaData.value = data.meta;
+    } catch (e: any) {
+      console.log("Error in orders api: ", e);
+    } finally {
+      isLoading.value = false;
     }
-    
-    onMounted(async () => {
-        try {
-            isLoading.value = true
-            const data: any = await ApiOrders.getOrders();
-            orders.value = data.data
-            // console.log(data.data)
-        }catch(e:any){
-            console.log('Error: ', e)
-            isLoading.value = false
-        } finally {
-            isLoading.value = false
-        }
-        
-    })
-    
-    return {
-        orders,
-        isLoading,
-        addNewOrder
-    }
+  };
+
+  onMounted(async () => {
+    getOrders(1);
+  });
+
+  return {
+    orders,
+    isLoading,
+    addNewOrder,
+    getOrders,
+    metaData,
+  };
 }

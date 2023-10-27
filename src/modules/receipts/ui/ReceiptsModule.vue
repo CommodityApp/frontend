@@ -3,15 +3,25 @@ import ReceiptsHeader from "../components/ReceiptsHeader.vue";
 import ReceiptsTable from "../components/ReceiptsTable.vue";
 import useModule from "../useModule";
 
-const { isLoading, deleteReceipt, editReceipt, cloneReceipt, receiptData } = useModule()
+const {
+  isLoading,
+  metaData,
+  getReceipts,
+  deleteReceipt,
+  editReceipt,
+  cloneReceipt,
+  receiptData,
+} = useModule();
 </script>
 <template>
-    <ReceiptsHeader />
-    <ReceiptsTable 
-        :isLoading="isLoading"
-        :receiptData="receiptData"
-        :deleteReceipt="deleteReceipt" 
-        :editReceipt="editReceipt"
-        :cloneReceipt="cloneReceipt"
-    />
+  <ReceiptsHeader />
+  <ReceiptsTable
+    :isLoading="isLoading"
+    :receiptData="receiptData"
+    :metaData="metaData"
+    :getReceipts="getReceipts"
+    :deleteReceipt="deleteReceipt"
+    :editReceipt="editReceipt"
+    :cloneReceipt="cloneReceipt"
+  />
 </template>

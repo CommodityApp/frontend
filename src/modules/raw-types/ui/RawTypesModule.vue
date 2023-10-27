@@ -4,17 +4,23 @@ import RawTypesTable from "../components/RawTypesTable.vue";
 
 import useModule from "../useModule";
 
-const { isLoading,
-        rawTypesData,
-        deleteRawType,
-        editRawType } = useModule()
+const {
+  isLoading,
+  rawTypesData,
+  metaData,
+  getRawTypes,
+  deleteRawType,
+  editRawType,
+} = useModule();
 </script>
 <template>
-    <RawTypesHeader />
-    <RawTypesTable 
-        :isLoading="isLoading"
-        :rawTypesData="rawTypesData"
-        :deleteRawType="deleteRawType" 
-        :editRawType="editRawType"
-    />
+  <RawTypesHeader />
+  <RawTypesTable
+    :isLoading="isLoading"
+    :rawTypesData="rawTypesData"
+    :metaData="metaData"
+    :getRawTypes="getRawTypes"
+    :deleteRawType="deleteRawType"
+    :editRawType="editRawType"
+  />
 </template>
