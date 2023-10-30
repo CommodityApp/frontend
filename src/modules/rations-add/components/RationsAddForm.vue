@@ -67,9 +67,9 @@ watch(
       rate.value = props.singleRation.rate;
       producer_name.value = props.singleRation.producer_name;
       receipt.value = [
-        props.singleRation.receipt.id,
-        props.singleRation.receipt.rate,
-        props.singleRation.receipt.name,
+        props.singleRation?.receipt?.id,
+        props.singleRation?.receipt?.rate,
+        props.singleRation?.receipt?.name,
       ];
 
       props.singleRation.ration_raws.forEach((item) => {
@@ -145,7 +145,7 @@ const calculatedRate = computed(() => {
             <option
               v-for="(receipt, index) in receiptsData"
               :key="index"
-              :value="[receipt.id, receipt.rate, receipt.name]"
+              :value="[receipt?.id, receipt?.rate, receipt?.name]"
             >
               {{ receipt.name }} - ({{ receipt.rate }}%)
             </option>
@@ -235,10 +235,6 @@ const calculatedRate = computed(() => {
             >Имя производителя</label
           >
         </div>
-
-        <!-- <div v-if="isEdit" class="relative z-0 w-full self-center text-xl font-[700]">
-          Rate: {{ rate }}
-        </div> -->
       </div>
     </form>
 
@@ -246,7 +242,7 @@ const calculatedRate = computed(() => {
     <div class="inline-flex items-center justify-center mt-4 w-full">
       <hr class="w-full h-px my-8 bg-gray-200 border-0" />
       <span
-        class="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-[15%]"
+        class="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-[200px]"
       >
         Рационы
         <span
@@ -257,7 +253,7 @@ const calculatedRate = computed(() => {
       </span>
     </div>
 
-    <div class="relative z-0 w-[440px] group">
+    <div class="relative z-0 w-[66%] group">
       <label
         for="receipts"
         class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
