@@ -1,8 +1,8 @@
 import axios from "../plugins/axios";
 
-export const getClients = async (page = 1) => {
+export const getClients = async (page = 1, per_page = 10) => {
   const { data } = await axios.get(
-    `/clients?include=country&page=${page}&per_page=10&sort=-id`
+    `/clients?include=country&page=${page}&per_page=${per_page}&sort=-id`
   );
   return {
     ...data,

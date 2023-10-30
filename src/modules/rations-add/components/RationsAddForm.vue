@@ -127,7 +127,7 @@ const calculatedRate = computed(() => {
   >
     <form>
       <div class="grid md:grid-cols-2 md:gap-6">
-        <div class="relative z-0 w-full group">
+        <!-- <div class="relative z-0 w-full group">
           <label
             for="receipts"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
@@ -149,10 +149,11 @@ const calculatedRate = computed(() => {
               {{ receipt.name }} - ({{ receipt.rate }}%)
             </option>
           </select>
-        </div>
+        </div> -->
 
         <div class="relative z-0 w-full group">
           <input
+            v-focus
             type="text"
             name="name"
             id="name"
@@ -169,7 +170,6 @@ const calculatedRate = computed(() => {
         </div>
         <div class="relative z-0 w-full group">
           <input
-            v-focus
             type="text"
             name="code"
             id="code"
@@ -256,7 +256,29 @@ const calculatedRate = computed(() => {
         </span>
       </span>
     </div>
+    <div class="relative z-0 w-[66%] group">
+      <label
+        for="receipts"
+        class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+        >Рецепт
+      </label>
 
+      <select
+        v-model="receipt"
+        ref="selectedRecipt"
+        id="receipts"
+        class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
+      >
+        <option></option>
+        <option
+          v-for="(receipt, index) in receiptsData"
+          :key="index"
+          :value="[receipt.id, receipt.rate]"
+        >
+          {{ receipt.name }} - ({{ receipt.rate }}%)
+        </option>
+      </select>
+    </div>
     <div
       v-for="(_, index) in ration_raws"
       class="grid md:grid-cols-3 md:gap-6 my-6"

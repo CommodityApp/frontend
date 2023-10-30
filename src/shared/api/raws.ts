@@ -1,8 +1,8 @@
 import axios from "../plugins/axios";
 
-export const getRaws = async (page = 1) => {
+export const getRaws = async (page = 1, per_page = 10) => {
   const { data } = await axios.get(
-    `/raws?include=lastRawPrice,firstActivity.causer&page=${page}&per_page=10&sort=-id`
+    `/raws?include=lastRawPrice,firstActivity.causer&page=${page}&per_page=${per_page}&sort=-id`
   );
 
   return {

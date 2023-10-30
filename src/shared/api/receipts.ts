@@ -1,8 +1,8 @@
 import axios from "../plugins/axios";
 
-export const getReceipts = async (page = 1) => {
+export const getReceipts = async (page = 1, per_page = 10) => {
   const { data } = await axios.get(
-    `/receipts?include=receiptRaws.raw.lastRawPrice&page=${page}&per_page=10&sort=-id`
+    `/receipts?include=receiptRaws.raw.lastRawPrice&page=${page}&per_page=${per_page}&sort=-id`
   );
   return {
     ...data,
