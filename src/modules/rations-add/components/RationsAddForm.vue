@@ -99,6 +99,13 @@ const calculatedRate = computed(() => {
 
   return (sumRatio + selectedReceiptRatio).toPrecision(5);
 });
+
+const printRation = (divName) => {
+  let printContents = document.getElementById(divName).innerHTML;
+  document.body.innerHTML = printContents;
+  window.print();
+  location.reload();
+};
 </script>
 <template>
   <div class="flex flex-row justify-between py-2 w-full">
@@ -239,83 +246,100 @@ const calculatedRate = computed(() => {
     </form>
 
     <!-- <hr class="h-px my-8 bg-gray-200 border-0" /> -->
-    <div class="inline-flex items-center justify-center mt-4 w-full">
-      <hr class="w-full h-px my-8 bg-gray-200 border-0" />
-      <span
-        class="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-[200px]"
-      >
-        Рационы
+    <div id="printableArea">
+      <div class="inline-flex items-center justify-center mt-4 w-full">
+        <hr class="w-full h-px my-8 bg-gray-200 border-0" />
         <span
-          class="bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded border border-indigo-200"
+          class="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-[200px]"
         >
-          Общий процент: {{ calculatedRate }}%
+          Рационы
+          <span
+            class="bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded border border-indigo-200"
+          >
+            Общий процент: {{ calculatedRate }}%
+          </span>
         </span>
-      </span>
-    </div>
-
-    <div class="relative z-0 w-[66%] group">
-      <label
-        for="receipts"
-        class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-        >Рецепт
-      </label>
-      <select
-        disabled
-        v-focus
-        v-model="receipt"
-        ref="selectedRecipt"
-        id="receipts"
-        class="block cursor-not-allowed px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
-      >
-        <option
-          v-for="(receipt, index) in receiptsData"
-          :key="index"
-          :value="[receipt.id, receipt.rate, receipt.name]"
-        >
-          {{ receipt.name }} - ({{ receipt.rate }}%)
-        </option>
-      </select>
-    </div>
-
-    <div
-      v-for="(_, index) in ration_raws"
-      class="grid md:grid-cols-3 md:gap-6 my-6"
-    >
-      <div class="relative z-0 w-full group">
-        <label
-          :for="`raw${index}`"
-          class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-          >Сырье
-        </label>
-
-        <select
-          v-model="ration_raws[index]['raw_id']"
-          id="`raw${index}`"
-          class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
-        >
-          <option></option>
-          <option v-for="(raw, index) in rawsData" :key="index" :value="raw.id">
-            {{ raw.name }}
-          </option>
-        </select>
+      </div>
+      <!-- {{ receipt }} -->
+      <div v-if="receipt" class="grid md:grid-cols-3 md:gap-6 my-6">
+        <div class="relative z-0 w-full group">
+          <input
+            disabled
+            type="text"
+            name="unit_rato"
+            v-model="receipt[2]"
+            id="receipt_name"
+            class="cursor-not-allowed block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-500 bg-transparent rounded-lg border-1 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
+            placeholder=" "
+          />
+          <label
+            for="receipt_name"
+            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+            >Рецепт
+          </label>
+        </div>
+        <div class="relative z-0 w-full group">
+          <input
+            disabled
+            type="number"
+            name="receipt_ratio"
+            :value="receipt[1]"
+            id="receipt_ratio"
+            class="cursor-not-allowed block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-500 bg-transparent rounded-lg border-1 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
+            placeholder=" "
+          />
+          <label
+            for="receipt_ratio"
+            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+            >Соотношение (%)
+          </label>
+        </div>
       </div>
 
-      <div class="relative z-0 w-full group">
-        <input
-          type="number"
-          name="unit_rato"
-          :id="`unit_ratio${index}`"
-          v-model="ration_raws[index]['ratio']"
-          :class="{ 'border-red-700': visibleAlert }"
-          class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
-          placeholder=" "
-        />
-        <label
-          :for="`unit_ratio${index}`"
-          :class="{ 'text-red-700': visibleAlert }"
-          class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-          >Соотношение
-        </label>
+      <div
+        v-for="(_, index) in ration_raws"
+        class="grid md:grid-cols-3 md:gap-6 my-6"
+      >
+        <div class="relative z-0 w-full group">
+          <label
+            :for="`raw${index}`"
+            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+            >Сырье
+          </label>
+
+          <select
+            v-model="ration_raws[index]['raw_id']"
+            id="`raw${index}`"
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
+          >
+            <option></option>
+            <option
+              v-for="(raw, index) in rawsData"
+              :key="index"
+              :value="raw.id"
+            >
+              {{ raw.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="relative z-0 w-full group">
+          <input
+            type="number"
+            name="unit_rato"
+            :id="`unit_ratio${index}`"
+            v-model="ration_raws[index]['ratio']"
+            :class="{ 'border-red-700': visibleAlert }"
+            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
+            placeholder=" "
+          />
+          <label
+            :for="`unit_ratio${index}`"
+            :class="{ 'text-red-700': visibleAlert }"
+            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
+            >Соотношение
+          </label>
+        </div>
       </div>
     </div>
 
@@ -330,10 +354,16 @@ const calculatedRate = computed(() => {
       <button
         v-if="ration_raws.length"
         @click="removeRawInput()"
-        class="mt-4 text-[#F93D3D] ml-2 hover:text-white hover:bg-[#F93D3D] border border-[#F93D3D] text-sm py-[0.5rem] px-[0.9rem] rounded-[0.8rem]"
+        class="mt-4 text-[#F93D3D] mx-2 hover:text-white hover:bg-[#F93D3D] border border-[#F93D3D] text-sm py-[0.5rem] px-[0.9rem] rounded-[0.8rem]"
       >
         Удалить
       </button>
+      <!-- <button
+        @click="printRation('printableArea')"
+        class="mt-4 text-[#7000FF] hover:text-white hover:bg-[#7000FF] border border-[#7000FF] text-sm py-[0.5rem] px-[0.9rem] rounded-[0.8rem]"
+      >
+        Печатать
+      </button> -->
     </div>
   </div>
 </template>
