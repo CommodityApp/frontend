@@ -69,6 +69,7 @@ watch(
       receipt.value = [
         props.singleRation.receipt.id,
         props.singleRation.receipt.rate,
+        props.singleRation.receipt.name,
       ];
 
       props.singleRation.ration_raws.forEach((item) => {
@@ -127,14 +128,14 @@ const calculatedRate = computed(() => {
   >
     <form>
       <div class="grid md:grid-cols-2 md:gap-6">
-        <!-- <div class="relative z-0 w-full group">
+        <div class="relative z-0 w-full group">
           <label
             for="receipts"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
             >Рецепт
           </label>
-
           <select
+            v-focus
             v-model="receipt"
             ref="selectedRecipt"
             id="receipts"
@@ -144,16 +145,15 @@ const calculatedRate = computed(() => {
             <option
               v-for="(receipt, index) in receiptsData"
               :key="index"
-              :value="[receipt.id, receipt.rate]"
+              :value="[receipt.id, receipt.rate, receipt.name]"
             >
               {{ receipt.name }} - ({{ receipt.rate }}%)
             </option>
           </select>
-        </div> -->
+        </div>
 
         <div class="relative z-0 w-full group">
           <input
-            v-focus
             type="text"
             name="name"
             id="name"
@@ -246,39 +246,41 @@ const calculatedRate = computed(() => {
     <div class="inline-flex items-center justify-center mt-4 w-full">
       <hr class="w-full h-px my-8 bg-gray-200 border-0" />
       <span
-        class="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-[10%]"
+        class="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-[15%]"
       >
         Рационы
         <span
           class="bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded border border-indigo-200"
         >
-          Rate: {{ calculatedRate }}
+          Общий процент: {{ calculatedRate }}%
         </span>
       </span>
     </div>
-    <div class="relative z-0 w-[66%] group">
+
+    <div class="relative z-0 w-[440px] group">
       <label
         for="receipts"
         class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
         >Рецепт
       </label>
-
       <select
+        disabled
+        v-focus
         v-model="receipt"
         ref="selectedRecipt"
         id="receipts"
-        class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
+        class="block cursor-not-allowed px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
       >
-        <option></option>
         <option
           v-for="(receipt, index) in receiptsData"
           :key="index"
-          :value="[receipt.id, receipt.rate]"
+          :value="[receipt.id, receipt.rate, receipt.name]"
         >
           {{ receipt.name }} - ({{ receipt.rate }}%)
         </option>
       </select>
     </div>
+
     <div
       v-for="(_, index) in ration_raws"
       class="grid md:grid-cols-3 md:gap-6 my-6"

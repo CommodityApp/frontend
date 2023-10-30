@@ -43,8 +43,8 @@ const cloneReceiptById = (id, param) => {
           <thead class="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
               <th scope="col" class="px-6 py-3">№</th>
-              <th scope="col" class="px-6 py-3">Код сырья</th>
-              <th scope="col" class="px-6 py-3">Название сырья</th>
+              <th scope="col" class="px-6 py-3">Код рецепта</th>
+              <th scope="col" class="px-6 py-3">Название рецепта</th>
               <th scope="col" class="px-6 py-3">Ед. измерения</th>
               <th scope="col" class="px-6 py-3">Категория</th>
               <th scope="col" class="px-6 py-3">Производитель</th>
