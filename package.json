@@ -23,7 +23,8 @@
     "sass": "^1.66.1",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4",
-    "vue-select": "^4.0.0-beta.6"
+    "vue-select": "^4.0.0-beta.6",
+    "vue3-print-nb": "^0.1.4"
   },
   "devDependencies": {
     "@tsconfig/node18": "^18.2.0",

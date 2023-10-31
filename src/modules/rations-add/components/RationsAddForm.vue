@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
 import LoaderOverlay from "@/app/components/LoaderOverlay.vue";
-
 const props = defineProps<{
   isLoading: boolean;
   singleRation: any;
@@ -99,13 +98,6 @@ const calculatedRate = computed(() => {
 
   return (sumRatio + selectedReceiptRatio).toPrecision(5);
 });
-
-const printRation = (divName) => {
-  let printContents = document.getElementById(divName).innerHTML;
-  document.body.innerHTML = printContents;
-  window.print();
-  location.reload();
-};
 </script>
 <template>
   <div class="flex flex-row justify-between py-2 w-full">
@@ -209,23 +201,6 @@ const printRation = (divName) => {
           >
         </div>
 
-        <!-- <div class="relative z-0 w-full group">
-          <input
-            type="number"
-            name="rate"
-            id="rate"
-            v-model="rate"
-            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
-            placeholder=" "
-            required
-          />
-          <label
-            for="rate"
-            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Rate</label
-          >
-        </div> -->
-
         <div class="relative z-0 w-full group">
           <input
             type="text"
@@ -261,13 +236,13 @@ const printRation = (divName) => {
         </span>
       </div>
       <!-- {{ receipt }} -->
-      <div v-if="receipt" class="grid md:grid-cols-3 md:gap-6 my-6">
-        <div class="relative z-0 w-full group">
+      <div v-if="receipt" class="grid grid-cols-2 mt-6 mb-12">
+        <div class="relative z-0 w-full p-2 group">
           <input
             disabled
             type="text"
             name="unit_rato"
-            v-model="receipt[2]"
+            :value="receipt[2]"
             id="receipt_name"
             class="cursor-not-allowed block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-500 bg-transparent rounded-lg border-1 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
             placeholder=" "
@@ -278,7 +253,7 @@ const printRation = (divName) => {
             >Рецепт
           </label>
         </div>
-        <div class="relative z-0 w-full group">
+        <div class="relative z-0 w-fit p-2 group">
           <input
             disabled
             type="number"
@@ -296,11 +271,8 @@ const printRation = (divName) => {
         </div>
       </div>
 
-      <div
-        v-for="(_, index) in ration_raws"
-        class="grid md:grid-cols-3 md:gap-6 my-6"
-      >
-        <div class="relative z-0 w-full group">
+      <div v-for="(_, index) in ration_raws" class="grid grid-cols-2">
+        <div class="relative z-0 w-full p-2 group">
           <label
             :for="`raw${index}`"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
@@ -323,7 +295,7 @@ const printRation = (divName) => {
           </select>
         </div>
 
-        <div class="relative z-0 w-full group">
+        <div class="relative z-0 w-fit m-2 group">
           <input
             type="number"
             name="unit_rato"
@@ -358,12 +330,12 @@ const printRation = (divName) => {
       >
         Удалить
       </button>
-      <!-- <button
-        @click="printRation('printableArea')"
+      <button
+        v-print="'#printableArea'"
         class="mt-4 text-[#7000FF] hover:text-white hover:bg-[#7000FF] border border-[#7000FF] text-sm py-[0.5rem] px-[0.9rem] rounded-[0.8rem]"
       >
         Печатать
-      </button> -->
+      </button>
     </div>
   </div>
 </template>
