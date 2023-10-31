@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { EyeIcon } from "@/app/assets/svg";
+import { ref } from "vue";
 defineProps<{
   selectedOrder: any;
   selectedBatch: any;
@@ -8,6 +10,27 @@ defineProps<{
   selectedOveralAmountError: any;
   selectedOveralAmount: any;
 }>();
+
+const isCalcAmountErr = ref(false);
+const isCalcAmount = ref(false);
+const isPrice = ref(false);
+
+const toggleColumn = (columnName) => {
+  switch (columnName) {
+    case "isCalcAmountErr": {
+      isCalcAmountErr.value = true;
+      return;
+    }
+    case "isCalcAmount": {
+      isCalcAmount.value = true;
+      return;
+    }
+    case "isPrice": {
+      isPrice.value = true;
+      return;
+    }
+  }
+};
 </script>
 <template>
   <div
@@ -29,9 +52,42 @@ defineProps<{
           <tr>
             <th scope="col" class="px-6 py-3">Сырье</th>
             <th scope="col" class="px-6 py-3">Концентрация (кг/т)</th>
-            <th scope="col" class="px-6 py-3">С погрешностью</th>
-            <th scope="col" class="px-6 py-3">Без погрешностью</th>
-            <th scope="col" class="px-6 py-3">Прайс</th>
+            <th
+              scope="col"
+              class="px-6 py-3"
+              :class="[isCalcAmountErr ? 'hidden' : '']"
+            >
+              <div class="flex items-center">
+                С погрешностью
+                <button @click="toggleColumn('isCalcAmountErr')">
+                  <EyeIcon class="w-4 h-4 mx-2" />
+                </button>
+              </div>
+            </th>
+            <th
+              scope="col"
+              class="px-6 py-3"
+              :class="[isCalcAmount ? 'hidden' : '']"
+            >
+              <div class="flex items-center">
+                Без погрешностью
+                <button @click="toggleColumn('isCalcAmount')">
+                  <EyeIcon class="w-4 h-4 mx-2" />
+                </button>
+              </div>
+            </th>
+            <th
+              scope="col"
+              class="px-6 py-3"
+              :class="[isPrice ? 'hidden' : '']"
+            >
+              <div class="flex items-center">
+                Прайс
+                <button @click="toggleColumn('isPrice')">
+                  <EyeIcon class="w-4 h-4 mx-2" />
+                </button>
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -42,19 +98,29 @@ defineProps<{
           >
             <td class="px-6 py-4">{{ order.receipt_raw?.raw?.name }}</td>
             <td class="px-6 py-4">{{ order.receipt_raw?.ratio }}</td>
-            <td class="px-6 py-4">
+            <td class="px-6 py-4" :class="[isCalcAmountErr ? 'hidden' : '']">
               {{ order.calculated_amount_with_error[index] }}
             </td>
-            <td class="px-6 py-4">{{ order.calculated_amount[index] }}</td>
-            <td class="px-6 py-4">{{ order.price }}</td>
+            <td class="px-6 py-4" :class="[isCalcAmount ? 'hidden' : '']">
+              {{ order.calculated_amount[index] }}
+            </td>
+            <td class="px-6 py-4" :class="[isPrice ? 'hidden' : '']">
+              {{ order.price }}
+            </td>
           </tr>
         </tbody>
         <tr>
           <th scope="col" class="px-6 py-3">Итого:</th>
           <th class="px-6 py-4">{{ selectedReceipt.concentration }}</th>
-          <th class="px-6 py-4">{{ selectedPrice }}</th>
-          <th class="px-6 py-4">{{ selectedOveralAmountError[index] }}</th>
-          <th class="px-6 py-4">{{ selectedOveralAmount[index] }}</th>
+          <th class="px-6 py-4" :class="[isCalcAmountErr ? 'hidden' : '']">
+            {{ selectedOveralAmountError[index] }}
+          </th>
+          <th class="px-6 py-4" :class="[isCalcAmount ? 'hidden' : '']">
+            {{ selectedOveralAmount[index] }}
+          </th>
+          <th class="px-6 py-4" :class="[isPrice ? 'hidden' : '']">
+            {{ selectedPrice }}
+          </th>
         </tr>
       </table>
     </div>
