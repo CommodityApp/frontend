@@ -1,8 +1,8 @@
 import axios from "../plugins/axios";
 
-export const getRawTypes = async (page = 1) => {
+export const getRawTypes = async (page = 1, per_page = 10) => {
   const { data } = await axios.get(
-    `/raw-types?page=${page}&per_page=10&sort=-id`
+    `/raw-types?page=${page}&per_page=${per_page}&sort=-id`
   );
 
   return {

@@ -44,16 +44,16 @@ export default function useModule() {
         });
       });
     } catch (error: any) {
-        const errors = error?.response?.data.errors
-        Object.values(errors).forEach(item => {
-            notify({
-                type: "error",
-                title: "Ошибка!",
-                text: item[0],
-                speed: 500,
-                duration: 3000,
-            })
-        })
+      const errors = error?.response?.data.errors;
+      Object.values(errors).forEach((item) => {
+        notify({
+          type: "error",
+          title: "Ошибка!",
+          text: item[0],
+          speed: 500,
+          duration: 3000,
+        });
+      });
     }
   };
 
@@ -76,52 +76,54 @@ export default function useModule() {
   const getRawTypes = async () => {
     try {
       // isLoading.value = true;
-      const { data } = await ApiRawTypes.getRawTypes()
-      if(data){
-        rawTypes.value = data
+      const { data } = await ApiRawTypes.getRawTypes(1, 100);
+      if (data) {
+        rawTypes.value = data;
       }
-    } catch(error: any){
-      console.log('error in rawtypes api', error)
+    } catch (error: any) {
+      console.log("error in rawtypes api", error);
     } finally {
       // isLoading.value = false
     }
-  }
+  };
   const getProducers = async () => {
     try {
       // isLoading.value = true;
-      const { data } = await ApiProducers.getProducers()
-      if(data){
-        producers.value = data
+      const { data } = await ApiProducers.getProducers(1, 100);
+      if (data) {
+        producers.value = data;
       }
-    } catch(error: any){
-      console.log('error in producers api', error)
+    } catch (error: any) {
+      console.log("error in producers api", error);
     } finally {
       // isLoading.value = false
     }
-  }
+  };
   const getBunkers = async () => {
     try {
       // isLoading.value = true;
-      const { data } = await ApiBunkers.getBunkers()
-      if(data){
-        bunkers.value = data
+      const { data } = await ApiBunkers.getBunkers();
+      if (data) {
+        bunkers.value = data;
       }
-    } catch(error: any){
-      console.log('error in bunkers api', error)
+    } catch (error: any) {
+      console.log("error in bunkers api", error);
     } finally {
       // isLoading.value = false
     }
-  }
+  };
 
   onMounted(() => {
-    isLoading.value = true
-    Promise.allSettled([getRawTypes(), getProducers(), getBunkers()]).then(()=>{
-      isLoading.value = false
-    })
-    if (route.query.id) { 
-      getSingleRaw(route.query.id).then(()=>{
-        isLoading.value = false
-      })   
+    isLoading.value = true;
+    Promise.allSettled([getRawTypes(), getProducers(), getBunkers()]).then(
+      () => {
+        isLoading.value = false;
+      }
+    );
+    if (route.query.id) {
+      getSingleRaw(route.query.id).then(() => {
+        isLoading.value = false;
+      });
     }
   });
 

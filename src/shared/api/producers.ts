@@ -1,8 +1,8 @@
 import axios from "../plugins/axios";
 
-export const getProducers = async (page = 1) => {
+export const getProducers = async (page = 1, per_page = 10) => {
   const { data } = await axios.get(
-    `/producers?include=firstActivity.causer&page=${page}&per_page=10&sort=-id`
+    `/producers?include=firstActivity.causer&page=${page}&per_page=${per_page}&sort=-id`
   );
 
   return {

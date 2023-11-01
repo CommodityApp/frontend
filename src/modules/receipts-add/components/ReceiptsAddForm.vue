@@ -217,8 +217,10 @@ const isEdit = computed(() => {
           <label
             for="rate"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Норма ввода</label
           >
+            <!-- Норма ввода -->
+            Концентрация(%)
+          </label>
         </div>
 
         <div class="relative z-0 w-full group">
@@ -299,8 +301,9 @@ const isEdit = computed(() => {
             for="concentration"
             :class="{ 'text-red-700': visibleAlert }"
             class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-[#7000FF] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-            >Концентрация</label
           >
+            Норма ввода
+          </label>
         </div>
       </div>
     </form>

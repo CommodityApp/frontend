@@ -119,7 +119,7 @@ const toggleColumn = (columnName) => {
             {{ selectedOveralAmount[index] }}
           </th>
           <th class="px-6 py-4" :class="[isPrice ? 'hidden' : '']">
-            {{ selectedPrice }}
+            <!-- {{ selectedPrice }} -->
           </th>
         </tr>
       </table>
