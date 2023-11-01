@@ -50,37 +50,29 @@ const toggleColumn = (columnName) => {
       <table class="w-full text-sm text-left text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
           <tr>
-            <th scope="col" class="px-6 py-3">Сырье</th>
-            <th scope="col" class="px-6 py-3">Концентрация (кг/т)</th>
+            <th scope="col" class="p-3">Сырье</th>
+            <th scope="col" class="p-3">Концентр. (кг/т)</th>
             <th
               scope="col"
-              class="px-6 py-3"
+              class="p-3"
               :class="[isCalcAmountErr ? 'hidden' : '']"
             >
               <div class="flex items-center">
-                С погрешностью
+                С погреш.
                 <button @click="toggleColumn('isCalcAmountErr')">
                   <EyeIcon class="w-4 h-4 mx-2" />
                 </button>
               </div>
             </th>
-            <th
-              scope="col"
-              class="px-6 py-3"
-              :class="[isCalcAmount ? 'hidden' : '']"
-            >
+            <th scope="col" class="p-3" :class="[isCalcAmount ? 'hidden' : '']">
               <div class="flex items-center">
-                Без погрешностью
+                Без погреш.
                 <button @click="toggleColumn('isCalcAmount')">
                   <EyeIcon class="w-4 h-4 mx-2" />
                 </button>
               </div>
             </th>
-            <th
-              scope="col"
-              class="px-6 py-3"
-              :class="[isPrice ? 'hidden' : '']"
-            >
+            <th scope="col" class="p-3" :class="[isPrice ? 'hidden' : '']">
               <div class="flex items-center">
                 Прайс
                 <button @click="toggleColumn('isPrice')">
@@ -88,6 +80,7 @@ const toggleColumn = (columnName) => {
                 </button>
               </div>
             </th>
+            <th scope="col" class="p-3">Расх. (сум/кг)</th>
           </tr>
         </thead>
         <tbody>
@@ -96,31 +89,40 @@ const toggleColumn = (columnName) => {
             v-for="(order, i) in selectedOrder"
             :key="i"
           >
-            <td class="px-6 py-4">{{ order.receipt_raw?.raw?.name }}</td>
-            <td class="px-6 py-4">{{ order.receipt_raw?.ratio }}</td>
-            <td class="px-6 py-4" :class="[isCalcAmountErr ? 'hidden' : '']">
+            <td class="p-3">{{ order.receipt_raw?.raw?.name }}</td>
+            <td class="p-3">{{ order.receipt_raw?.ratio }}</td>
+            <td class="p-3" :class="[isCalcAmountErr ? 'hidden' : '']">
               {{ order.calculated_amount_with_error[index] }}
             </td>
-            <td class="px-6 py-4" :class="[isCalcAmount ? 'hidden' : '']">
+            <td class="p-3" :class="[isCalcAmount ? 'hidden' : '']">
               {{ order.calculated_amount[index] }}
             </td>
-            <td class="px-6 py-4" :class="[isPrice ? 'hidden' : '']">
+            <td class="p-3" :class="[isPrice ? 'hidden' : '']">
               {{ order.price }}
+            </td>
+            <td class="p-3">
+              {{
+                (
+                  (order.receipt_raw?.ratio * order.price) /
+                  selectedReceipt.concentration
+                ).toFixed(3)
+              }}
             </td>
           </tr>
         </tbody>
         <tr>
-          <th scope="col" class="px-6 py-3">Итого:</th>
-          <th class="px-6 py-4">{{ selectedReceipt.concentration }}</th>
-          <th class="px-6 py-4" :class="[isCalcAmountErr ? 'hidden' : '']">
+          <th scope="col" class="p-3">Итого:</th>
+          <th class="p-3">{{ selectedReceipt.concentration }}</th>
+          <th class="p-3" :class="[isCalcAmountErr ? 'hidden' : '']">
             {{ selectedOveralAmountError[index] }}
           </th>
-          <th class="px-6 py-4" :class="[isCalcAmount ? 'hidden' : '']">
+          <th class="p-3" :class="[isCalcAmount ? 'hidden' : '']">
             {{ selectedOveralAmount[index] }}
           </th>
-          <th class="px-6 py-4" :class="[isPrice ? 'hidden' : '']">
+          <th class="p-3" :class="[isPrice ? 'hidden' : '']">
             <!-- {{ selectedPrice }} -->
           </th>
+          <th class="p-3"></th>
         </tr>
       </table>
     </div>
