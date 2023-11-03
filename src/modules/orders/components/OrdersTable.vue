@@ -17,7 +17,7 @@ const getOrderDocuments = (id: number) => {
 </script>
 <template>
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <div class="flex items-center justify-between pb-4 bg-white">
+    <!-- <div class="flex items-center justify-between pb-4 bg-white">
       <label for="table-search-users" class="sr-only">Search</label>
       <div class="relative m-3">
         <div
@@ -30,7 +30,7 @@ const getOrderDocuments = (id: number) => {
           placeholder="Search"
         />
       </div>
-    </div>
+    </div> -->
 
     <div
       v-if="isLoading"
@@ -49,12 +49,7 @@ const getOrderDocuments = (id: number) => {
           <thead class="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
               <th scope="col" class="px-6 py-3">№</th>
-              <th scope="col" class="px-6 py-3 flex items-center">
-                Клиент
-                <a href="#">
-                  <UpDownArrowIcon />
-                </a>
-              </th>
+              <th scope="col" class="px-6 py-3 flex items-center">Клиент</th>
               <th scope="col" class="px-6 py-3">Дата</th>
               <th scope="col" class="px-6 py-3">Кол-во (кг)</th>
               <th scope="col" class="px-6 py-3">Рецепт</th>
