@@ -9,10 +9,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
     - name: executing remote ssh commands using password
-      uses: appleboy/ssh-action@v0.1.4
+      uses: appleboy/ssh-action@v1.0.0
       with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
+        host: 213.230.109.40
+        username: forge
+        password: Xnb0PET5YAiNOQozfRvI
+        port: 15822
         script: whoami
