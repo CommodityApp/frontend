@@ -47,7 +47,7 @@ const saveRation = () => {
     unit: unit.value,
     rate: rate.value,
     producer_name: producer_name.value,
-    receipt_id: receipt.value[0],
+    receipt_id: receipt.value?.length ? receipt.value[0] : null,
     ration_raws: ration_raws.value.filter((item) => {
       return item.raw_id !== null;
     }),

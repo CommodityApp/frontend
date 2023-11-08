@@ -5,12 +5,12 @@ import "vue-select/dist/vue-select.css";
 import LoaderOverlay from "@/app/components/LoaderOverlay.vue";
 
 const props = defineProps<{
-  isLoading: any
-  saveClient: any
-  updateClient: any
-  clientsData: any
-  getCountries: any,
-  countriesData: any,
+  isLoading: any;
+  saveClient: any;
+  updateClient: any;
+  clientsData: any;
+  getCountries: any;
+  countriesData: any;
 }>();
 
 const name = ref("");
@@ -28,7 +28,7 @@ watch(
       industry.value = props.clientsData?.industry;
       region.value = props.clientsData?.region;
       company.value = props.clientsData.company;
-      country.value = props.clientsData?.country;    
+      country.value = props.clientsData?.country;
     }
   },
   {
@@ -48,18 +48,20 @@ const saveEditRaw = () => {
   const clientsData = {
     name: name.value,
     industry: industry.value,
-    region: region.value, 
+    region: region.value,
     company: company.value,
-    country_id: country.value.id,
-  }
-  isEdited.value ? props.updateClient(clientsData) : props.saveClient(clientsData);
+    country_id: country?.value?.id,
+  };
+  isEdited.value
+    ? props.updateClient(clientsData)
+    : props.saveClient(clientsData);
 };
 </script>
 <template>
   <div class="flex flex-row justify-between py-2 w-full">
     <div class="self-center text-2xl font-bold leading-7">
       <span v-if="isEdited">Изменить </span>
-      <span v-else>Создать  </span>
+      <span v-else>Создать </span>
       Клиента
     </div>
 
@@ -75,7 +77,8 @@ const saveEditRaw = () => {
     </div>
   </div>
   <LoaderOverlay v-if="isLoading" />
-  <div v-else
+  <div
+    v-else
     class="relative h-screen overflow-x-auto bg-white shadow-md sm:rounded-lg px-5 py-6"
   >
     <form>
@@ -150,14 +153,14 @@ const saveEditRaw = () => {
 
         <div class="relative mb-16 z-0 w-full group">
           <v-select
-          
             v-model="country"
             @input="getCountries($event.target.value)"
-            :options="countriesData" 
-            label="name">
-              <template #no-options>
-                <p class="text-gray-400">Страна не найдена</p>
-              </template>
+            :options="countriesData"
+            label="name"
+          >
+            <template #no-options>
+              <p class="text-gray-400">Страна не найдена</p>
+            </template>
           </v-select>
 
           <label
@@ -181,8 +184,6 @@ const saveEditRaw = () => {
             </option>
           </select> -->
         </div>
-
-
       </div>
     </form>
   </div>

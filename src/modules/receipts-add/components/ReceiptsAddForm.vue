@@ -163,7 +163,6 @@ const isEdit = computed(() => {
             v-model="code"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
             placeholder=" "
-            required
           />
           <label
             for="code"
@@ -179,7 +178,6 @@ const isEdit = computed(() => {
             v-model="name"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
             placeholder=" "
-            required
           />
           <label
             for="name"
@@ -196,7 +194,6 @@ const isEdit = computed(() => {
             v-model="unit"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
             placeholder=" "
-            required
           />
           <label
             for="unit"
@@ -212,7 +209,6 @@ const isEdit = computed(() => {
             v-model="rate"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
             placeholder=" "
-            required
           />
           <label
             for="rate"
@@ -278,7 +274,6 @@ const isEdit = computed(() => {
             v-model="producer_name"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
             placeholder=" "
-            required
           />
           <label
             for="producer"
@@ -295,7 +290,6 @@ const isEdit = computed(() => {
             :class="{ 'border-red-700': visibleAlert }"
             class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#7000FF] peer"
             placeholder=" "
-            required
           />
           <label
             for="concentration"
