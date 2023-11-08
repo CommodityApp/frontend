@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-20.04
     
     steps:
-    - name: executing remote ssh commands using password
+    - name: install ssh keys
       run: |
         install -m 600 -D /dev/null ~/.ssh/id_rsa
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
