@@ -11,8 +11,8 @@ jobs:
     - name: executing remote ssh commands using password
       uses: appleboy/ssh-action@v1.0.0
       with:
-        host: 213.230.109.40
-        username: forge
-        password: Xnb0PET5YAiNOQozfRvI
-        port: 15822
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
         script: whoami
