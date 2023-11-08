@@ -15,4 +15,4 @@ jobs:
         username: ${{ secrets.USERNAME }}
         port: ${{ secrets.PORT }}
         key: ${{ secrets.KEY }}
-        script: ./deploy.sh
+        script: whoami
