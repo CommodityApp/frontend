@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
     - name: executing remote ssh commands using password
-      uses: appleboy/ssh-action@v1.0.0
+      uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.APP_HOST }}
         username: ${{ secrets.APP_USERNAME }}
