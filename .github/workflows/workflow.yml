@@ -18,6 +18,6 @@ jobs:
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.SSH_DEV_HOST }} > ~/.ssh/known_hosts
     - name: connect and pull
-      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_DEV_HOST }} -p 15822 "whoami && exit"
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_DEV_HOST }} -p 15822
     - name: cleanup
       run: rm -rf ~/.ssh
